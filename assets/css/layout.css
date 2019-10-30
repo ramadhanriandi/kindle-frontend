@@ -5,6 +5,7 @@ body {
   font-weight: normal;
   font-size: 10px;
   color: #000000;
+  min-height: 100vh;
 }
 
 .navbar {
@@ -34,4 +35,63 @@ body {
 
 .container-fluid {
   padding: 15px;
+}
+
+.content-tab {
+  font-size: 12px;
+}
+
+.active-tab {
+  font-weight: bold;
+}
+
+.sign-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sign-wrapper {
+  min-width: 288px;
+  padding: 40px 23px; 
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.big-logo {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  color: #0095DA;
+  margin-bottom: 20px;
+}
+
+.sign-input-label {
+  font-weight: 600;
+  color: #888888;
+}
+
+.sign-input-box {
+  font-size: 10px;
+  height: 40px;
+}
+
+.btn-sign {
+  width: 100%;
+  font-weight: 600;
+  font-size: 10px;
+  background: #0095DA;
+  height: 40px;
+  margin-bottom: 10px;
+}
+
+.sign-note {
+  font-weight: 600;
+  font-size: 8px;
+  color: #888888;
+  text-align: center;
+}
+
+.sign-note a {
+  color: #0095DA;
 }
