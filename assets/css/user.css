@@ -1,0 +1,13 @@
+.content-tab {
+  font-size: 12px;
+}
+
+.active-tab {
+  font-weight: bold;
+}
+
+.book-wrapper-home {
+  width: 100%;
+  text-align: center;
+  padding: 7px;
+}
