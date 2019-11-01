@@ -104,6 +104,10 @@ body {
   font-weight: bold;
 }
 
+.purchase-item-container{
+  border-bottom: 1px solid black;
+}
+
 .sign-container {
   min-height: 100vh;
   display: flex;
