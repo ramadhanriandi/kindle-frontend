@@ -79,6 +79,27 @@ body {
   color: #0095DA;
 }
 
+.buy-button{
+  background-color: #0095DA;
+  font-size: 1rem;
+  color: white;
+}
+
+.delete-button{
+  border: 1px solid white;
+  background-color: #0095DA;
+  font-size: 1rem;
+  color: white;
+}
+
+.total-price{
+  font-size: 1.25rem;
+}
+
+.total-price .price{
+  font-weight: bolder;
+}
+
 .active-tab {
   font-weight: bold;
 }
