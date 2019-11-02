@@ -67,6 +67,17 @@ body {
   font-size: 1.25rem;
 }
 
+.book-title-large{
+  font-weight: bolder;
+  font-size: 2.25rem;
+}
+
+.book-publisher-large{
+  font-weight: bold;
+  font-size: 1.5rem;
+  color: #0095DA;
+}
+
 .book-publisher{
   font-weight: bold;
   font-size: 0.75rem;
@@ -77,6 +88,21 @@ body {
   font-weight: bold;
   font-size: 1.25rem;
   color: #0095DA;
+}
+
+.book-price-large{
+  font-weight: bold;
+  font-size: 2rem;
+  color: #0095DA;
+}
+
+.description-title{
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.book-author-large, .book-year-large, .book-genres-large, .book-color-large, .description-content{
+  font-size: 1rem;
 }
 
 .buy-button{
