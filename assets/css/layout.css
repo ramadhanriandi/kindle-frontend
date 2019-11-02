@@ -69,12 +69,12 @@ body {
 
 .book-title-large{
   font-weight: bolder;
-  font-size: 2.25rem;
+  font-size: 1.5rem;
 }
 
 .book-publisher-large{
   font-weight: bold;
-  font-size: 1.5rem;
+  font-size: 1.25rem;
   color: #0095DA;
 }
 
@@ -90,9 +90,9 @@ body {
   color: #0095DA;
 }
 
-.book-price-large{
+.book-price-large, .merchant-title{
   font-weight: bold;
-  font-size: 2rem;
+  font-size: 1.5rem;
   color: #0095DA;
 }
 
