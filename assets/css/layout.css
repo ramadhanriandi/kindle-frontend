@@ -41,88 +41,78 @@ body {
   font-size: 12px;
 }
 
-.content-price{
+.content-price {
   font-size: 2em;
   color: #0095DA;
 }
 
-.order-detail{
-  margin: 1% 1% 1% 1%;
-  padding: 1% 1% 1% 1%;
+.wishlist-item {
   border-bottom: 1px solid black;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
 }
 
-.detail-button{
+.detail-button, .delete-button, .cart-button {
+  font-weight: 500;
+  border-radius: 5px;
+  box-sizing: border-box;
+  line-height: 15px;
+  font-size: 12px;
+  min-width: 82px;
+  text-align: center;
+  margin-top: 7px;
+}
+
+.detail-button, .delete-button {
   border: 1px solid #0095DA;
   color: #0095DA;
-  font-size: 1rem;
 }
 
-.form-container{
+.cart-button {
+  color: #FFFFFF;
+  background: #0095DA;
+  border: 1px solid #0095DA;
+}
+
+.form-container {
   padding: 5% 10% 10% 10%;
 }
 
-.book-title{
-  font-weight: bolder;
+.book-image {
+  width: 91px;
+  height: 136px;
+}
+
+.book-title {
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.book-publisher {
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 18px;
+  color: #0095DA;
+}
+
+.book-price {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  color: #0095DA;
+}
+
+.description-title {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.total-price {
   font-size: 1.25rem;
 }
 
-.book-title-large{
-  font-weight: bolder;
-  font-size: 2.25rem;
-}
-
-.book-publisher-large{
-  font-weight: bold;
-  font-size: 1.5rem;
-  color: #0095DA;
-}
-
-.book-publisher{
-  font-weight: bold;
-  font-size: 0.75rem;
-  color: #0095DA;
-}
-
-.book-price{
-  font-weight: bold;
-  font-size: 1.25rem;
-  color: #0095DA;
-}
-
-.book-price-large{
-  font-weight: bold;
-  font-size: 2rem;
-  color: #0095DA;
-}
-
-.description-title{
-  font-weight: bold;
-  font-size: 1rem;
-}
-
-.book-author-large, .book-year-large, .book-genres-large, .book-color-large, .description-content{
-  font-size: 1rem;
-}
-
-.buy-button{
-  background-color: #0095DA;
-  font-size: 1rem;
-  color: white;
-}
-
-.delete-button{
-  border: 1px solid white;
-  background-color: #0095DA;
-  font-size: 1rem;
-  color: white;
-}
-
-.total-price{
-  font-size: 1.25rem;
-}
-
-.total-price .price{
+.total-price .price {
   font-weight: bolder;
 }
 
@@ -130,7 +120,7 @@ body {
   font-weight: bold;
 }
 
-.purchase-item-container{
+.purchase-item-container {
   border-bottom: 1px solid black;
 }
 
@@ -183,4 +173,10 @@ body {
 
 .sign-note a {
   color: #0095DA;
+}
+
+.wrapper-title {
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 10px;
 }
