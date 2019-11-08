@@ -74,7 +74,6 @@ body {
   border: 1px solid #0095DA;
 }
 
-<<<<<<< HEAD
 .form-container {
   padding: 5% 10% 10% 10%;
 }
@@ -82,17 +81,6 @@ body {
 .book-image {
   width: 91px;
   height: 136px;
-=======
-.book-title-large{
-  font-weight: bolder;
-  font-size: 1.5rem;
-}
-
-.book-publisher-large{
-  font-weight: bold;
-  font-size: 1.25rem;
-  color: #0095DA;
->>>>>>> 4823ea147b48ab503e2402e2a00ecfd8832d64e9
 }
 
 .book-title {
@@ -108,17 +96,23 @@ body {
   color: #0095DA;
 }
 
-<<<<<<< HEAD
-.book-price {
+.book-price, .order-price {
   font-weight: 600;
   font-size: 18px;
   line-height: 22px;
-=======
-.book-price-large, .merchant-title{
-  font-weight: bold;
-  font-size: 1.5rem;
->>>>>>> 4823ea147b48ab503e2402e2a00ecfd8832d64e9
   color: #0095DA;
+}
+
+.order-detail-time {
+  margin-bottom: 10px;
+}
+
+.order-detail-total {
+  font-size: 16px;
+}
+
+.order-detail-total span {
+  font-weight: bold;
 }
 
 .description-title {
