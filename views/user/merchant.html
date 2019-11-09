@@ -16,6 +16,14 @@
       crossorigin="anonymous"
     />
 
+    <!-- Font Awesome -->
+    <link
+      href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
+      rel="stylesheet"
+      integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN"
+      crossorigin="anonymous"
+    >
+
     <!-- Custom CSS -->
     <link rel="stylesheet" href="../../assets/css/layout.css" />
     <link rel="stylesheet" href="../../assets/css/user.css" />
@@ -26,7 +34,7 @@
   <body>
     <!-- Navbar Start -->
     <nav class="navbar navbar-fixed-top">
-      <a class="navbar-brand" href="#">bli-kindle</a>
+      <a class="navbar-brand" href="home.html">bli-kindle</a>
       <div class="nav-items">
         <div class="nav-item">
           <a href="wishlist.html"><img src="../../assets/img/like.svg"/></a>
@@ -63,41 +71,43 @@
     <!-- Navbar End -->
 
     <!-- Content Start -->
-    <div class="container-fluid p-5">
-      <!-- Merchant details -->
-      
-      <div class="container-fluid mx-3 my-3 border-bottom border-dark">
-        <div class="row merchant-title">Gramedia</div>
-        <div class="row description-title">0812 5597 0836</div>
-        <div class="row description-content my-2">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin rhoncus
-          ligula sapien, a blandit leo lacinia id. Phasellus volutpat tempor
-          enim, at maximus diam tincidunt id. Morbi hendrerit ipsum a dignissim
-          sagittis. Vestibulum pharetra egestas lorem sed volutpat. Fusce in
-          neque lacus. Nullam eu condimentum tellus. Sed porta ligula ut
-          porttitor sollicitudin. Nam tincidunt tempus turpis, ac euismod justo
-          dictum sit amet. Mauris diam odio, elementum eget gravida vitae,
-          iaculis at dui. Vivamus elementum tristique magna ut ornare. Fusce
-          massa urna, rutrum in euismod a, faucibus in leo. Nullam pretium
-          commodo tristique. Duis id eros nisi.
-        </div>
-      </div>
-      <!-- Book Catalog -->
-      <div class="col-sm">
-        <div class="row description-title p-4">Catalog</div>
-        <div class= "row d-flex flex-row flex-wrap">
-          <img class="m-1"
-            src="../../assets/img/book-example.svg"
-          />
-          <img class="m-1"
-            src="../../assets/img/book-example.svg"
-          />
-          <img class="m-1"
-            src="../../assets/img/book-example.svg"
-          />
-          <img class="m-1"
-            src="../../assets/img/book-example.svg"
-          />
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-xs-12 col-md-12">
+          <div class="merchant-detail w-100">
+            <div class="w-100 merchant-name">
+              Gramedia
+            </div>
+            <div class="w-100 merchant-phone">
+              0812 3456 7890
+            </div>
+            <div class="w-100 merchant-description">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+            </div>
+          </div>
+          <div class="section-title">
+            Catalog
+          </div>
+          <div class="d-flex flex-row flex-wrap justify-content-between"  >
+            <div class="d-flex catalog-item">
+              <img src="../../assets/img/book-example.svg">
+            </div>
+            <div class="d-flex catalog-item">
+              <img src="../../assets/img/book-example.svg">
+            </div>
+            <div class="d-flex catalog-item">
+              <img src="../../assets/img/book-example.svg">
+            </div>
+            <div class="d-flex catalog-item">
+              <img src="../../assets/img/book-example.svg">
+            </div>
+            <div class="d-flex catalog-item">
+              <img src="../../assets/img/book-example.svg">
+            </div>
+            <div class="d-flex catalog-item">
+              <img src="../../assets/img/book-example.svg">
+            </div>
+          </div>
         </div>
       </div>
     </div>

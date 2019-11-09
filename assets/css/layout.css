@@ -46,7 +46,7 @@ body {
   color: #0095DA;
 }
 
-.wishlist-item {
+.wishlist-item, .book-detail-item {
   border-bottom: 1px solid black;
   padding-bottom: 20px;
   margin-bottom: 20px;
@@ -63,12 +63,36 @@ body {
   margin-top: 7px;
 }
 
-.detail-button, .delete-button {
+.add-wishlist-button, .add-cart-button {
+  font-weight: 500;
+  border-radius: 5px;
+  box-sizing: border-box;
+  line-height: 15px;
+  font-size: 12px;
+  min-width: 82px;
+  text-align: center;
+}
+
+.process-button {
+  font-weight: 500;
+  border-radius: 5px;
+  box-sizing: border-box;
+  line-height: 15px;
+  font-size: 12px;
+  min-width: 82px;
+  text-align: center;
+}
+
+.detail-button, .delete-button, .add-wishlist-button {
   border: 1px solid #0095DA;
   color: #0095DA;
 }
 
-.cart-button {
+.add-wishlist-button {
+  margin-right: 15px;
+}
+
+.cart-button, .process-button, .add-cart-button {
   color: #FFFFFF;
   background: #0095DA;
   border: 1px solid #0095DA;
@@ -83,20 +107,39 @@ body {
   height: 136px;
 }
 
-.book-title {
+.book-detail-image {
+  width: 147.92px;
+  height: 220.33px;
+}
+
+.book-title, .book-detail-title {
   font-weight: bold;
   font-size: 16px;
   line-height: 20px;
 }
 
-.book-publisher {
+.book-detail-title {
+  margin-top: 15px;
+}
+
+.book-publisher, .book-detail-publisher {
   font-weight: bold;
   font-size: 12px;
   line-height: 18px;
   color: #0095DA;
 }
 
-.book-price, .order-price {
+.book-detail-description {
+  margin-top: 20px;
+  line-height: 18px;
+  text-align: justify;  
+}
+
+.book-detail-description span {
+  font-weight: bold;
+}
+
+.book-price, .book-detail-price, .order-price {
   font-weight: 600;
   font-size: 18px;
   line-height: 22px;
@@ -130,6 +173,13 @@ body {
 
 .active-tab {
   font-weight: bold;
+}
+
+.section-title {
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 15px;
 }
 
 .purchase-item-container {
@@ -191,4 +241,27 @@ body {
   font-weight: 600;
   font-size: 18px;
   margin-bottom: 10px;
+}
+
+.payment-wrapper {
+  border-bottom: 1px solid black;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.payment-item {
+  margin-bottom: 10px;
+}
+
+.payment-title {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+}
+
+.payment-amount {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  color: #0095DA;
 }
