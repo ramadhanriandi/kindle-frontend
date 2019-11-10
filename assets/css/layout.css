@@ -162,6 +162,12 @@ body {
   font-size: 16px;
 }
 
+.order-detail-user {
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 18px;
+}
+
 .order-detail-total span {
   font-weight: bold;
 }
