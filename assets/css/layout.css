@@ -41,8 +41,149 @@ body {
   font-size: 12px;
 }
 
+.content-price {
+  font-size: 2em;
+  color: #0095DA;
+}
+
+.wishlist-item, .book-detail-item {
+  border-bottom: 1px solid black;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.detail-button, .delete-button, .cart-button {
+  font-weight: 500;
+  border-radius: 5px;
+  box-sizing: border-box;
+  line-height: 15px;
+  font-size: 12px;
+  min-width: 82px;
+  text-align: center;
+  margin-top: 7px;
+}
+
+.add-wishlist-button, .add-cart-button {
+  font-weight: 500;
+  border-radius: 5px;
+  box-sizing: border-box;
+  line-height: 15px;
+  font-size: 12px;
+  min-width: 82px;
+  text-align: center;
+}
+
+.process-button {
+  font-weight: 500;
+  border-radius: 5px;
+  box-sizing: border-box;
+  line-height: 15px;
+  font-size: 12px;
+  min-width: 82px;
+  text-align: center;
+}
+
+.detail-button, .delete-button, .add-wishlist-button {
+  border: 1px solid #0095DA;
+  color: #0095DA;
+}
+
+.add-wishlist-button {
+  margin-right: 15px;
+}
+
+.cart-button, .process-button, .add-cart-button {
+  color: #FFFFFF;
+  background: #0095DA;
+  border: 1px solid #0095DA;
+}
+
+.form-container {
+  padding: 5% 10% 10% 10%;
+}
+
+.book-image {
+  width: 91px;
+  height: 136px;
+}
+
+.book-detail-image {
+  width: 147.92px;
+  height: 220.33px;
+}
+
+.book-title, .book-detail-title {
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.book-detail-title {
+  margin-top: 15px;
+}
+
+.book-publisher, .book-detail-publisher {
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 18px;
+  color: #0095DA;
+}
+
+.book-detail-description {
+  margin-top: 20px;
+  line-height: 18px;
+  text-align: justify;  
+}
+
+.book-detail-description span {
+  font-weight: bold;
+}
+
+.book-price, .book-detail-price, .order-price {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  color: #0095DA;
+}
+
+.order-detail-time {
+  margin-bottom: 10px;
+}
+
+.order-detail-total {
+  font-size: 16px;
+}
+
+.order-detail-total span {
+  font-weight: bold;
+}
+
+.description-title {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.total-price {
+  font-size: 1.25rem;
+}
+
+.total-price .price {
+  font-weight: bolder;
+}
+
 .active-tab {
   font-weight: bold;
+}
+
+.section-title {
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 15px;
+}
+
+.purchase-item-container {
+  border-bottom: 1px solid black;
 }
 
 .sign-container {
@@ -93,5 +234,34 @@ body {
 }
 
 .sign-note a {
+  color: #0095DA;
+}
+
+.wrapper-title {
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.payment-wrapper {
+  border-bottom: 1px solid black;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.payment-item {
+  margin-bottom: 10px;
+}
+
+.payment-title {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+}
+
+.payment-amount {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
   color: #0095DA;
 }
