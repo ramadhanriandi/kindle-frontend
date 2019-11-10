@@ -207,6 +207,13 @@ body {
   margin-bottom: 20px;
 }
 
+.big-logo span {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  color: black;
+}
+
 .sign-input-label {
   font-weight: 600;
   color: #888888;
