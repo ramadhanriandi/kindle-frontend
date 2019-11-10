@@ -146,6 +146,14 @@ body {
   color: #0095DA;
 }
 
+.order-user {
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 18px;
+  margin-top: 5px;
+  margin-bottom: 7px;
+}
+
 .order-detail-time {
   margin-bottom: 10px;
 }
