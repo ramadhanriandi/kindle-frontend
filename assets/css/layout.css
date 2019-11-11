@@ -52,6 +52,10 @@ body {
   margin-bottom: 20px;
 }
 
+.catalog-detail-item {
+  padding-bottom: 20px;
+}
+
 .detail-button, .delete-button, .cart-button {
   font-weight: 500;
   border-radius: 5px;
@@ -61,6 +65,31 @@ body {
   min-width: 82px;
   text-align: center;
   margin-top: 7px;
+}
+
+.edit-small-button, .delete-small-button {
+  font-weight: 500;
+  font-size: 8px;
+  line-height: 10px;
+  border: 1px solid #0095DA;
+  box-sizing: border-box;
+  border-radius: 5px;
+  height: 20px;
+  padding: auto;
+  display: flex;
+  padding-right: 15px;
+  padding-left: 15px;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit-small-button {
+  color: #0095DA;
+}
+
+.delete-small-button {
+  color: white;
+  background: #0095DA;
 }
 
 .add-wishlist-button, .add-cart-button {
@@ -146,12 +175,26 @@ body {
   color: #0095DA;
 }
 
+.order-user {
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 18px;
+  margin-top: 5px;
+  margin-bottom: 7px;
+}
+
 .order-detail-time {
   margin-bottom: 10px;
 }
 
 .order-detail-total {
   font-size: 16px;
+}
+
+.order-detail-user {
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 18px;
 }
 
 .order-detail-total span {
@@ -205,6 +248,13 @@ body {
   font-weight: 800;
   color: #0095DA;
   margin-bottom: 20px;
+}
+
+.big-logo span {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  color: black;
 }
 
 .sign-input-label {
@@ -264,4 +314,19 @@ body {
   font-size: 14px;
   line-height: 17px;
   color: #0095DA;
+}
+
+.top-boundary {
+  background-color: black;
+  margin: 10px 0;
+}
+
+.column-title {
+  font-weight: bold;
+  line-height: 18px;
+  text-align: center;
+}
+
+.catalog-book-title {
+  text-align: center;
 }
