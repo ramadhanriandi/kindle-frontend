@@ -1,0 +1,332 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i&display=swap');
+
+body {
+  font-family: 'Montserrat', sans-serif;
+  font-weight: normal;
+  font-size: 10px;
+  color: #000000;
+  min-height: 100vh;
+}
+
+.navbar {
+  height: 64px;
+  background: #0095DA;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.navbar-brand {
+  font-weight: 800;
+  color: white;
+  font-size: 18px;
+}
+
+.nav-items {
+  display: flex;
+  flex-wrap: nowrap; 
+}
+
+.nav-item {
+  margin-left: 20px;
+}
+
+.dropdown-item {
+  font-size: 12px;
+}
+
+.container-fluid {
+  padding: 15px;
+}
+
+.content-tab {
+  font-size: 12px;
+}
+
+.content-price {
+  font-size: 2em;
+  color: #0095DA;
+}
+
+.wishlist-item, .book-detail-item {
+  border-bottom: 1px solid black;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.catalog-detail-item {
+  padding-bottom: 20px;
+}
+
+.detail-button, .delete-button, .cart-button {
+  font-weight: 500;
+  border-radius: 5px;
+  box-sizing: border-box;
+  line-height: 15px;
+  font-size: 12px;
+  min-width: 82px;
+  text-align: center;
+  margin-top: 7px;
+}
+
+.edit-small-button, .delete-small-button {
+  font-weight: 500;
+  font-size: 8px;
+  line-height: 10px;
+  border: 1px solid #0095DA;
+  box-sizing: border-box;
+  border-radius: 5px;
+  height: 20px;
+  padding: auto;
+  display: flex;
+  padding-right: 10px;
+  padding-left: 10px;
+  justify-content: center;
+  align-items: center;
+}
+
+.edit-small-button {
+  color: #0095DA;
+}
+
+.delete-small-button {
+  color: white;
+  background: #0095DA;
+}
+
+.add-wishlist-button, .add-cart-button {
+  font-weight: 500;
+  border-radius: 5px;
+  box-sizing: border-box;
+  line-height: 15px;
+  font-size: 12px;
+  min-width: 82px;
+  text-align: center;
+}
+
+.process-button {
+  font-weight: 500;
+  border-radius: 5px;
+  box-sizing: border-box;
+  line-height: 15px;
+  font-size: 12px;
+  min-width: 82px;
+  text-align: center;
+}
+
+.detail-button, .delete-button, .add-wishlist-button {
+  border: 1px solid #0095DA;
+  color: #0095DA;
+}
+
+.add-wishlist-button {
+  margin-right: 15px;
+}
+
+.cart-button, .process-button, .add-cart-button {
+  color: #FFFFFF;
+  background: #0095DA;
+  border: 1px solid #0095DA;
+}
+
+.form-container {
+  padding: 5% 10% 10% 10%;
+}
+
+.book-image {
+  width: 91px;
+  height: 136px;
+}
+
+.book-detail-image {
+  width: 147.92px;
+  height: 220.33px;
+}
+
+.book-title, .book-detail-title {
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 20px;
+}
+
+.book-detail-title {
+  margin-top: 15px;
+}
+
+.book-publisher, .book-detail-publisher {
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 18px;
+  color: #0095DA;
+}
+
+.book-detail-description {
+  margin-top: 20px;
+  line-height: 18px;
+  text-align: justify;  
+}
+
+.book-detail-description span {
+  font-weight: bold;
+}
+
+.book-price, .book-detail-price, .order-price {
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 22px;
+  color: #0095DA;
+}
+
+.order-user {
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 18px;
+  margin-top: 5px;
+  margin-bottom: 7px;
+}
+
+.order-detail-time {
+  margin-bottom: 10px;
+}
+
+.order-detail-total {
+  font-size: 16px;
+}
+
+.order-detail-user {
+  font-weight: bold;
+  font-size: 12px;
+  line-height: 18px;
+}
+
+.order-detail-total span {
+  font-weight: bold;
+}
+
+.description-title {
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.total-price {
+  font-size: 1.25rem;
+}
+
+.total-price .price {
+  font-weight: bolder;
+}
+
+.active-tab {
+  font-weight: bold;
+}
+
+.section-title {
+  font-weight: bold;
+  font-size: 14px;
+  line-height: 20px;
+  margin-bottom: 15px;
+}
+
+.purchase-item-container {
+  border-bottom: 1px solid black;
+}
+
+.sign-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sign-wrapper {
+  min-width: 288px;
+  padding: 40px 23px; 
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.big-logo {
+  text-align: center;
+  font-size: 24px;
+  font-weight: 800;
+  color: #0095DA;
+  margin-bottom: 20px;
+}
+
+.big-logo span {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  color: black;
+}
+
+.sign-input-label {
+  font-weight: 600;
+  color: #888888;
+}
+
+.sign-input-box {
+  font-size: 10px;
+  height: 40px;
+}
+
+.btn-sign {
+  width: 100%;
+  font-weight: 600;
+  font-size: 10px;
+  background: #0095DA;
+  height: 40px;
+  margin-bottom: 10px;
+}
+
+.sign-note {
+  font-weight: 600;
+  font-size: 8px;
+  color: #888888;
+  text-align: center;
+}
+
+.sign-note a {
+  color: #0095DA;
+}
+
+.wrapper-title {
+  font-weight: 600;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.payment-wrapper {
+  border-bottom: 1px solid black;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+}
+
+.payment-item {
+  margin-bottom: 10px;
+}
+
+.payment-title {
+  font-weight: 500;
+  font-size: 12px;
+  line-height: 15px;
+}
+
+.payment-amount {
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 17px;
+  color: #0095DA;
+}
+
+.top-boundary {
+  background-color: black;
+  margin: 10px 0;
+}
+
+.column-title {
+  font-weight: bold;
+  line-height: 18px;
+  text-align: center;
+}
+
+.catalog-book-title {
+  text-align: center;
+}
