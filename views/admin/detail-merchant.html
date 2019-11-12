@@ -35,12 +35,16 @@
       <a class="navbar-brand" href="home.html">bli-kindle</a>
       <div class="nav-items">
         <div class="nav-item">
-          <a href="catalog.html"><img src="../../assets/img/pamphlet.svg"/></a>
+          <a href="users.html"><img src="../../assets/img/users.svg"/></a>
         </div>
         <div class="nav-item">
-          <a href="order.html"
-            ><img src="../../assets/img/list.svg"
-          /></a>
+          <a href="merchants.html"><img src="../../assets/img/shop.svg"/></a>
+        </div>
+        <div class="nav-item">
+          <a href="books.html"><img src="../../assets/img/book.svg"/></a>
+        </div>
+        <div class="nav-item">
+          <a href="genres.html"><img src="../../assets/img/category.svg"/></a>
         </div>
         <div class="nav-item dropdown">
           <a
@@ -57,8 +61,6 @@
             class="dropdown-menu dropdown-menu-right"
             aria-labelledby="navbarDropdown"
           >
-            <a class="dropdown-item" href="order.html">Incoming Order</a>
-            <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="profile.html">Edit Profile</a>
             <div class="dropdown-divider"></div>
             <a class="dropdown-item" href="login.html">Logout</a>
@@ -72,106 +74,74 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-xs-12 col-md-12">
-          <div class="wrapper-title">EDIT BOOK</div>
+          <div class="wrapper-title">MERCHANT DETAIL</div>
         </div>
         <div class="col-xs-12 col-md-12">
           <form>
             <div class="form-group">
-              <label class="sign-input-label" for="title">Title</label>
+              <label class="sign-input-label" for="name">Name</label>
               <input
                 type="text"
                 class="sign-input-box form-control"
-                id="title"
-                placeholder="Insert title"
+                id="name"
+                readonly
+                value="Gramedia"
               />
             </div>
             <div class="form-row">
               <div class="form-group col-8 col-sm-8 col-md-8 col-lg-8">
-                <label class="sign-input-label" for="author">Author</label>
+                <label class="sign-input-label" for="email">Email</label>
                 <input
                   type="text"
                   class="sign-input-box form-control"
-                  id="author"
-                  placeholder="Insert author"
+                  id="email"
+                  readonly
+                  value="merchant@gramedia.com"
                 />
               </div>
               <div class="form-group col-4 col-sm-4 col-md-4 col-lg-4">
-                <label class="sign-input-label" for="year">Year</label>
+                <label class="sign-input-label" for="password">Password</label>
                 <input
-                  type="number"
+                  type="password"
                   class="sign-input-box form-control"
-                  id="year"
-                  placeholder="Insert year"
+                  id="password"
+                  readonly
+                  value="password"
                 />
               </div>
             </div>
             <div class="form-group">
               <label class="sign-input-label" for="description">Description</label>
-              <textarea class="sign-input-box form-control" id="description" rows="10" placeholder="Insert description"></textarea>
-            </div>
-            <div class="form-group">
-              <label class="sign-input-label" for="link">Download Link</label>
-              <input
-                type="text"
-                class="sign-input-box form-control"
-                id="link"
-                placeholder="Insert link"
-              />
+              <textarea 
+                class="sign-input-box form-control" 
+                id="description" 
+                rows="10" 
+                readonly
+              >Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+              </textarea>
             </div>
             <div class="form-row">
               <div class="form-group col-8 col-sm-8 col-md-8 col-lg-8">
-                <label class="sign-input-label" for="price">Price (Rp)</label>
-                <input
-                  type="number"
-                  class="sign-input-box form-control"
-                  id="price"
-                  placeholder="Insert price"
-                />
-              </div>
-              <div class="form-group col-4 col-sm-4 col-md-4 col-lg-4">
-                <label class="sign-input-label" for="variant">Variant</label>
+                <label class="sign-input-label" for="phone">Phone</label>
                 <input
                   type="text"
                   class="sign-input-box form-control"
-                  id="variant"
-                  placeholder="Insert variant"
+                  id="phone"
+                  readonly
+                  value="081234567890"
+                />
+              </div>
+              <div class="form-group col-4 col-sm-4 col-md-4 col-lg-4">
+                <label class="sign-input-label" for="status">Status</label>
+                <input
+                  type="text"
+                  class="sign-input-box form-control"
+                  id="status"
+                  readonly
+                  value="Active"
                 />
               </div>
             </div>
-            <div class="form-row">
-              <div class="form-group col-8 col-sm-8 col-md-8 col-lg-8">
-                <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="file">
-                  <label class="custom-file-label" for="file">Choose file</label>
-                </div>
-              </div>
-              <div class="form-group col-4 col-sm-4 col-md-4 col-lg-4">
-                <label class="sign-input-label" for="category">Category</label>
-                <div class="form-group" id="category">
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="fiction" value="fiction">
-                    <label class="form-check-label" for="fiction">Fiction</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="nonfiction" value="nonfiction">
-                    <label class="form-check-label" for="nonfiction">Non-fiction</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="drama" value="drama">
-                    <label class="form-check-label" for="drama">Drama</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="horror" value="horror">
-                    <label class="form-check-label" for="horror">Horror</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="romance" value="romance">
-                    <label class="form-check-label" for="romance">Romance</label>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <button type="submit" class="btn-sign btn btn-primary">Save Changes</button>
           </form>
         </div>
       </div>
