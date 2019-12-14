@@ -3,7 +3,7 @@ function submitLoginForm() {
   var password = document.getElementById("password").value;
 
   var request = new XMLHttpRequest();
-  var url = "http://localhost:8080/kindle-backend/api/customers/login";
+  var url = "http://localhost:8000/kindle-backend/api/customers/login";
   request.open("POST", url, true);
   request.setRequestHeader("Content-Type", "application/json");
   request.onreadystatechange = function () {
