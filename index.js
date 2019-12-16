@@ -1,12 +1,11 @@
 const express = require('express');
 const path = require('path');
-// const cors = require('cors');
 const app = express();
 const PORT = 3000;
 
-// app.use(cors());
 app.use(express.static('public'));
 
+// route for user
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/user/home.html'));
 });
@@ -18,6 +17,17 @@ app.get('/login', function (req, res) {
 app.get('/register', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/user/register.html'));
 });
+
+// route for merchant
+app.get('/merchant', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/merchant/home.html'));
+});
+
+app.get('/merchant/login', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/merchant/login.html'));
+});
+
+// route for admin
 
 app.use(function(req, res) {
     res.status(404);

@@ -1,5 +1,5 @@
 window.onload = function() {
-  if (!checkCookie()) {
+  if (!checkCookie("customer")) {
     location.href = "/login";
   }
 };
@@ -19,9 +19,11 @@ function getCookie(variable) {
   return "";
 }
 
-function checkCookie() {
+function checkCookie(role) {
   const emailCookie = getCookie("email");
-  if (emailCookie != "" && emailCookie != null) {
+  const parsedCookie = emailCookie.split('|');
+  
+  if (emailCookie != "" && emailCookie != null && parsedCookie[1] == role) {
     return true;
   }
   return false;

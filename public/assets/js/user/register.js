@@ -1,5 +1,5 @@
 window.onload = function() {
-  if (checkCookie()) {
+  if (checkCookie("customer")) {
     location.href = "/";
   }
 };
@@ -38,7 +38,7 @@ function register() {
         const jsonData = JSON.parse(request.response);
     
         if (jsonData['code'] === 200) {
-          setCookie("email", email, 1);
+          setCookie(email, "customer", 1);
           location.href = "/";
         } else if (jsonData['code'] === 401) {
           alert(jsonData['message']);
@@ -50,11 +50,11 @@ function register() {
   }
 }
 
-function setCookie(variable, value, expiredDay) {
+function setCookie(email, role, expiredDay) {
   const date = new Date();
   date.setTime(date.getTime() + (expiredDay * 24 * 60 * 60 * 1000));
   const expires = "expires="+ date.toUTCString();
-  document.cookie = variable + "=" + value + ";" + expires + ";path=/";
+  document.cookie = "email=" + email + "|" + role + ";" + expires + ";path=/";
 }
 
 function getCookie(variable) {
@@ -72,9 +72,11 @@ function getCookie(variable) {
   return "";
 }
 
-function checkCookie() {
+function checkCookie(role) {
   const emailCookie = getCookie("email");
-  if (emailCookie != "" && emailCookie != null) {
+  const parsedCookie = emailCookie.split('|');
+  
+  if (emailCookie != "" && emailCookie != null && parsedCookie[1] == role) {
     return true;
   }
   return false;
