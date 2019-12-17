@@ -1,6 +1,6 @@
 window.onload = function() {
   if (!checkCookie("merchant")) {
-    location.href = "/login";
+    location.href = "/merchant/login";
   }
 };
 

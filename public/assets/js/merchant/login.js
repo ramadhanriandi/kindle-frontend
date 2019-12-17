@@ -1,6 +1,6 @@
 window.onload = function() {
   if (checkCookie("merchant")) {
-    location.href = "/";
+    location.href = "/merchant";
   }
 };
 
@@ -34,7 +34,7 @@ function merchantLogin() {
 
       if (jsonData['code'] === 200) {
         setCookie(email, "merchant", 1);
-        location.href = "/";
+        location.href = "/merchant";
       } else {
         alert(jsonData['message']);
       }
@@ -46,7 +46,7 @@ function setCookie(email, role, expiredDay) {
   const date = new Date();
   date.setTime(date.getTime() + (expiredDay * 24 * 60 * 60 * 1000));
   const expires = "expires="+ date.toUTCString();
-  document.cookie = "email=" + email + "|" + role + ";" + expires + ";path=/";
+  document.cookie = "email=" + email + "|" + role + ";" + expires + ";path=/merchant";
 }
 
 function getCookie(variable) {
