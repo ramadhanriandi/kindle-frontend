@@ -28,6 +28,17 @@ app.get('/merchant/login', function (req, res) {
 });
 
 // route for admin
+app.get('/admin', function (req, res) {
+  res.redirect('/admin/users');
+});
+
+app.get('/admin/users', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/admin/users.html'));
+});
+
+app.get('/admin/login', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/admin/login.html'));
+});
 
 app.use(function(req, res) {
     res.status(404);
