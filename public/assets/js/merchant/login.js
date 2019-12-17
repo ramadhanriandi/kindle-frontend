@@ -1,6 +1,6 @@
 window.onload = function() {
-  if (checkCookie()) {
-    location.href = "/";
+  if (checkCookie("merchant")) {
+    location.href = "/merchant";
   }
 };
 
@@ -11,12 +11,12 @@ function isEmpty(text) {
   return false;
 }
 
-function customerLogin() {
+function merchantLogin() {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
   const request = new XMLHttpRequest();
-  const url = "http://localhost:8000/kindle-backend/api/customers/login";
+  const url = "http://localhost:8000/kindle-backend/api/merchants/login";
   
   if (!(isEmpty(email) || isEmpty(password))) {
     request.open("POST", url, true);
@@ -33,8 +33,8 @@ function customerLogin() {
       const jsonData = JSON.parse(request.response);
 
       if (jsonData['code'] === 200) {
-        setCookie("email", email, 1);
-        location.href = "/";
+        setCookie(email, "merchant", 1);
+        location.href = "/merchant";
       } else {
         alert(jsonData['message']);
       }
@@ -42,11 +42,11 @@ function customerLogin() {
   }
 }
 
-function setCookie(variable, value, expiredDay) {
+function setCookie(email, role, expiredDay) {
   const date = new Date();
   date.setTime(date.getTime() + (expiredDay * 24 * 60 * 60 * 1000));
   const expires = "expires="+ date.toUTCString();
-  document.cookie = variable + "=" + value + ";" + expires + ";path=/";
+  document.cookie = "email=" + email + "|" + role + ";" + expires + ";path=/merchant";
 }
 
 function getCookie(variable) {
@@ -64,9 +64,11 @@ function getCookie(variable) {
   return "";
 }
 
-function checkCookie() {
+function checkCookie(role) {
   const emailCookie = getCookie("email");
-  if (emailCookie != "" && emailCookie != null) {
+  const parsedCookie = emailCookie.split('|');
+  
+  if (emailCookie != "" && emailCookie != null && parsedCookie[1] == role) {
     return true;
   }
   return false;
