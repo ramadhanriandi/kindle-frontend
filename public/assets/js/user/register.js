@@ -38,7 +38,7 @@ function register() {
         const jsonData = JSON.parse(request.response);
     
         if (jsonData['code'] === 200) {
-          setCookie(email, "customer", 1);
+          setCookie(email, "customer", jsonData['userId'], 1);
           location.href = "/";
         } else if (jsonData['code'] === 401) {
           alert(jsonData['message']);
@@ -50,11 +50,11 @@ function register() {
   }
 }
 
-function setCookie(email, role, expiredDay) {
+function setCookie(email, role, userId, expiredDay) {
   const date = new Date();
   date.setTime(date.getTime() + (expiredDay * 24 * 60 * 60 * 1000));
   const expires = "expires="+ date.toUTCString();
-  document.cookie = "email=" + email + "|" + role + ";" + expires + ";path=/";
+  document.cookie = "email=" + email + "|" + role + "|" + userId + ";" + expires + ";path=/";
 }
 
 function getCookie(variable) {
