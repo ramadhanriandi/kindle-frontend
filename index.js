@@ -22,6 +22,10 @@ app.get('/profile', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/user/profile.html'));
 });
 
+app.get('/order', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/user/order.html'));
+});
+
 app.get('/books/:sku', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/user/book-detail.html'));
 });
