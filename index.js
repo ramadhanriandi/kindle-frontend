@@ -18,6 +18,14 @@ app.get('/register', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/user/register.html'));
 });
 
+app.get('/profile', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/user/profile.html'));
+});
+
+app.get('/books/:sku', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/user/book-detail.html'));
+});
+
 // route for merchant
 app.get('/merchant', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/merchant/home.html'));
