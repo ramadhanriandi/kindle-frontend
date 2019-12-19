@@ -4,6 +4,8 @@ window.onload = function() {
   }
   let url = window.location.href;
   let merchant_id = url.substring(url.lastIndexOf('/') + 1);
+  
+  renderMerchantInfo(merchant_id);
   renderMerchantCatalog(merchant_id);
 }
 
@@ -11,7 +13,7 @@ function getCookie(variable) {
   const name = variable + "=";
   const cookieData = document.cookie.split(';');
   for(let i = 0; i < cookieData.length; i++) {
-    const cookieString = cookieData[i];
+    let cookieString = cookieData[i];
     while (cookieString.charAt(0) === ' ') {
       cookieString = cookieString.substring(1);
     }
@@ -30,6 +32,22 @@ function checkCookie(role) {
     return true;
   }
   return false;
+}
+
+function renderMerchantInfo(merchant_id){
+    var request = new XMLHttpRequest();
+    const url = "http://localhost:8000/kindle-backend/api/merchants/"+merchant_id
+    request.open("GET", url, true);
+
+    request.onload = function(){
+        response = JSON.parse(request.response);
+
+        document.getElementById("merchant-name").innerHTML += response["fullname"];
+        document.getElementById("merchant-phone").innerHTML += response["phone"];
+        document.getElementById("merchant-description").innerHTML += response["description"];
+    }
+
+    request.send();
 }
 
 function renderMerchantCatalog(merchant_id){
