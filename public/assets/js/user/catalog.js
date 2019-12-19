@@ -35,19 +35,19 @@ function checkCookie(role) {
 }
 
 function renderMerchantInfo(merchant_id){
-    var request = new XMLHttpRequest();
-    const url = "http://localhost:8000/kindle-backend/api/merchants/"+merchant_id
-    request.open("GET", url, true);
+  var request = new XMLHttpRequest();
+  const url = "http://localhost:8000/kindle-backend/api/merchants/"+merchant_id
+  request.open("GET", url, true);
 
-    request.onload = function(){
-        response = JSON.parse(request.response);
+  request.onload = function(){
+    response = JSON.parse(request.response);
 
-        document.getElementById("merchant-name").innerHTML += response["fullname"];
-        document.getElementById("merchant-phone").innerHTML += response["phone"];
-        document.getElementById("merchant-description").innerHTML += response["description"];
-    }
+    document.getElementById("merchant-name").innerHTML += response["fullname"];
+    document.getElementById("merchant-phone").innerHTML += response["phone"];
+    document.getElementById("merchant-description").innerHTML += response["description"];
+  }
 
-    request.send();
+  request.send();
 }
 
 function renderMerchantCatalog(merchant_id){
