@@ -30,6 +30,10 @@ app.get('/books/:sku', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/user/book-detail.html'));
 });
 
+app.get('/merchant/:id', function(req, res){
+  res.sendFile(path.join(__dirname + '/views/user/merchant.html'));
+});
+
 // route for merchant
 app.get('/merchant', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/merchant/home.html'));
