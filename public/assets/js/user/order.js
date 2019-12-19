@@ -82,7 +82,7 @@ function renderOrder() {
             <div
               class="d-flex flex-column justify-content-end align-items-end"
             >
-              <div class="p-2 rounded-sm detail-button" onclick='location.href="/order/${transactionId}/detail"'>
+              <div class="p-2 rounded-sm detail-button" onclick='location.href="/orders/${transactionId}/detail"'>
                 <span class="fa fa-th-list"></span>&nbsp; Details
               </div>
             </div>

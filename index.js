@@ -22,8 +22,12 @@ app.get('/profile', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/user/profile.html'));
 });
 
-app.get('/order', function (req, res) {
+app.get('/orders', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/user/order.html'));
+});
+
+app.get('/orders/:id/detail', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/user/order-detail.html'));
 });
 
 app.get('/books/:sku', function (req, res) {
@@ -56,9 +60,14 @@ app.get('/admin/login', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/admin/login.html'));
 });
 
+app.get('/404', function (req, res) {
+  res.status(404);
+  res.send('404: Page Not Found');
+});
+
 app.use(function(req, res) {
-    res.status(404);
-    res.send('404: File Not Found');
+  res.status(404);
+  res.send('404: Page Not Found');
 });
 
 app.listen(PORT, function () {
