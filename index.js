@@ -34,7 +34,7 @@ app.get('/books/:sku', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/user/book-detail.html'));
 });
 
-app.get('/merchant/:id', function(req, res){
+app.get('/merchants/:id', function(req, res){
   res.sendFile(path.join(__dirname + '/views/user/merchant.html'));
 });
 
