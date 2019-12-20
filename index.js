@@ -26,6 +26,10 @@ app.get('/orders', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/user/order.html'));
 });
 
+app.get('/wishlist', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/user/wishlist.html'));
+});
+
 app.get('/orders/:id/detail', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/user/order-detail.html'));
 });
