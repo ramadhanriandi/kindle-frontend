@@ -66,7 +66,7 @@ function renderMerchantCatalog(merchant_id){
       catalogContainer.innerHTML += `
       <div 
           class="d-flex catalog-item"
-          onclick='location.href="/books/${sku}/detail"'
+          onclick='location.href="/books/${sku}"'
       >
           <img src="${imgURL}">
       </div>

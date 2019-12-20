@@ -45,7 +45,16 @@ function renderBookDetail(book_sku){
   request.onload = function(){
     if (JSON.parse(request.response)["code"] == 200) {
       const bookData = JSON.parse(request.response)["bookData"];
-      const merchantData = JSON.parse(request.response)["merchantData"];
+      const merchantData = JSON.parse(request.response)["merchant"];
+      const categoryData = JSON.parse(request.response)["categories"];
+      let categories = '';
+
+      for (let i = 0; i < categoryData.length; i++) {
+        if (i !== 0) {
+          categories += ", ";
+        }
+        categories += categoryData[i]["name"];
+      }
   
       document.getElementById("bookSku").value = bookData["bookSku"];
       document.getElementById("image").innerHTML = `<img class="book-detail-image" src="${bookData["document"]}" />`;
@@ -55,13 +64,14 @@ function renderBookDetail(book_sku){
       document.getElementById("variant").innerHTML = bookData["variant"];
       document.getElementById("price").innerHTML = "IDR " + convertToCurrency(bookData["price"]);
       document.getElementById("description").innerHTML = bookData["description"];
-      document.getElementById("merchant").innerHTML = merchantData["fullname"];
+      document.getElementById("merchant").innerHTML = merchantData;
       document.getElementById("merchant").onclick = function() {
-        location.href=`/merchants/${merchantData['merchantId']}`
+        location.href=`/merchants/${bookData['merchantId']}`
       }
+      document.getElementById("categories").innerHTML = categories;
     } else {
       alert(JSON.parse(request.response)["message"]);
-    }
+    } 
   }
   request.send();
 }
