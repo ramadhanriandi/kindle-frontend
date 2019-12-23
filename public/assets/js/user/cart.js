@@ -2,7 +2,7 @@ window.onload = function() {
   if (!checkCookie("customer")) {
     location.href = "/login";
   }
-  renderWishlist();
+  renderCart();
 };
 
 function getCookie(variable) {
@@ -34,7 +34,7 @@ function convertToCurrency(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-function renderWishlist() {
+function renderCart() {
   const request = new XMLHttpRequest();
   const parsedCookie = document.cookie.split('|');
   const userId = parsedCookie[parsedCookie.length-1];
