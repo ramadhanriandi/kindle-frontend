@@ -2,7 +2,8 @@ window.onload = function() {
   if (!checkCookie("customer")) {
     location.href = "/login";
   }
-  renderWishlist();
+  renderOrder();
+  renderOrderDetail();
 };
 
 function getCookie(variable) {
@@ -34,21 +35,63 @@ function convertToCurrency(number) {
   return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
 
-function renderWishlist() {
+function timeConverter(date){
+  var monthNames = new Array("January", "February", "March", 
+  "April", "May", "June", "July", "August", "September", 
+  "October", "November", "December");
+
+  var date = new Date(date);
+  var cDate = date.getDate();
+  var cMonth = date.getMonth();
+  var cYear = date.getFullYear();
+
+  var cHour = date.getHours();
+  var cMin = date.getMinutes();
+  var cSec = date.getSeconds();
+
+  return ( monthNames[cMonth] + " " +cDate  + ", " +cYear + " " +cHour+ ":" + cMin+ ":" + cSec );
+}
+
+function renderOrder() {
   const request = new XMLHttpRequest();
   const parsedCookie = document.cookie.split('|');
-  const userId = parsedCookie[parsedCookie.length-1];
-  const url = `http://localhost:8000/kindle-backend/api/customers/${userId}/wishlist`;
+  const customerId = parsedCookie[parsedCookie.length-1];
+  const windowUrl = window.location.href;
+  const transactionId = windowUrl.substring(windowUrl.lastIndexOf('/') + 1);
+  const url = `http://localhost:8000/kindle-backend/api/transactions/${transactionId}`;
   
   request.open("GET", url, true);
 
   request.onload = function () {
-    let allBook = '';
-    for (let i = 0; i < JSON.parse(request.response).length; i++) {
-      let bookData = JSON.parse(request.response)[i]["bookData"];
-      let merchant = JSON.parse(request.response)[i]["merchant"];
+    const transactionData = JSON.parse(request.response);
+    
+    if (transactionData['customerId'] != customerId) {
+      location.href = "/orders";
+    } else {
+      document.getElementById("order-detail-time").innerHTML = timeConverter(new Date(transactionData['date']));
+      document.getElementById("order-detail-total").innerHTML = convertToCurrency(transactionData['total']);
+    }
+  };
 
-      allBook += `
+  request.send();
+}
+
+function renderOrderDetail() {
+  const request = new XMLHttpRequest();
+  const windowUrl = window.location.href;
+  const transactionId = windowUrl.substring(windowUrl.lastIndexOf('/') + 1);
+  const url = `http://localhost:8000/kindle-backend/api/transactionlists?transactionId=${transactionId}`;
+  
+  request.open("GET", url, true);
+
+  request.onload = function () {
+    const transactionListData = JSON.parse(request.response);
+    
+    let transactionListContent = '';
+    for (let i = 0; i < transactionListData.length; i++) {
+      let bookData = transactionListData[i]["bookData"];
+
+      transactionListContent += `
         <div class="wishlist-item w-100">
           <div class="d-flex flex-row">
             <div class="d-flex justify-content-start">
@@ -61,7 +104,7 @@ function renderWishlist() {
                 ${bookData['title']}
               </div>
               <div class="d-flex flex-nowrap book-publisher">
-                ${merchant}
+                ${bookData['merchant']['fullname']}
               </div>
               <div class="d-flex flex-nowrap book-author">
                 ${bookData['author']}
@@ -76,24 +119,15 @@ function renderWishlist() {
             <div
               class="d-flex flex-column justify-content-end align-items-end"
             >
-              <div 
-                class="p-2 rounded-sm detail-button"
-                onclick='location.href="/books/${bookData['bookSku']}"'
-              >
+              <div class="p-2 rounded-sm detail-button" onclick='location.href="/books/${bookData['bookSku']}"'>
                 <span class="fa fa-th-list"></span>&nbsp; Details
-              </div>
-              <div class="p-2 rounded-sm delete-button">
-                <span class="fa fa-trash-o"></span>&nbsp; Delete
-              </div>
-              <div class="p-2 rounded-sm cart-button">
-                <span class="fa fa-shopping-cart"></span>&nbsp; Cart
               </div>
             </div>
           </div>
         </div>
         `
-    }
-    document.getElementById("wishlist-wrapper").innerHTML = allBook;
+    };
+    document.getElementById("order-detail-content").innerHTML = transactionListContent;
   };
 
   request.send();

@@ -36,7 +36,8 @@ function convertToCurrency(number) {
 
 function renderWishlist() {
   const request = new XMLHttpRequest();
-  const userId = document.cookie.substr(-1);
+  const parsedCookie = document.cookie.split('|');
+  const userId = parsedCookie[parsedCookie.length-1];
   const url = `http://localhost:8000/kindle-backend/api/customers/${userId}/cart`;
   
   request.open("GET", url, true);

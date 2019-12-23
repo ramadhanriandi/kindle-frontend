@@ -65,7 +65,8 @@ function renderDownloadedBook() {
   document.getElementById("download").classList.add("active-tab");
   
   const request = new XMLHttpRequest();
-  const userId = document.cookie.substr(-1);
+  const parsedCookie = document.cookie.split('|');
+  const userId = parsedCookie[parsedCookie.length-1];
   const url = `http://localhost:8000/kindle-backend/api/customers/${userId}/library`;
   
   request.open("GET", url, true);

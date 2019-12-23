@@ -26,16 +26,19 @@ app.get('/orders', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/user/order.html'));
 });
 
+app.get('/payment', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/user/payment.html'));
+});
+
 app.get('/cart', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/user/cart.html'));
 });
-
 
 app.get('/wishlist', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/user/wishlist.html'));
 });
 
-app.get('/orders/:id/detail', function (req, res) {
+app.get('/orders/:id', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/user/order-detail.html'));
 });
 

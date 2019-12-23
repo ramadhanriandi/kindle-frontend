@@ -25,45 +25,39 @@
     >
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../../assets/css/layout.css" />
-    <link rel="stylesheet" href="../../assets/css/user.css" />
+    <link rel="stylesheet" href="/assets/css/layout.css" />
 
     <title>Blibli - Kindle</title>
   </head>
 
   <body>
-    <!-- Navbar Start -->
+    <!-- Navbar Start -->    
     <nav class="navbar navbar-fixed-top">
-      <a class="navbar-brand" href="home.html">bli-kindle</a>
+      <a class="navbar-brand" href="/">bli-kindle</a>
       <div class="nav-items">
         <div class="nav-item">
-          <a href="wishlist.html"><img src="../../assets/img/like.svg"/></a>
+          <a href="/wishlist"><img src="/assets/img/like.svg"></a>
         </div>
         <div class="nav-item">
-          <a href="cart.html"
-            ><img src="../../assets/img/shopping-cart.svg"
-          /></a>
+          <a href="/cart"><img src="/assets/img/shopping-cart.svg"></a>
         </div>
         <div class="nav-item dropdown">
           <a
             href="#"
-            id="navbarDropdown"
-            role="button"
-            data-toggle="dropdown"
-            aria-haspopup="true"
+            id="navbarDropdown" 
+            role="button" 
+            data-toggle="dropdown" 
+            aria-haspopup="true" 
             aria-expanded="false"
           >
-            <img src="../../assets/img/avatar.svg" />
+            <img src="/assets/img/avatar.svg">
           </a>
-          <div
-            class="dropdown-menu dropdown-menu-right"
-            aria-labelledby="navbarDropdown"
-          >
-            <a class="dropdown-item" href="order.html">My Order</a>
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+            <a class="dropdown-item" href="/orders">My Order</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="profile.html">Edit Profile</a>
+            <a class="dropdown-item" href="/profile">Edit Profile</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="login.html">Logout</a>
+            <a class="dropdown-item" onclick="customerLogout()">Logout</a>
           </div>
         </div>
       </div>

@@ -39,7 +39,7 @@ function timeConverter(date){
   "April", "May", "June", "July", "August", "September", 
   "October", "November", "December");
 
-  var date = new Date();
+  var date = new Date(date);
   var cDate = date.getDate();
   var cMonth = date.getMonth();
   var cYear = date.getFullYear();
@@ -53,7 +53,8 @@ function timeConverter(date){
 
 function renderOrder() {
   const request = new XMLHttpRequest();
-  const userId = document.cookie.substr(-1);
+  const parsedCookie = document.cookie.split('|');
+  const userId = parsedCookie[parsedCookie.length-1];
   const url = `http://localhost:8000/kindle-backend/api/transactions?customerId=${userId}`;
   
   request.open("GET", url, true);
@@ -82,7 +83,7 @@ function renderOrder() {
             <div
               class="d-flex flex-column justify-content-end align-items-end"
             >
-              <div class="p-2 rounded-sm detail-button" onclick='location.href="/orders/${transactionId}/detail"'>
+              <div class="p-2 rounded-sm detail-button" onclick='location.href="/orders/${transactionId}"'>
                 <span class="fa fa-th-list"></span>&nbsp; Details
               </div>
             </div>
