@@ -75,3 +75,43 @@ function renderBookDetail(book_sku){
   }
   request.send();
 }
+
+function addToWishlist() {
+  const parsedCookie = document.cookie.split('|');
+  const customerId = parsedCookie[parsedCookie.length-1];
+  const bookSku = document.getElementById("bookSku").value;
+
+  const request = new XMLHttpRequest();
+  const url = `http://localhost:8000/kindle-backend/api/customers/${customerId}/wishlist?bookSku=${bookSku}`;
+  
+  request.open("POST", url, true);
+  request.setRequestHeader("Content-Type", "application/json");
+request.send();
+  request.onload = function () {
+    const jsonData = JSON.parse(request.response);
+
+    if (jsonData['customerId'] == customerId) {
+      alert('Success added into wishlist');
+    }
+  };
+}
+
+function addToCart() {
+  const parsedCookie = document.cookie.split('|');
+  const customerId = parsedCookie[parsedCookie.length-1];
+  const bookSku = document.getElementById("bookSku").value;
+
+  const request = new XMLHttpRequest();
+  const url = `http://localhost:8000/kindle-backend/api/customers/${customerId}/cart?bookSku=${bookSku}`;
+  
+  request.open("POST", url, true);
+  request.setRequestHeader("Content-Type", "application/json");
+  request.send();
+  request.onload = function () {
+    const jsonData = JSON.parse(request.response);
+
+    if (jsonData['customerId'] == customerId) {
+      alert('Success added into cart');
+    }
+  };
+}

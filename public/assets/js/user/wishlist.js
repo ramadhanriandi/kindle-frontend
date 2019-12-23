@@ -85,7 +85,7 @@ function renderWishlist() {
               <div class="p-2 rounded-sm delete-button">
                 <span class="fa fa-trash-o"></span>&nbsp; Delete
               </div>
-              <div class="p-2 rounded-sm cart-button">
+              <div class="p-2 rounded-sm cart-button" onclick="addToCart(${bookData['bookSku']})">
                 <span class="fa fa-shopping-cart"></span>&nbsp; Cart
               </div>
             </div>
@@ -97,4 +97,23 @@ function renderWishlist() {
   };
 
   request.send();
+}
+
+function addToCart(bookSku) {
+  const parsedCookie = document.cookie.split('|');
+  const customerId = parsedCookie[parsedCookie.length-1];
+
+  const request = new XMLHttpRequest();
+  const url = `http://localhost:8000/kindle-backend/api/customers/${customerId}/cart?bookSku=${bookSku}`;
+  
+  request.open("POST", url, true);
+  request.setRequestHeader("Content-Type", "application/json");
+  request.send();
+  request.onload = function () {
+    const jsonData = JSON.parse(request.response);
+
+    if (jsonData['customerId'] == customerId) {
+      alert('Success added into cart');
+    }
+  };
 }
