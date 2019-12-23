@@ -82,7 +82,7 @@ function renderWishlist() {
               >
                 <span class="fa fa-th-list"></span>&nbsp; Details
               </div>
-              <div class="p-2 rounded-sm delete-button">
+              <div class="p-2 rounded-sm delete-button" onclick="removeFromWishlist(${bookData['bookSku']})">
                 <span class="fa fa-trash-o"></span>&nbsp; Delete
               </div>
               <div class="p-2 rounded-sm cart-button" onclick="addToCart(${bookData['bookSku']})">
@@ -91,7 +91,7 @@ function renderWishlist() {
             </div>
           </div>
         </div>
-        `
+      `
     }
     document.getElementById("wishlist-wrapper").innerHTML = allBook;
   };
@@ -114,6 +114,77 @@ function addToCart(bookSku) {
 
     if (jsonData['customerId'] == customerId) {
       alert('Success added into cart');
+    }
+  };
+}
+
+function removeFromWishlist(bookSku) {
+  const parsedCookie = document.cookie.split('|');
+  const customerId = parsedCookie[parsedCookie.length-1];
+
+  const request = new XMLHttpRequest();
+  const url = `http://localhost:8000/kindle-backend/api/customers/${customerId}/wishlist?bookSku=${bookSku}`;
+  
+  request.open("DELETE", url, true);
+  request.setRequestHeader("Content-Type", "application/json");
+  request.send();
+  request.onload = function () {
+    const jsonData = JSON.parse(request.response);
+    let wishlistContent = "";
+    
+    for (let i = 0; i < jsonData['wishlist'].length; i++) {
+      let wishlist = jsonData['wishlist'][i];
+
+      wishlistContent += `
+        <div class="wishlist-item w-100">
+          <div class="d-flex flex-row">
+            <div class="d-flex justify-content-start">
+              <img class="book-image" src="${wishlist['document']}" />
+            </div>
+            <div
+              class="d-flex flex-column justify-content-between w-100 px-3"
+            >
+              <div class="d-flex flex-nowrap book-title">
+                ${wishlist['title']}
+              </div>
+              <div class="d-flex flex-nowrap book-publisher">
+                ${wishlist['merchant']['fullname']}
+              </div>
+              <div class="d-flex flex-nowrap book-author">
+                ${wishlist['author']}
+              </div>
+              <div class="d-flex flex-nowrap book-year">
+                ${wishlist['year']}
+              </div>
+              <div class="d-flex flex-nowrap book-price">
+                IDR ${convertToCurrency(wishlist['price'])}
+              </div>
+            </div>
+            <div
+              class="d-flex flex-column justify-content-end align-items-end"
+            >
+              <div 
+                class="p-2 rounded-sm detail-button"
+                onclick='location.href="/books/${wishlist['bookSku']}"'
+              >
+                <span class="fa fa-th-list"></span>&nbsp; Details
+              </div>
+              <div class="p-2 rounded-sm delete-button" onclick="removeFromWishlist(${wishlist['bookSku']})">
+                <span class="fa fa-trash-o"></span>&nbsp; Delete
+              </div>
+              <div class="p-2 rounded-sm cart-button" onclick="addToCart(${wishlist['bookSku']})">
+                <span class="fa fa-shopping-cart"></span>&nbsp; Cart
+              </div>
+            </div>
+          </div>
+        </div>
+      `
+    }
+
+    document.getElementById("wishlist-wrapper").innerHTML = wishlistContent;
+
+    if (jsonData['customerId'] == customerId) {
+      alert('Success removed from wishlist');
     }
   };
 }

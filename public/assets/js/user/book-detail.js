@@ -86,7 +86,7 @@ function addToWishlist() {
   
   request.open("POST", url, true);
   request.setRequestHeader("Content-Type", "application/json");
-request.send();
+  request.send();
   request.onload = function () {
     const jsonData = JSON.parse(request.response);
 

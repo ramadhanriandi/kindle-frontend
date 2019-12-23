@@ -83,7 +83,7 @@ function renderCart() {
               >
                 <span class="fa fa-th-list"></span>&nbsp; Details
               </div>
-              <div class="p-2 rounded-sm delete-button">
+              <div class="p-2 rounded-sm delete-button" onclick="removeFromCart(${bookData['bookSku']})">
                 <span class="fa fa-trash-o"></span>&nbsp; Delete
               </div>
             </div>
@@ -98,4 +98,75 @@ function renderCart() {
   };
 
   request.send();
+}
+
+function removeFromCart(bookSku) {
+  const parsedCookie = document.cookie.split('|');
+  const customerId = parsedCookie[parsedCookie.length-1];
+
+  const request = new XMLHttpRequest();
+  const url = `http://localhost:8000/kindle-backend/api/customers/${customerId}/cart?bookSku=${bookSku}`;
+  
+  request.open("DELETE", url, true);
+  request.setRequestHeader("Content-Type", "application/json");
+  request.send();
+  request.onload = function () {
+    const jsonData = JSON.parse(request.response);
+    let cartContent = "";
+    let total = 0;
+    
+    for (let i = 0; i < jsonData['cart'].length; i++) {
+      let cart = jsonData['cart'][i];
+
+      cartContent += `
+        <div class="wishlist-item w-100">
+        <div class="d-flex flex-row">
+          <div class="d-flex justify-content-start">
+            <img class="book-image" src="${cart['document']}" />
+          </div>
+          <div
+            class="d-flex flex-column justify-content-between w-100 px-3"
+          >
+            <div class="d-flex flex-nowrap book-title">
+              ${cart['title']}
+            </div>
+            <div class="d-flex flex-nowrap book-publisher">
+              ${cart['merchant']['fullname']}
+            </div>
+            <div class="d-flex flex-nowrap book-author">
+              ${cart['author']}
+            </div>
+            <div class="d-flex flex-nowrap book-year">
+              ${cart['year']}
+            </div>
+            <div class="d-flex flex-nowrap book-price">
+              IDR ${convertToCurrency(cart['price'])}
+            </div>
+          </div>
+          <div
+            class="d-flex flex-column justify-content-end align-items-end"
+          >
+            <div 
+              class="p-2 rounded-sm detail-button"
+              onclick='location.href="/books/${cart['bookSku']}"'
+            >
+              <span class="fa fa-th-list"></span>&nbsp; Details
+            </div>
+            <div class="p-2 rounded-sm delete-button" onclick="removeFromCart(${cart['bookSku']})">
+              <span class="fa fa-trash-o"></span>&nbsp; Delete
+            </div>
+          </div>
+        </div>
+      </div>
+      `
+      total += cart['price'];
+    }
+
+    document.getElementById("cart-wrapper").innerHTML = cartContent;
+    document.getElementById("total").innerHTML = convertToCurrency(total);
+
+    if (jsonData['customerId'] == customerId) {
+      alert('Success removed from cart');
+    }
+  };
 }
