@@ -61,7 +61,7 @@ function getCookie(variable) {
   const name = variable + "=";
   const cookieData = document.cookie.split(';');
   for(let i = 0; i < cookieData.length; i++) {
-    const cookieString = cookieData[i];
+    let cookieString = cookieData[i];
     while (cookieString.charAt(0) === ' ') {
       cookieString = cookieString.substring(1);
     }
