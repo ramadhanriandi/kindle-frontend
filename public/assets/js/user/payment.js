@@ -69,38 +69,11 @@ function renderPaymentDetail() {
   request.send();
 }
 
-function postTransactionList() {
+function getCart() {
   return new Promise(function (resolve, reject) {
+    let transactionListData = [];
     const parsedCookie = document.cookie.split('|');
     const customerId = parsedCookie[parsedCookie.length-1];
-
-    const total = document.getElementById("transaction-total").value;
-    const transactionRequest = new XMLHttpRequest();
-    const transactionUrl = "http://localhost:8000/kindle-backend/api/transactions";
-    transactionRequest.open("POST", transactionUrl, true);
-    transactionRequest.setRequestHeader("Content-Type", "application/json");
-    const transactionData = JSON.stringify({
-      "total": total,
-      "customerId": customerId, 
-    });
-    transactionRequest.onreadystatechange = function () {
-      if (transactionRequest.readyState === 4 && transactionRequest.status === 200) {
-        const transactionJsonData = JSON.parse(transactionRequest.response);
-        document.getElementById("transaction-id").value = transactionJsonData["transactionId"];
-        resolve(transactionRequest.response); 
-      }
-    }  
-    transactionRequest.send(transactionData);
-  })
-}
-
-async function purchaseBooks() {
-  const parsedCookie = document.cookie.split('|');
-  const customerId = parsedCookie[parsedCookie.length-1];
-
-  try {
-    const transactionData = await postTransactionList();
-    let transactionListData = [];
     
     const cartRequest = new XMLHttpRequest();
     const cartUrl = `http://localhost:8000/kindle-backend/api/customers/${customerId}/cart`;
@@ -116,33 +89,110 @@ async function purchaseBooks() {
           }
           transactionListData.push(tempTransactionList);
         }
-  
-        let count = 0;
-        for (let i = 0; i < transactionListData.length; i++) {
-          let transactionListRequest = new XMLHttpRequest();
-          let transactionListUrl = "http://localhost:8000/kindle-backend/api/transactionlists";
-          
-          transactionListRequest.open("POST", transactionListUrl, true);
-          transactionListRequest.setRequestHeader("Content-Type", "application/json");
-          let transactionList = JSON.stringify({
-            "bookSku": transactionListData[i]["bookSku"],
-            "merchantId": transactionListData[i]["merchantId"], 
-            "transactionId": JSON.parse(transactionData)["transactionId"], 
-          });
-          transactionListRequest.send(transactionList);
-          transactionListRequest.onreadystatechange = function () {
-            if (transactionListRequest.readyState === 4 && transactionListRequest.status === 200) {
-              count++;
-              if (count == transactionListData.length) {
-                alert("Success: Your book has been purchased!");
-                location.href = "/orders";
-              }
+        resolve(transactionListData);
+      }
+    }
+  })
+}
+
+async function removeFromCart() {
+  const transactionListData = await getCart();
+
+  return new Promise(function (resolve, reject) {
+    const parsedCookie = document.cookie.split('|');
+    const customerId = parsedCookie[parsedCookie.length-1];
+
+    for (let i = 0; i < transactionListData.length; i++) {
+      let request = new XMLHttpRequest();
+      let url = `http://localhost:8000/kindle-backend/api/customers/${customerId}/cart?bookSku=${transactionListData[i]["bookSku"]}`;
+      
+      request.open("DELETE", url, true);
+      request.setRequestHeader("Content-Type", "application/json");
+      request.send();
+    }
+
+    resolve(true);
+  })
+}
+
+async function addToLibrary() {
+  const transactionListData = await getCart();
+
+  return new Promise(function (resolve, reject) {
+    const parsedCookie = document.cookie.split('|');
+    const customerId = parsedCookie[parsedCookie.length-1];
+
+    for (let i = 0; i < transactionListData.length; i++) {
+      let request = new XMLHttpRequest();
+      let url = `http://localhost:8000/kindle-backend/api/customers/${customerId}/library?bookSku=${transactionListData[i]["bookSku"]}`;
+      
+      request.open("POST", url, true);
+      request.setRequestHeader("Content-Type", "application/json");
+      request.send();
+    }
+    
+    resolve(true);
+  })
+}
+
+function postTransaction() {
+  return new Promise(function (resolve, reject) {
+    const parsedCookie = document.cookie.split('|');
+    const customerId = parsedCookie[parsedCookie.length-1];
+
+    const total = document.getElementById("transaction-total").value;
+    const transactionRequest = new XMLHttpRequest();
+    const transactionUrl = "http://localhost:8000/kindle-backend/api/transactions";
+    transactionRequest.open("POST", transactionUrl, true);
+    transactionRequest.setRequestHeader("Content-Type", "application/json");
+    const transactionData = JSON.stringify({
+      "total": total,
+      "customerId": customerId, 
+    });
+    transactionRequest.send(transactionData);
+    transactionRequest.onreadystatechange = function () {
+      if (transactionRequest.readyState === 4 && transactionRequest.status === 200) {
+        const transactionJsonData = JSON.parse(transactionRequest.response);
+        document.getElementById("transaction-id").value = transactionJsonData["transactionId"];
+        resolve(transactionRequest.response); 
+      }
+    }  
+  })
+}
+
+async function purchaseBooks() {
+  try {
+    const transactionData = await postTransaction();
+    const transactionListData = await getCart();
+    const hasBeenAddedToLibrary = await addToLibrary();
+    const hasBeenRemovedFromCart = await removeFromCart();
+
+    if (hasBeenAddedToLibrary && hasBeenRemovedFromCart) {
+      let transactionListResponse = 0;
+      for (let i = 0; i < transactionListData.length; i++) {
+        let transactionListRequest = new XMLHttpRequest();
+        let transactionListUrl = "http://localhost:8000/kindle-backend/api/transactionlists";
+        
+        transactionListRequest.open("POST", transactionListUrl, true);
+        transactionListRequest.setRequestHeader("Content-Type", "application/json");
+        let transactionList = JSON.stringify({
+          "bookSku": transactionListData[i]["bookSku"],
+          "merchantId": transactionListData[i]["merchantId"], 
+          "transactionId": JSON.parse(transactionData)["transactionId"], 
+        });
+        transactionListRequest.send(transactionList);
+        transactionListRequest.onreadystatechange = function () {
+          if (transactionListRequest.readyState === 4 && transactionListRequest.status === 200) {
+            transactionListResponse++;
+            if (transactionListResponse == transactionListData.length) {
+              alert("Success: Your book has been purchased!");
+              location.href = "/orders";
             }
           }
         }
       }
     }
   } catch (error) {
-    console.log("Error: ", error);
+    alert("Error: ", error);
   }
 }
