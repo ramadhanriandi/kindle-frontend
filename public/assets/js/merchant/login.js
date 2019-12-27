@@ -33,7 +33,7 @@ function merchantLogin() {
       const jsonData = JSON.parse(request.response);
 
       if (jsonData['code'] === 200) {
-        setCookie(email, "merchant", 1);
+        setCookie(email, "merchant", jsonData['userId'], 1);
         location.href = "/merchant";
       } else {
         alert(jsonData['message']);
@@ -42,18 +42,18 @@ function merchantLogin() {
   }
 }
 
-function setCookie(email, role, expiredDay) {
+function setCookie(email, role, userId, expiredDay) {
   const date = new Date();
   date.setTime(date.getTime() + (expiredDay * 24 * 60 * 60 * 1000));
   const expires = "expires="+ date.toUTCString();
-  document.cookie = "email=" + email + "|" + role + ";" + expires + ";path=/merchant";
+  document.cookie = "email=" + email + "|" + role + "|" + userId + ";" + expires + ";path=/";
 }
 
 function getCookie(variable) {
   const name = variable + "=";
   const cookieData = document.cookie.split(';');
   for(let i = 0; i < cookieData.length; i++) {
-    const cookieString = cookieData[i];
+    let cookieString = cookieData[i];
     while (cookieString.charAt(0) === ' ') {
       cookieString = cookieString.substring(1);
     }

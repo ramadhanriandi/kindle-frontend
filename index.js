@@ -18,6 +18,38 @@ app.get('/register', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/user/register.html'));
 });
 
+app.get('/profile', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/user/profile.html'));
+});
+
+app.get('/orders', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/user/order.html'));
+});
+
+app.get('/payment', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/user/payment.html'));
+});
+
+app.get('/cart', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/user/cart.html'));
+});
+
+app.get('/wishlist', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/user/wishlist.html'));
+});
+
+app.get('/orders/:id', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/user/order-detail.html'));
+});
+
+app.get('/books/:sku', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/user/book-detail.html'));
+});
+
+app.get('/merchants/:id', function(req, res){
+  res.sendFile(path.join(__dirname + '/views/user/merchant.html'));
+});
+
 // route for merchant
 app.get('/merchant', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/merchant/home.html'));
@@ -40,9 +72,14 @@ app.get('/admin/login', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/admin/login.html'));
 });
 
+app.get('/404', function (req, res) {
+  res.status(404);
+  res.send('404: Page Not Found');
+});
+
 app.use(function(req, res) {
-    res.status(404);
-    res.send('404: File Not Found');
+  res.status(404);
+  res.send('404: Page Not Found');
 });
 
 app.listen(PORT, function () {
