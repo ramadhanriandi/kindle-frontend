@@ -133,10 +133,9 @@ function handleWishlist() {
   }
 }
 
-function addToCart() {
+function addToCart(bookSku) {
   const parsedCookie = document.cookie.split('|');
   const customerId = parsedCookie[parsedCookie.length-1];
-  const bookSku = document.getElementById("bookSku").value;
 
   const request = new XMLHttpRequest();
   const url = `http://localhost:8000/kindle-backend/api/customers/${customerId}/cart?bookSku=${bookSku}`;
@@ -150,9 +149,43 @@ function addToCart() {
     if (jsonData['customerId'] == customerId) {
       document.getElementById("cart-button").classList.remove("outline-button");
       document.getElementById("cart-button").classList.add("full-button");
+      document.getElementById("isOnCart").value = 1;
       alert('Success added into cart');
     }
   };
+}
+
+function removeFromCart(bookSku) {
+  const parsedCookie = document.cookie.split('|');
+  const customerId = parsedCookie[parsedCookie.length-1];
+
+  const request = new XMLHttpRequest();
+  const url = `http://localhost:8000/kindle-backend/api/customers/${customerId}/cart?bookSku=${bookSku}`;
+  
+  request.open("DELETE", url, true);
+  request.setRequestHeader("Content-Type", "application/json");
+  request.send();
+  request.onload = function () {
+    const jsonData = JSON.parse(request.response);
+    
+    if (jsonData['customerId'] == customerId) {
+      document.getElementById("cart-button").classList.remove("full-button");
+      document.getElementById("cart-button").classList.add("outline-button");
+      document.getElementById("isOnCart").value = 0;
+      alert('Success removed from cart');
+    }
+  };
+}
+
+function handleCart() {
+  const bookSku = document.getElementById("bookSku").value;
+  const isOnCart = document.getElementById("isOnCart").value;
+
+  if (isOnCart == 1) {
+    removeFromCart(bookSku);
+  } else {
+    addToCart(bookSku);
+  }
 }
 
 function isOnWishlist(bookSku) {
@@ -189,8 +222,10 @@ function isOnCart(bookSku) {
   request.onload = function () {
     if (request.response == "true") {
       document.getElementById("cart-button").classList.add("full-button");
+      document.getElementById("isOnCart").value = 1;
     } else {
       document.getElementById("cart-button").classList.add("outline-button");
+      document.getElementById("isOnCart").value = 0;
     }
   };
 }
