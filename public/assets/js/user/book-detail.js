@@ -6,6 +6,8 @@ window.onload = function() {
   let book_sku = url.substring(url.lastIndexOf('/') + 1);
   
   renderBookDetail(book_sku);
+  isOnWishlist(book_sku);
+  isOnCart(book_sku);
 }
 
 function getCookie(variable) {
@@ -76,10 +78,9 @@ function renderBookDetail(book_sku){
   request.send();
 }
 
-function addToWishlist() {
+function addToWishlist(bookSku) {
   const parsedCookie = document.cookie.split('|');
   const customerId = parsedCookie[parsedCookie.length-1];
-  const bookSku = document.getElementById("bookSku").value;
 
   const request = new XMLHttpRequest();
   const url = `http://localhost:8000/kindle-backend/api/customers/${customerId}/wishlist?bookSku=${bookSku}`;
@@ -91,9 +92,45 @@ function addToWishlist() {
     const jsonData = JSON.parse(request.response);
 
     if (jsonData['customerId'] == customerId) {
+      document.getElementById("wishlist-button").classList.remove("outline-button");
+      document.getElementById("wishlist-button").classList.add("full-button");
+      document.getElementById("isOnWishlist").value = 1;
       alert('Success added into wishlist');
     }
   };
+}
+
+function removeFromWishlist(bookSku) {
+  const parsedCookie = document.cookie.split('|');
+  const customerId = parsedCookie[parsedCookie.length-1];
+
+  const request = new XMLHttpRequest();
+  const url = `http://localhost:8000/kindle-backend/api/customers/${customerId}/wishlist?bookSku=${bookSku}`;
+  
+  request.open("DELETE", url, true);
+  request.setRequestHeader("Content-Type", "application/json");
+  request.send();
+  request.onload = function () {
+    const jsonData = JSON.parse(request.response);
+    
+    if (jsonData['customerId'] == customerId) {
+      document.getElementById("wishlist-button").classList.remove("full-button");
+      document.getElementById("wishlist-button").classList.add("outline-button");
+      document.getElementById("isOnWishlist").value = 0;
+      alert('Success removed from wishlist');
+    }
+  };
+}
+
+function handleWishlist() {
+  const bookSku = document.getElementById("bookSku").value;
+  const isOnWishlist = document.getElementById("isOnWishlist").value;
+
+  if (isOnWishlist == 1) {
+    removeFromWishlist(bookSku);
+  } else {
+    addToWishlist(bookSku);
+  }
 }
 
 function addToCart() {
@@ -111,7 +148,49 @@ function addToCart() {
     const jsonData = JSON.parse(request.response);
 
     if (jsonData['customerId'] == customerId) {
+      document.getElementById("cart-button").classList.remove("outline-button");
+      document.getElementById("cart-button").classList.add("full-button");
       alert('Success added into cart');
+    }
+  };
+}
+
+function isOnWishlist(bookSku) {
+  const parsedCookie = document.cookie.split('|');
+  const customerId = parsedCookie[parsedCookie.length-1];
+
+  const request = new XMLHttpRequest();
+  const url = `http://localhost:8000/kindle-backend/api/customers/${customerId}/wishlist/${bookSku}/check`;
+  
+  request.open("GET", url, true);
+  request.setRequestHeader("Content-Type", "application/json");
+  request.send();
+  request.onload = function () {
+    if (request.response == "true") {
+      document.getElementById("wishlist-button").classList.add("full-button");
+      document.getElementById("isOnWishlist").value = 1;
+    } else {
+      document.getElementById("wishlist-button").classList.add("outline-button");
+      document.getElementById("isOnWishlist").value = 0;
+    }
+  };
+}
+
+function isOnCart(bookSku) {
+  const parsedCookie = document.cookie.split('|');
+  const customerId = parsedCookie[parsedCookie.length-1];
+
+  const request = new XMLHttpRequest();
+  const url = `http://localhost:8000/kindle-backend/api/customers/${customerId}/cart/${bookSku}/check`;
+  
+  request.open("GET", url, true);
+  request.setRequestHeader("Content-Type", "application/json");
+  request.send();
+  request.onload = function () {
+    if (request.response == "true") {
+      document.getElementById("cart-button").classList.add("full-button");
+    } else {
+      document.getElementById("cart-button").classList.add("outline-button");
     }
   };
 }

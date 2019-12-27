@@ -112,7 +112,7 @@ body {
   text-align: center;
 }
 
-.detail-button, .delete-button, .add-wishlist-button {
+.detail-button, .delete-button, .outline-button {
   border: 1px solid #0095DA;
   color: #0095DA;
 }
@@ -121,7 +121,7 @@ body {
   margin-right: 15px;
 }
 
-.cart-button, .process-button, .add-cart-button {
+.cart-button, .process-button, .full-button {
   color: #FFFFFF;
   background: #0095DA;
   border: 1px solid #0095DA;
