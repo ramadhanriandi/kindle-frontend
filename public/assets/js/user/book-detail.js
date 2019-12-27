@@ -251,3 +251,18 @@ function isOnLibrary(bookSku) {
     }
   };
 }
+
+function handleView() {
+  const bookSku = document.getElementById("bookSku").value;
+  const request = new XMLHttpRequest();
+  const url = `http://localhost:8000/kindle-backend/api/books/${bookSku}`
+
+  request.open("GET", url, true);
+  request.send();
+  request.onload = function(){
+    if (request.readyState == 4 && request.status == 200) {
+      const fileUrl = JSON.parse(request.response)["url"];
+      window.open(fileUrl, '_blank');
+    }
+  }
+}
