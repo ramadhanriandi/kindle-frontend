@@ -92,7 +92,7 @@ body {
   background: #0095DA;
 }
 
-.add-wishlist-button, .add-cart-button {
+.add-wishlist-button, .add-cart-button, .view-button {
   font-weight: 500;
   border-radius: 5px;
   box-sizing: border-box;
@@ -121,7 +121,7 @@ body {
   margin-right: 15px;
 }
 
-.cart-button, .process-button, .full-button {
+.process-button, .full-button {
   color: #FFFFFF;
   background: #0095DA;
   border: 1px solid #0095DA;

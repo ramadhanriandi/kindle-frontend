@@ -2,10 +2,12 @@ window.onload = function() {
   if (!checkCookie("customer")) {
     location.href = "/login";
   }
+
   let url = window.location.href;
   let book_sku = url.substring(url.lastIndexOf('/') + 1);
   
   renderBookDetail(book_sku);
+  isOnLibrary(book_sku);
   isOnWishlist(book_sku);
   isOnCart(book_sku);
 }
@@ -226,6 +228,26 @@ function isOnCart(bookSku) {
     } else {
       document.getElementById("cart-button").classList.add("outline-button");
       document.getElementById("isOnCart").value = 0;
+    }
+  };
+}
+
+function isOnLibrary(bookSku) {
+  const parsedCookie = document.cookie.split('|');
+  const customerId = parsedCookie[parsedCookie.length-1];
+
+  const request = new XMLHttpRequest();
+  const url = `http://localhost:8000/kindle-backend/api/customers/${customerId}/library/${bookSku}/check`;
+  
+  request.open("GET", url, true);
+  request.setRequestHeader("Content-Type", "application/json");
+  request.send();
+  request.onload = function () {
+    if (request.response == "true") {
+      document.getElementById("cart-button").style.display = "none";
+      document.getElementById("wishlist-button").style.display = "none";
+    } else {
+      document.getElementById("view-button").style.display = "none";
     }
   };
 }
