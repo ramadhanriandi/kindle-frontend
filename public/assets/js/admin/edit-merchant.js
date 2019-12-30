@@ -2,6 +2,12 @@ window.onload = function() {
   if (!checkCookie("admin")) {
     location.href = "/admin/login";
   }
+
+  let url = window.location.href;
+  let parsedUrl = url.split('/');
+  let merchantId = parsedUrl[parsedUrl.length-2];
+
+  renderMerchantDetail(merchantId);
 };
   
 function isEmpty(text) {
@@ -36,7 +42,30 @@ function checkCookie(role) {
   return false;
 }
 
-function createMerchant() {
+function renderMerchantDetail(merchantId) {
+  const request = new XMLHttpRequest();
+  const url = `http://localhost:8000/kindle-backend/api/merchants/${merchantId}`;
+  
+  request.open("GET", url, true);
+
+  request.onload = function () {
+    const merchantData = JSON.parse(request.response);
+
+    document.getElementById("merchantId").value = merchantData["merchantId"];
+    document.getElementById("username").value = merchantData["username"];
+    document.getElementById("fullname").value = merchantData["fullname"];
+    document.getElementById("email").value = merchantData["email"];
+    document.getElementById("password").value = merchantData["password"];
+    document.getElementById("phone").value = merchantData["phone"];
+    document.getElementById("description").value = merchantData["description"];
+    document.getElementById("status").value = merchantData["status"];
+  };
+
+  request.send();
+}
+
+function updateMerchant() {
+  const merchantId = document.getElementById("merchantId").value; 
   const email = document.getElementById("email").value;
   const username = document.getElementById("username").value;
   const fullname = document.getElementById("fullname").value;
@@ -46,27 +75,31 @@ function createMerchant() {
   const status = document.getElementById("status").value;
 
   const request = new XMLHttpRequest();
-  const url = "http://localhost:8000/kindle-backend/api/merchants";
+  const url = `http://localhost:8000/kindle-backend/api/merchants/${merchantId}`;
   
   if (!(isEmpty(username) || isEmpty(email) || isEmpty(password) || isEmpty(fullname) || isEmpty(phone) || isEmpty(description))) {
-    request.open("POST", url, true);
+    request.open("PUT", url, true);
     request.setRequestHeader("Content-Type", "application/json");
 
     const data = JSON.stringify({
       "email": email, 
       "username": username, 
       "fullname": fullname, 
+      "phone": phone, 
+      "description": description, 
       "password": password,
-      "phone": phone,
-      "description": description,
       "status": status
     });
 
     request.send(data);
 
     request.onload = function () {
-      if (request.status == 200 && request.readyState == 4) {
+      const jsonData = JSON.parse(request.response);
+
+      if (jsonData['code'] === 200) {
         location.href = "/admin/merchants";
+      } else {
+        alert(jsonData['message']);
       }
     };
   }

@@ -57,7 +57,7 @@ function renderMerchants() {
               <div class="edit-small-button" onclick='location.href="/admin/merchants/${userId}/edit"'>
                 <span class="fa fa-pencil-square-o"></span>&nbsp; Edit
               </div>
-              <div class="delete-small-button" onclick='deleteUser(${userId})'>
+              <div class="delete-small-button" onclick='deleteMerchant(${userId})'>
                 <span class="fa fa-trash-o"></span>&nbsp; Delete
               </div>
             </div>
@@ -79,7 +79,7 @@ function addMerchant() {
 function deleteMerchant(merchantId) {
   if (confirm('Are you sure to delete this merchant?')) {
     const request = new XMLHttpRequest();
-    const url = `http://localhost:8000/kindle-backend/api/customers/${merchantId}`;
+    const url = `http://localhost:8000/kindle-backend/api/merchants/${merchantId}`;
     
     request.open("DELETE", url, true);
     request.setRequestHeader("Content-Type", "application/json");
