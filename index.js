@@ -72,6 +72,10 @@ app.get('/admin/login', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/admin/login.html'));
 });
 
+app.get('/admin/profile', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/admin/profile.html'));
+});
+
 app.get('/404', function (req, res) {
   res.status(404);
   res.send('404: Page Not Found');
