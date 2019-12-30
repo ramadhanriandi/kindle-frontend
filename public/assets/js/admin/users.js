@@ -57,7 +57,7 @@ function renderUsers() {
               <div class="edit-small-button" onclick='location.href="/admin/users/${userId}/edit"'>
                 <span class="fa fa-pencil-square-o"></span>&nbsp; Edit
               </div>
-              <div class="delete-small-button">
+              <div class="delete-small-button" onclick='deleteUser(${userId})'>
                 <span class="fa fa-trash-o"></span>&nbsp; Delete
               </div>
             </div>
@@ -74,4 +74,22 @@ function renderUsers() {
 
 function addUser() {
   location.href = "/admin/users/add";
+}
+
+function deleteUser(customerId) {
+  if (confirm('Are you sure to delete this user?')) {
+    const request = new XMLHttpRequest();
+    const url = `http://localhost:8000/kindle-backend/api/customers/${customerId}`;
+    
+    request.open("DELETE", url, true);
+    request.setRequestHeader("Content-Type", "application/json");
+    request.send();
+    request.onload = function () {
+      if (request.response == "true") {
+        location.href = "/admin/users";
+      } else {
+        alert(request.response);
+      }
+    };
+  }
 }
