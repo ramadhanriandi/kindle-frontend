@@ -88,6 +88,22 @@ app.get('/admin/users/:id/edit', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/admin/edit-user.html'));
 });
 
+app.get('/admin/merchants', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/admin/merchants.html'));
+});
+
+app.get('/admin/merchants/add', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/admin/add-merchant.html'));
+});
+
+app.get('/admin/merchants/:id', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/admin/detail-merchant.html'));
+});
+
+app.get('/admin/merchants/:id/edit', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/admin/edit-merchant.html'));
+});
+
 // router for other
 app.get('/404', function (req, res) {
   res.status(404);
