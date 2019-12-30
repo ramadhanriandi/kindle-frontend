@@ -81,6 +81,10 @@ app.get('/admin/users/:id', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/admin/detail-user.html'));
 });
 
+app.get('/admin/users/:id/edit', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/admin/edit-user.html'));
+});
+
 // router for other
 app.get('/404', function (req, res) {
   res.status(404);
