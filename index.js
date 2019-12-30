@@ -64,9 +64,6 @@ app.get('/admin', function (req, res) {
   res.redirect('/admin/users');
 });
 
-app.get('/admin/users', function (req, res) {
-  res.sendFile(path.join(__dirname + '/views/admin/users.html'));
-});
 
 app.get('/admin/login', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/admin/login.html'));
@@ -76,6 +73,15 @@ app.get('/admin/profile', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/admin/profile.html'));
 });
 
+app.get('/admin/users', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/admin/users.html'));
+});
+
+app.get('/admin/users/:id', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/admin/detail-user.html'));
+});
+
+// router for other
 app.get('/404', function (req, res) {
   res.status(404);
   res.send('404: Page Not Found');
