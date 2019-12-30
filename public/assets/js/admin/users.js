@@ -71,3 +71,7 @@ function renderUsers() {
 
   request.send();
 }
+
+function addUser() {
+  location.href = "/admin/users/add";
+}
