@@ -59,6 +59,10 @@ app.get('/merchant/login', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/merchant/login.html'));
 });
 
+app.get('/merchant/order', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/merchant/order.html'));
+});
+
 // route for admin
 app.get('/admin', function (req, res) {
   res.redirect('/admin/users');
