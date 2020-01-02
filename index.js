@@ -116,6 +116,22 @@ app.get('/admin/genres/:id/edit', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/admin/edit-genre.html'));
 });
 
+app.get('/admin/books', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/admin/books.html'));
+});
+
+app.get('/admin/books/add', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/admin/add-book.html'));
+});
+
+app.get('/admin/books/:id', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/admin/detail-book.html'));
+});
+
+app.get('/admin/books/:id/edit', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/admin/edit-book.html'));
+});
+
 // router for other
 app.get('/404', function (req, res) {
   res.status(404);
