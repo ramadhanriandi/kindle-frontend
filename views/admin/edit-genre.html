@@ -25,26 +25,26 @@
     >
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../../assets/css/layout.css" />
+    <link rel="stylesheet" href="/assets/css/layout.css" />
 
     <title>Blibli - Kindle</title>
   </head>
   <body>
     <!-- Navbar Start -->
     <nav class="navbar navbar-fixed-top">
-      <a class="navbar-brand" href="home.html">bli-kindle</a>
+      <a class="navbar-brand" href="/admin/users">bli-kindle</a>
       <div class="nav-items">
         <div class="nav-item">
-          <a href="users.html"><img src="../../assets/img/users.svg"/></a>
+          <a href="/admin/users"><img src="/assets/img/users.svg"/></a>
         </div>
         <div class="nav-item">
-          <a href="merchants.html"><img src="../../assets/img/shop.svg"/></a>
+          <a href="/admin/merchants"><img src="/assets/img/shop.svg"/></a>
         </div>
         <div class="nav-item">
-          <a href="books.html"><img src="../../assets/img/book.svg"/></a>
+          <a href="/admin/books"><img src="/assets/img/book.svg"/></a>
         </div>
         <div class="nav-item">
-          <a href="genres.html"><img src="../../assets/img/category.svg"/></a>
+          <a href="/admin/genres"><img src="/assets/img/category.svg"/></a>
         </div>
         <div class="nav-item dropdown">
           <a
@@ -55,15 +55,15 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-            <img src="../../assets/img/avatar.svg" />
+            <img src="/assets/img/avatar.svg" />
           </a>
           <div
             class="dropdown-menu dropdown-menu-right"
             aria-labelledby="navbarDropdown"
           >
-            <a class="dropdown-item" href="profile.html">Edit Profile</a>
+            <a class="dropdown-item" href="/admin/profile">Edit Profile</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="login.html">Logout</a>
+            <a class="dropdown-item" onclick="adminLogout()">Logout</a>
           </div>
         </div>
       </div>
@@ -78,6 +78,7 @@
         </div>
         <div class="col-xs-12 col-md-12">
           <form>
+            <input type="hidden" id="categoryId"></input>
             <div class="form-group">
               <label class="sign-input-label" for="name">Name</label>
               <input
@@ -87,7 +88,7 @@
                 placeholder="Insert name"
               />
             </div>
-            <button type="submit" class="btn-sign btn btn-primary">Save Changes</button>
+            <button type="button" class="btn-sign btn btn-primary" onclick="updateGenre()">Save Changes</button>
           </form>
         </div>
       </div>
@@ -111,5 +112,7 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
+    <script src="/assets/js/admin/edit-genre.js" type="text/javascript"></script>
+    <script src="/assets/js/admin/logout.js" type="text/javascript"></script>
   </body>
 </html>
