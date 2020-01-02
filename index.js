@@ -104,6 +104,18 @@ app.get('/admin/merchants/:id/edit', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/admin/edit-merchant.html'));
 });
 
+app.get('/admin/genres', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/admin/genres.html'));
+});
+
+app.get('/admin/genres/add', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/admin/add-genre.html'));
+});
+
+app.get('/admin/genres/:id/edit', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/admin/edit-genre.html'));
+});
+
 // router for other
 app.get('/404', function (req, res) {
   res.status(404);
