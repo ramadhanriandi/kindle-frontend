@@ -57,6 +57,11 @@ function timeConverter(date){
     return ( monthNames[cMonth] + " " +cDate  + ", " +cYear + " at " +cHour+ ":" + cMin);
 }
 
+//function to go to specific book page
+function seeBookDetail(bookId){
+    location.href = `/merchant/books/${bookId}`;
+}
+
 //create function to create API call and dynamically render orders
 function renderOrders(){
 
@@ -99,7 +104,7 @@ function renderOrders(){
                 <div
                     class="d-flex flex-column justify-content-end align-items-end"
                 >
-                    <div class="p-2 rounded-sm detail-button">
+                    <div class="p-2 rounded-sm detail-button" onClick="seeBookDetail(${bookData["bookSku"]})">
                     <span class="fa fa-th-list"></span>&nbsp; Details
                     </div>
                 </div>
@@ -108,7 +113,7 @@ function renderOrders(){
             `
             console.log(allOrderHTML)
 
-        }
+        }   
 
         document.getElementById("order-container").innerHTML = allOrderHTML;
     };
