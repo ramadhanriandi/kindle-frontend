@@ -111,8 +111,6 @@ function renderOrders(){
                 </div>
             </div>
             `
-            console.log(allOrderHTML)
-
         }   
 
         document.getElementById("order-container").innerHTML = allOrderHTML;
