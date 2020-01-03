@@ -120,7 +120,6 @@ function navigateUploadBookImage() {
 }
 
 function updateBook() {
-  // console.log("file: ", file);
   // const bookSku = document.getElementById("bookSku").value; 
   // const title = document.getElementById("title").value;
   // const author = document.getElementById("author").value;

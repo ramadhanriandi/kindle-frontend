@@ -280,6 +280,10 @@ body {
   margin-bottom: 15px;
 }
 
+#file {
+  max-width: 100%;
+}
+
 .btn-view {
   width: 100%;
   font-weight: 600;

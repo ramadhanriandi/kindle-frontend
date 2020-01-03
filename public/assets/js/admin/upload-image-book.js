@@ -45,6 +45,14 @@ function renderBookDetail(bookSku) {
     const bookData = JSON.parse(request.response);
       
     document.getElementById("bookSku").value = bookData["bookSku"];
+    document.getElementById("title").value = bookData["title"];
+    document.getElementById("author").value = bookData["author"];
+    document.getElementById("year").value = bookData["year"];
+    document.getElementById("description").value = bookData["description"];
+    document.getElementById("price").value = bookData["price"];
+    document.getElementById("merchantId").value = bookData["merchantId"];
+    document.getElementById("variant").value = bookData["variant"];
+    document.getElementById("url").value = bookData["url"];
     document.getElementById("file").src = bookData["document"];
     document.getElementById("document").innerHTML += bookData["document"].split('/')[2]; 
   };
@@ -52,23 +60,72 @@ function renderBookDetail(bookSku) {
   request.send();
 }
 
-function uploadBookImage() {
-  const formData = new FormData();
-  formData.append("book_image", document.getElementById("book_image_field").files[0]);
+function uploadToDirectory() {
+  return new Promise(function (resolve, reject) {
+    const formData = new FormData();
+    formData.append("book_image", document.getElementById("book_image_field").files[0]);
+    
+    const url = `http://localhost:3000/upload-image`;
+    const request = new XMLHttpRequest();
   
-  const url = `http://localhost:3000/upload-image`;
-  const request = new XMLHttpRequest();
+    request.open("POST", url, true);
+    request.send(formData);
+  
+    request.onload = function () {
+      const jsonData = JSON.parse(request.response);
+  
+      if (jsonData['success']) {
+        resolve(jsonData['message']);
+      } else {
+        alert(jsonData['message']);
+      }
+    };
+  })
+}
 
-  request.open("POST", url, true);
-  request.send(formData);
+async function uploadBookImage() {
+  const uploadedImage = await uploadToDirectory();
+  
+  const bookSku = document.getElementById("bookSku").value; 
+  const title = document.getElementById("title").value;
+  const author = document.getElementById("author").value;
+  const year = parseInt(document.getElementById("year").value);
+  const description = document.getElementById("description").value;
+  const price = parseInt(document.getElementById("price").value);
+  const variant = document.getElementById("variant").value;
+  const merchantId = parseInt(document.getElementById("merchantId").value);
+  const url = document.getElementById("url").value;
+  const imagePath = `/uploads/${uploadedImage}`;
+
+  const request = new XMLHttpRequest();
+  const requestUrl = `http://localhost:8000/kindle-backend/api/books/${bookSku}`;
+  
+  request.open("PUT", requestUrl, true);
+  request.setRequestHeader("Content-Type", "application/json");
+
+  const data = JSON.stringify({
+    "title": title, 
+    "author": author, 
+    "year": year, 
+    "description": description, 
+    "price": price,
+    "variant": variant,
+    "merchantId": merchantId,
+    "url": url,
+    "document": imagePath
+  });
+
+  console.log(data);
+
+  request.send(data);
 
   request.onload = function () {
     const jsonData = JSON.parse(request.response);
 
-    if (jsonData['success'] == "true") {
-      alert(jsonData['message']);
+    if (jsonData['code'] === 200) {
+      location.href = `/admin/books/${bookSku}/edit`;
     } else {
       alert(jsonData['message']);
     }
   };
-}
+} 
