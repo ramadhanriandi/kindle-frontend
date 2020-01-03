@@ -52,9 +52,11 @@ function renderBookDetail(bookSku) {
     document.getElementById("price").value = bookData["price"];
     document.getElementById("merchantId").value = bookData["merchantId"];
     document.getElementById("variant").value = bookData["variant"];
-    document.getElementById("url").value = bookData["url"];
-    document.getElementById("file").src = bookData["document"];
-    document.getElementById("document").innerHTML += bookData["document"].split('/')[2]; 
+    document.getElementById("document").value = bookData["document"];
+    document.getElementById("link").value += bookData["url"].split('/')[2]; 
+    document.getElementById("view").onclick = function() {
+      window.open(bookData["url"], '_blank');
+    }
   };
 
   request.send();
@@ -63,9 +65,9 @@ function renderBookDetail(bookSku) {
 function uploadToDirectory() {
   return new Promise(function (resolve, reject) {
     const formData = new FormData();
-    formData.append("book_image", document.getElementById("book_image_field").files[0]);
+    formData.append("book_file", document.getElementById("book_file_field").files[0]);
     
-    const url = `http://localhost:3000/upload-image`;
+    const url = `http://localhost:3000/upload-file`;
     const request = new XMLHttpRequest();
   
     request.open("POST", url, true);
@@ -83,8 +85,8 @@ function uploadToDirectory() {
   })
 }
 
-async function uploadBookImage() {
-  const uploadedImage = await uploadToDirectory();
+async function uploadBookFile() {
+  const uploadedFile = await uploadToDirectory();
   
   const bookSku = document.getElementById("bookSku").value; 
   const title = document.getElementById("title").value;
@@ -94,8 +96,8 @@ async function uploadBookImage() {
   const price = parseInt(document.getElementById("price").value);
   const variant = document.getElementById("variant").value;
   const merchantId = parseInt(document.getElementById("merchantId").value);
-  const url = document.getElementById("url").value;
-  const imagePath = `/uploads/${uploadedImage}`;
+  const doc = document.getElementById("document").value;
+  const filePath = `/files/${uploadedFile}`;
 
   const request = new XMLHttpRequest();
   const requestUrl = `http://localhost:8000/kindle-backend/api/books/${bookSku}`;
@@ -111,8 +113,8 @@ async function uploadBookImage() {
     "price": price,
     "variant": variant,
     "merchantId": merchantId,
-    "url": url,
-    "document": imagePath
+    "document": doc,
+    "url": filePath
   });
 
   request.send(data);

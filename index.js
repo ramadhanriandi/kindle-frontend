@@ -1,14 +1,25 @@
 const express = require('express');
 const multer = require('multer');
 const path = require('path');
-const helpers = require('./helpers/filter')
+const imageFilter = require('./helpers/image-filter')
+const fileFilter = require('./helpers/file-filter')
 
 const app = express();
 const PORT = 3000;
 
 app.use(express.static('public'));
 
-const storage = multer.diskStorage({
+const fileStorage = multer.diskStorage({
+  destination: function(req, file, cb) {
+      cb(null, 'public/files/');
+  },
+
+  filename: function(req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
+
+const imageStorage = multer.diskStorage({
   destination: function(req, file, cb) {
       cb(null, 'public/uploads/');
   },
@@ -20,7 +31,7 @@ const storage = multer.diskStorage({
 
 // route for upload file and image
 app.post('/upload-image', (req, res) => {
-  let upload = multer({ storage: storage, fileFilter: helpers.imageFilter }).single('book_image');
+  let upload = multer({ storage: imageStorage, fileFilter: imageFilter.imageFilter }).single('book_image');
 
   upload(req, res, function(err) {
 
@@ -33,6 +44,40 @@ app.post('/upload-image', (req, res) => {
       return res.json({
         "success": false,
         "message": "Please select an image to upload"
+      });
+    } else if (err instanceof multer.MulterError) {
+      return res.json({
+        "success": false,
+        "message": err
+      });
+    } else if (err) {
+      return res.json({
+        "success": false,
+        "message": err
+      });
+    }
+
+    res.json({
+      "success": true,
+      "message": req.file.filename
+    });
+  });
+});
+
+app.post('/upload-file', (req, res) => {
+  let upload = multer({ storage: fileStorage, fileFilter: fileFilter.fileFilter }).single('book_file');
+
+  upload(req, res, function(err) {
+
+    if (req.fileValidationError) {
+      return res.json({
+        "success": false,
+        "message": req.fileValidationError
+      });
+    } else if (!req.file) {
+      return res.json({
+        "success": false,
+        "message": "Please select a file to upload"
       });
     } else if (err instanceof multer.MulterError) {
       return res.json({
