@@ -52,7 +52,7 @@ function renderBookDetail(bookSku) {
       document.getElementById("author").value = bookData["author"];
       document.getElementById("year").value = bookData["year"];
       document.getElementById("description").value = bookData["description"];
-      document.getElementById("link").value = bookData["url"];
+      document.getElementById("link").value = bookData["url"].split('/')[2];
       document.getElementById("view").onclick = function() {
         window.open(bookData["url"], '_blank');
       }

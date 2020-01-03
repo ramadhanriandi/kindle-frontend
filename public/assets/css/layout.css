@@ -276,6 +276,10 @@ body {
   margin-bottom: 10px;
 }
 
+.custom-file {
+  margin-bottom: 15px;
+}
+
 .btn-view {
   width: 100%;
   font-weight: 600;

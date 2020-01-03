@@ -1,9 +1,57 @@
 const express = require('express');
+const multer = require('multer');
 const path = require('path');
+const helpers = require('./helpers/filter')
+
 const app = express();
 const PORT = 3000;
 
 app.use(express.static('public'));
+
+const storage = multer.diskStorage({
+  destination: function(req, file, cb) {
+      cb(null, 'public/uploads/');
+  },
+
+  filename: function(req, file, cb) {
+      cb(null, file.fieldname + '-' + Date.now() + path.extname(file.originalname));
+  }
+});
+
+// route for upload file and image
+app.post('/upload-image', (req, res) => {
+  let upload = multer({ storage: storage, fileFilter: helpers.imageFilter }).single('book_image');
+
+  upload(req, res, function(err) {
+
+    if (req.fileValidationError) {
+      return res.json({
+        "success": false,
+        "message": req.fileValidationError
+      });
+    } else if (!req.file) {
+      return res.json({
+        "success": false,
+        "message": "Please select an image to upload"
+      });
+    } else if (err instanceof multer.MulterError) {
+      return res.json({
+        "success": false,
+        "message": err
+      });
+    } else if (err) {
+      return res.json({
+        "success": false,
+        "message": err
+      });
+    }
+
+    res.json({
+      "success": true,
+      "message": req.file.filename
+    });
+  });
+});
 
 // route for user
 app.get('/', function (req, res) {
@@ -130,6 +178,14 @@ app.get('/admin/books/:id', function (req, res) {
 
 app.get('/admin/books/:id/edit', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/admin/edit-book.html'));
+});
+
+app.get('/admin/books/:id/edit/upload-file', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/admin/upload-file-book.html'));
+});
+
+app.get('/admin/books/:id/edit/upload-image', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/admin/upload-image-book.html'));
 });
 
 // router for other
