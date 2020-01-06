@@ -2,7 +2,13 @@ window.onload = function() {
   if (!checkCookie("admin")) {
     location.href = "/admin/login";
   }
+
+  let url = window.location.href;
+  let customerId = url.substring(url.lastIndexOf('/') + 1);
+
+  renderUserDetail(customerId);
 };
+  
 
 function getCookie(variable) {
   const name = variable + "=";
@@ -27,4 +33,22 @@ function checkCookie(role) {
     return true;
   }
   return false;
+}
+
+function renderUserDetail(customerId) {
+  const request = new XMLHttpRequest();
+  const url = `http://localhost:8000/kindle-backend/api/customers/${customerId}`;
+  
+  request.open("GET", url, true);
+
+  request.onload = function () {
+    const customerData = JSON.parse(request.response);
+
+    document.getElementById("username").value = customerData["username"];
+    document.getElementById("email").value = customerData["email"];
+    document.getElementById("password").value = customerData["password"];
+    document.getElementById("status").value = customerData["status"];
+  };
+
+  request.send();
 }

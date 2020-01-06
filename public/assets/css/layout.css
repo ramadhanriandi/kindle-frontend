@@ -276,6 +276,26 @@ body {
   margin-bottom: 10px;
 }
 
+.custom-file {
+  margin-bottom: 15px;
+}
+
+img {
+  max-width: 100%;
+}
+
+#file {
+  max-width: 100%;
+}
+
+.btn-view {
+  width: 100%;
+  font-weight: 600;
+  font-size: 10px;
+  background: #0095DA;
+  height: 40px;
+}
+
 .sign-note {
   font-weight: 600;
   font-size: 8px;
