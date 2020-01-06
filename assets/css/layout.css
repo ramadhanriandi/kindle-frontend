@@ -92,7 +92,7 @@ body {
   background: #0095DA;
 }
 
-.add-wishlist-button, .add-cart-button, .view-button {
+.add-wishlist-button, .add-cart-button {
   font-weight: 500;
   border-radius: 5px;
   box-sizing: border-box;
@@ -112,7 +112,7 @@ body {
   text-align: center;
 }
 
-.detail-button, .delete-button, .outline-button {
+.detail-button, .delete-button, .add-wishlist-button {
   border: 1px solid #0095DA;
   color: #0095DA;
 }
@@ -121,7 +121,7 @@ body {
   margin-right: 15px;
 }
 
-.process-button, .full-button {
+.cart-button, .process-button, .add-cart-button {
   color: #FFFFFF;
   background: #0095DA;
   border: 1px solid #0095DA;

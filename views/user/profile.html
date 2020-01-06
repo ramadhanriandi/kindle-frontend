@@ -25,38 +25,44 @@
     >
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="/assets/css/layout.css" />
+    <link rel="stylesheet" href="../../assets/css/layout.css" />
+    <link rel="stylesheet" href="../../assets/css/user.css" />
 
     <title>Blibli - Kindle</title>
   </head>
   <body>
     <!-- Navbar Start -->
     <nav class="navbar navbar-fixed-top">
-      <a class="navbar-brand" href="/">bli-kindle</a>
+      <a class="navbar-brand" href="home.html">bli-kindle</a>
       <div class="nav-items">
         <div class="nav-item">
-          <a href="/wishlist"><img src="/assets/img/like.svg"></a>
+          <a href="wishlist.html"><img src="../../assets/img/like.svg"/></a>
         </div>
         <div class="nav-item">
-          <a href="/cart"><img src="/assets/img/shopping-cart.svg"></a>
+          <a href="cart.html"
+            ><img src="../../assets/img/shopping-cart.svg"
+          /></a>
         </div>
         <div class="nav-item dropdown">
           <a
             href="#"
-            id="navbarDropdown" 
-            role="button" 
-            data-toggle="dropdown" 
-            aria-haspopup="true" 
+            id="navbarDropdown"
+            role="button"
+            data-toggle="dropdown"
+            aria-haspopup="true"
             aria-expanded="false"
           >
-            <img src="/assets/img/avatar.svg">
+            <img src="../../assets/img/avatar.svg" />
           </a>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/orders">My Order</a>
+          <div
+            class="dropdown-menu dropdown-menu-right"
+            aria-labelledby="navbarDropdown"
+          >
+            <a class="dropdown-item" href="order.html">My Order</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/profile">Edit Profile</a>
+            <a class="dropdown-item" href="profile.html">Edit Profile</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" onclick="customerLogout()">Logout</a>
+            <a class="dropdown-item" href="login.html">Logout</a>
           </div>
         </div>
       </div>
@@ -70,11 +76,7 @@
           <div class="wrapper-title">EDIT PROFILE</div>
         </div>
         <div class="col-xs-12 col-md-12">
-          <form method="POST">
-            <input
-            type="hidden"
-            id="email"
-            />
+          <form>
             <div class="form-group">
               <label class="sign-input-label" for="username">Username</label>
               <input
@@ -93,7 +95,7 @@
               placeholder="Insert password"
               />
             </div>
-            <button type="button" class="btn-sign btn btn-primary" onclick="updateCustomer()">Change Profile</button>
+            <button type="submit" class="btn-sign btn btn-primary">Change Profile</button>
           </form>
         </div>
       </div>
@@ -117,7 +119,5 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
-    <script src="/assets/js/user/profile.js" type="text/javascript"></script>
-    <script src="/assets/js/user/logout.js" type="text/javascript"></script>
   </body>
 </html>
