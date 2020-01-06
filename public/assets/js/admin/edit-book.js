@@ -57,7 +57,7 @@ function renderBookCategories() {
       for(let i = 0; i < jsonData.length; i++) {
         bookCategories += `
           <div class="form-check form-check-inline">
-            <input class="form-check-input" type="checkbox" id="${jsonData[i]['name']}" value="fiction">
+            <input class="form-check-input" type="checkbox" id="${jsonData[i]['name']}" value="${jsonData[i]['name']}">
             <label class="form-check-label" for="${jsonData[i]['name']}">${jsonData[i]['name']}</label>
           </div>
         `
@@ -74,32 +74,31 @@ async function renderBookDetail(bookSku) {
 
   if (hasRenderedCategory) {
     const request = new XMLHttpRequest();
-    const url = `http://localhost:8000/kindle-backend/api/books/${bookSku}/detail`;
+    const url = `http://localhost:8000/kindle-backend/api/books/${bookSku}`;
     
     request.open("GET", url, true);
   
     request.onload = function () {
-      const jsonData = JSON.parse(request.response);
+      const bookData = JSON.parse(request.response);
       
-      if (jsonData["code"] == 200) {
-        const bookData = jsonData["bookData"];
-        
-        document.getElementById("bookSku").value = bookData["bookSku"];
-        document.getElementById("title").value = bookData["title"];
-        document.getElementById("author").value = bookData["author"];
-        document.getElementById("year").value = bookData["year"];
-        document.getElementById("description").value = bookData["description"];
-        document.getElementById("url").innerHTML += bookData["url"].split('/')[2];
-        document.getElementById("price").value = bookData["price"];
-        document.getElementById("variant").value = bookData["variant"];
-        document.getElementById("merchant").value = jsonData["merchant"];
-        document.getElementById("document").innerHTML += bookData["document"].split('/')[2]; 
-  
-        for (let i = 0; i < jsonData["categories"].length; i++) {
-          document.getElementById(`${jsonData["categories"][i]["name"]}`).checked =  true;
-        }
-      } else {
-        alert(jsonData["message"]);
+      document.getElementById("bookSku").value = bookData["bookSku"];
+      document.getElementById("title").value = bookData["title"];
+      document.getElementById("author").value = bookData["author"];
+      document.getElementById("year").value = bookData["year"];
+      document.getElementById("description").value = bookData["description"];
+      document.getElementById("current-url").innerHTML += bookData["url"].split('/')[2];
+      document.getElementById("url").value = bookData["url"];
+      document.getElementById("price").value = bookData["price"];
+      document.getElementById("variant").value = bookData["variant"];
+      document.getElementById("merchant").value = bookData["merchant"]["fullname"];
+      document.getElementById("merchantId").value = bookData["merchantId"];
+      document.getElementById("current-document").innerHTML += bookData["document"].split('/')[2]; 
+      document.getElementById("document").value = bookData["document"]; 
+
+      const parsedCategories = bookData["categories"].split(';');
+
+      for (let i = 0; i < parsedCategories.length; i++) {
+        document.getElementById(`${parsedCategories[i]}`).checked =  true;
       }
     };
   
@@ -120,43 +119,58 @@ function navigateUploadBookImage() {
 }
 
 function updateBook() {
-  // const bookSku = document.getElementById("bookSku").value; 
-  // const title = document.getElementById("title").value;
-  // const author = document.getElementById("author").value;
-  // const year = document.getElementById("year").value;
-  // const description = document.getElementById("description").value;
-  // const price = document.getElementById("price").value;
-  // const variant = document.getElementById("variant").value;
-  // //category, document, url
+  const bookSku = document.getElementById("bookSku").value; 
+  const title = document.getElementById("title").value;
+  const author = document.getElementById("author").value;
+  const year = document.getElementById("year").value;
+  const description = document.getElementById("description").value;
+  const price = document.getElementById("price").value;
+  const variant = document.getElementById("variant").value;
+  const doc = document.getElementById("document").value;
+  const url = document.getElementById("url").value;
+  const merchantId = document.getElementById("merchantId").value;
 
-  // const request = new XMLHttpRequest();
-  // const url = `http://localhost:8000/kindle-backend/api/books/${bookSku}`;
+  let categories = '';
+  const checkedCategories = document.getElementsByClassName('form-check-input');
+  for (let i = 0; i < checkedCategories.length; i++) {
+    if (checkedCategories[i].checked) {
+      categories += `${checkedCategories[i].value};`;
+    }
+  }
+  if (categories.length !== 0) {
+    categories = categories.substring(0, categories.length - 1);
+  }
+
+  const request = new XMLHttpRequest();
+  const updateUrl = `http://localhost:8000/kindle-backend/api/books/${bookSku}`;
   
-  // if (!(isEmpty(username) || isEmpty(email) || isEmpty(password) || isEmpty(fullname) || isEmpty(phone) || isEmpty(description))) {
-  //   request.open("PUT", url, true);
-  //   request.setRequestHeader("Content-Type", "application/json");
+  if (!(isEmpty(title) || isEmpty(author) || isEmpty(year) || isEmpty(description) || isEmpty(price) || isEmpty(variant))) {
+    request.open("PUT", updateUrl, true);
+    request.setRequestHeader("Content-Type", "application/json");
 
-  //   const data = JSON.stringify({
-  //     "title": title, 
-  //     "author": author, 
-  //     "year": year, 
-  //     "description": description, 
-  //     "url": url, 
-  //     "price": price,
-  //     "variant": variant,
-  //     "document": doc
-  //   });
+    const data = JSON.stringify({
+      "title": title, 
+      "author": author, 
+      "year": year, 
+      "description": description, 
+      "url": url, 
+      "price": price,
+      "variant": variant,
+      "document": doc,
+      "categories": categories,
+      "merchantId": merchantId
+    });
 
-  //   request.send(data);
+    request.send(data);
 
-  //   request.onload = function () {
-  //     const jsonData = JSON.parse(request.response);
+    request.onload = function () {
+      const jsonData = JSON.parse(request.response);
 
-  //     if (jsonData['code'] === 200) {
-  //       location.href = "/admin/books";
-  //     } else {
-  //       alert(jsonData['message']);
-  //     }
-  //   };
-  // }
+      if (jsonData['code'] === 200) {
+        location.href = "/admin/books";
+      } else {
+        alert(jsonData['message']);
+      }
+    };
+  }
 }

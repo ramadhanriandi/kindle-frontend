@@ -53,6 +53,7 @@ function renderBookDetail(bookSku) {
     document.getElementById("merchantId").value = bookData["merchantId"];
     document.getElementById("variant").value = bookData["variant"];
     document.getElementById("document").value = bookData["document"];
+    document.getElementById("categories").value = bookData["categories"];
     document.getElementById("link").value += bookData["url"].split('/')[2]; 
     document.getElementById("view").onclick = function() {
       window.open(bookData["url"], '_blank');
@@ -97,6 +98,7 @@ async function uploadBookFile() {
   const variant = document.getElementById("variant").value;
   const merchantId = parseInt(document.getElementById("merchantId").value);
   const doc = document.getElementById("document").value;
+  const categories = document.getElementById("categories").value;
   const filePath = `/files/${uploadedFile}`;
 
   const request = new XMLHttpRequest();
@@ -114,7 +116,8 @@ async function uploadBookFile() {
     "variant": variant,
     "merchantId": merchantId,
     "document": doc,
-    "url": filePath
+    "url": filePath,
+    "categories": categories
   });
 
   request.send(data);

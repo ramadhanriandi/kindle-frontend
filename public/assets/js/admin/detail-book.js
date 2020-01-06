@@ -37,40 +37,36 @@ function checkCookie(role) {
 
 function renderBookDetail(bookSku) {
   const request = new XMLHttpRequest();
-  const url = `http://localhost:8000/kindle-backend/api/books/${bookSku}/detail`;
+  const url = `http://localhost:8000/kindle-backend/api/books/${bookSku}`;
   
   request.open("GET", url, true);
 
   request.onload = function () {
-    const jsonData = JSON.parse(request.response);
+    const bookData = JSON.parse(request.response);
     
-    if (jsonData["code"] == 200) {
-      const bookData = jsonData["bookData"];
-      let categories = '';
-      
-      document.getElementById("title").value = bookData["title"];
-      document.getElementById("author").value = bookData["author"];
-      document.getElementById("year").value = bookData["year"];
-      document.getElementById("description").value = bookData["description"];
-      document.getElementById("link").value = bookData["url"].split('/')[2];
-      document.getElementById("view").onclick = function() {
-        window.open(bookData["url"], '_blank');
-      }
-      document.getElementById("price").value = bookData["price"];
-      document.getElementById("variant").value = bookData["variant"];
-      document.getElementById("merchant").value = jsonData["merchant"];
-      document.getElementById("file").src = bookData["document"];
-      
-      for (let i = 0; i < jsonData["categories"].length; i++) {
-        categories += jsonData["categories"][i]["name"];
-        if (i != jsonData["categories"].length - 1) {
-          categories += ', ';
-        }
-      }
-      document.getElementById("category").value = categories;
-    } else {
-      alert(jsonData["message"]);
+    document.getElementById("title").value = bookData["title"];
+    document.getElementById("author").value = bookData["author"];
+    document.getElementById("year").value = bookData["year"];
+    document.getElementById("description").value = bookData["description"];
+    document.getElementById("link").value = bookData["url"].split('/')[2];
+    document.getElementById("view").onclick = function() {
+      window.open(bookData["url"], '_blank');
     }
+    document.getElementById("price").value = bookData["price"];
+    document.getElementById("variant").value = bookData["variant"];
+    document.getElementById("merchant").value = bookData["merchant"]["fullname"];
+    document.getElementById("file").src = bookData["document"];
+
+    const parsedCategories = bookData["categories"].split(';');
+    let categories = '';
+    
+    for (let i = 0; i < parsedCategories.length; i++) {
+      categories += parsedCategories[i];
+      if (i != parsedCategories.length - 1) {
+        categories += ', ';
+      }
+    }
+    document.getElementById("category").value = categories;
   };
 
   request.send();
