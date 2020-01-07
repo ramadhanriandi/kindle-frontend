@@ -25,26 +25,26 @@
     >
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../../assets/css/layout.css" />
+    <link rel="stylesheet" href="/assets/css/layout.css" />
 
     <title>Blibli - Kindle</title>
   </head>
   <body>
     <!-- Navbar Start -->
     <nav class="navbar navbar-fixed-top">
-      <a class="navbar-brand" href="home.html">bli-kindle</a>
+      <a class="navbar-brand" href="/admin/users">bli-kindle</a>
       <div class="nav-items">
         <div class="nav-item">
-          <a href="users.html"><img src="../../assets/img/users.svg"/></a>
+          <a href="/admin/users"><img src="/assets/img/users.svg"/></a>
         </div>
         <div class="nav-item">
-          <a href="merchants.html"><img src="../../assets/img/shop.svg"/></a>
+          <a href="/admin/merchants"><img src="/assets/img/shop.svg"/></a>
         </div>
         <div class="nav-item">
-          <a href="books.html"><img src="../../assets/img/book.svg"/></a>
+          <a href="/admin/books"><img src="/assets/img/book.svg"/></a>
         </div>
         <div class="nav-item">
-          <a href="genres.html"><img src="../../assets/img/category.svg"/></a>
+          <a href="/admin/genres"><img src="/assets/img/category.svg"/></a>
         </div>
         <div class="nav-item dropdown">
           <a
@@ -55,15 +55,15 @@
             aria-haspopup="true"
             aria-expanded="false"
           >
-            <img src="../../assets/img/avatar.svg" />
+            <img src="/assets/img/avatar.svg" />
           </a>
           <div
             class="dropdown-menu dropdown-menu-right"
             aria-labelledby="navbarDropdown"
           >
-            <a class="dropdown-item" href="profile.html">Edit Profile</a>
+            <a class="dropdown-item" href="/admin/profile">Edit Profile</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="login.html">Logout</a>
+            <a class="dropdown-item" onclick="adminLogout()">Logout</a>
           </div>
         </div>
       </div>
@@ -85,7 +85,6 @@
                 class="sign-input-box form-control"
                 id="title"
                 readonly
-                value="All The Light We Cannot See"
               />
             </div>
             <div class="form-row">
@@ -96,7 +95,6 @@
                   class="sign-input-box form-control"
                   id="author"
                   readonly
-                  value="Anthony Doerr"
                 />
               </div>
               <div class="form-group col-4 col-sm-4 col-md-4 col-lg-4">
@@ -106,24 +104,26 @@
                   class="sign-input-box form-control"
                   id="year"
                   readonly
-                  value="2009"
                 />
               </div>
             </div>
             <div class="form-group">
               <label class="sign-input-label" for="description">Description</label>
-              <textarea class="sign-input-box form-control" id="description" rows="10" readonly>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-              </textarea>
+              <textarea class="sign-input-box form-control" id="description" rows="10" readonly></textarea>
             </div>
-            <div class="form-group">
-              <label class="sign-input-label" for="link">Download Link</label>
-              <input
-                type="text"
-                class="sign-input-box form-control"
-                id="link"
-                readonly
-                value="www.google.com"
-              />
+            <div class="form-row">
+              <div class="form-group col-8 col-sm-8 col-md-8 col-lg-8">
+                <label class="sign-input-label" for="link">File</label>
+                <input
+                  type="text"
+                  class="sign-input-box form-control"
+                  id="link"
+                  readonly
+                />
+              </div>
+              <div class="form-group col-4 col-sm-4 col-md-4 col-lg-4 d-flex justify-content-end">
+                <button type="button" id="view" class="btn-view btn btn-primary align-self-end">Open File</button>
+              </div>
             </div>
             <div class="form-row">
               <div class="form-group col-8 col-sm-8 col-md-8 col-lg-8">
@@ -133,7 +133,6 @@
                   class="sign-input-box form-control"
                   id="price"
                   readonly
-                  value="50000"
                 />
               </div>
               <div class="form-group col-4 col-sm-4 col-md-4 col-lg-4">
@@ -143,14 +142,13 @@
                   class="sign-input-box form-control"
                   id="variant"
                   readonly
-                  value="Black"
                 />
               </div>
             </div>
             <div class="form-row">
               <div class="form-group col-4 col-sm-4 col-md-4 col-lg-4">
                 <label class="sign-input-label" for="file">Book Cover</label>
-                <img id="file" src="../../assets/img/book-example.svg" />
+                <img id="file" />
               </div>
               <div class="form-group col-4 col-sm-4 col-md-4 col-lg-4">
                 <label class="sign-input-label" for="category">Category</label>
@@ -159,7 +157,6 @@
                   class="sign-input-box form-control"
                   id="category"
                   readonly
-                  value="Fiction, Drama"
                 />
               </div>
               <div class="form-group col-4 col-sm-4 col-md-4 col-lg-4">
@@ -169,7 +166,6 @@
                   class="sign-input-box form-control"
                   id="merchant"
                   readonly
-                  value="Gramedia"
                 />
               </div>
             </div>
@@ -196,5 +192,7 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
+    <script src="/assets/js/admin/detail-book.js" type="text/javascript"></script>
+    <script src="/assets/js/admin/logout.js" type="text/javascript"></script>
   </body>
 </html>

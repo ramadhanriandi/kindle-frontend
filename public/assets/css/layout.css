@@ -103,7 +103,7 @@ body {
   background: #0095DA;
 }
 
-.add-wishlist-button, .add-cart-button {
+.add-wishlist-button, .add-cart-button, .view-button {
   font-weight: 500;
   border-radius: 5px;
   box-sizing: border-box;
@@ -135,7 +135,7 @@ body {
   text-align: center;
 }
 
-.detail-button, .delete-button, .add-wishlist-button {
+.detail-button, .delete-button, .outline-button {
   border: 1px solid #0095DA;
   color: #0095DA;
 }
@@ -144,7 +144,7 @@ body {
   margin-right: 15px;
 }
 
-.cart-button, .process-button, .add-cart-button {
+.process-button, .full-button {
   color: #FFFFFF;
   background: #0095DA;
   border: 1px solid #0095DA;
@@ -320,6 +320,26 @@ body {
   background: #0095DA;
   height: 40px;
   margin-bottom: 10px;
+}
+
+.custom-file {
+  margin-bottom: 15px;
+}
+
+img {
+  max-width: 100%;
+}
+
+#file {
+  max-width: 100%;
+}
+
+.btn-view {
+  width: 100%;
+  font-weight: 600;
+  font-size: 10px;
+  background: #0095DA;
+  height: 40px;
 }
 
 .sign-note {
