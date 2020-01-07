@@ -160,6 +160,18 @@ app.get('/merchant/books/:sku', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/merchant/book-detail.html'))
 });
 
+app.get('/merchant/books/:sku/edit', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/merchant/edit-book.html'))
+});
+
+app.get('/merchant/catalog', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/merchant/catalog.html'))
+});
+
+app.get('/merchant/profile', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/merchant/profile.html'))
+});
+
 // route for admin
 app.get('/admin', function (req, res) {
   res.redirect('/admin/users');
@@ -220,11 +232,7 @@ app.get('/admin/genres/:id/edit', function (req, res) {
 app.get('/admin/books', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/admin/books.html'));
 });
-
-app.get('/admin/books/add', function (req, res) {
-  res.sendFile(path.join(__dirname + '/views/admin/add-book.html'));
-});
-
+                                                                                                                                                                                                                                                                                                  
 app.get('/admin/books/:id', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/admin/detail-book.html'));
 });
