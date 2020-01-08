@@ -89,9 +89,28 @@ function editBook(bookSku){
 }
 
 function deleteBook(bookSku){
+    if (confirm('Are you sure to delete this book?')){
+        //make request to delete
+        const request = new XMLHttpRequest();
+        const url = `http://localhost:8000/kindle-backend/api/books/${bookSku}`;
 
+        request.open("DELETE", url, true);
+        request.setRequestHeader("Content-Type", "application/json");
+
+        request.send();
+
+        request.onload = function(){
+            console.log(request.response);
+            if(request.response == "true"){
+                location.href = "/merchant/books";
+            }   
+            else{
+                alert(request.response);
+            } 
+        }
+    }
 }
 
 function addBook(){
-    
+    location.href = "/merchant/books/add";
 }

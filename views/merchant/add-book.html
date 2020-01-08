@@ -25,20 +25,20 @@
     >
 
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="../../assets/css/layout.css" />
+    <link rel="stylesheet" href="/assets/css/layout.css" />
 
     <title>Blibli - Kindle</title>
   </head>
   <body>
     <!-- Navbar Start -->
     <nav class="navbar navbar-fixed-top">
-      <a class="navbar-brand" href="/merchant">bli-kindle</a>
+      <a class="navbar-brand" href="home.html">bli-kindle</a>
       <div class="nav-items">
         <div class="nav-item">
-          <a href="/merchant/catalog"><img src="/assets/img/pamphlet.svg"/></a>
+          <a href="catalog.html"><img src="/assets/img/pamphlet.svg"/></a>
         </div>
         <div class="nav-item">
-          <a href="/merchant/order"
+          <a href="order.html"
             ><img src="/assets/img/list.svg"
           /></a>
         </div>
@@ -57,11 +57,11 @@
             class="dropdown-menu dropdown-menu-right"
             aria-labelledby="navbarDropdown"
           >
-            <a class="dropdown-item" href="/merchant/order">Incoming Order</a>
+            <a class="dropdown-item" href="order.html">Incoming Order</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/merchant/profile">Edit Profile</a>
+            <a class="dropdown-item" href="profile.html">Edit Profile</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" onclick="merchantLogout()">Logout</a>
+            <a class="dropdown-item" href="login.html">Logout</a>
           </div>
         </div>
       </div>
@@ -72,10 +72,14 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-xs-12 col-md-12">
-          <div class="wrapper-title" onclick="addBook()">ADD BOOK</div>
+          <div class="wrapper-title">ADD BOOK</div>
         </div>
         <div class="col-xs-12 col-md-12">
           <form>
+            <input type="hidden" id="bookSku" />
+            <input type="hidden" id="document" />
+            <input type="hidden" id="url" />
+            <input type="hidden" id="merchantId" />
             <div class="form-group">
               <label class="sign-input-label" for="title">Title</label>
               <input
@@ -86,7 +90,7 @@
               />
             </div>
             <div class="form-row">
-              <div class="form-group col-8 col-sm-8 col-md-8 col-lg-8">
+              <div class="form-group col-6 col-sm-6 col-md-6 col-lg-6">
                 <label class="sign-input-label" for="author">Author</label>
                 <input
                   type="text"
@@ -95,28 +99,28 @@
                   placeholder="Insert author"
                 />
               </div>
-              <div class="form-group col-4 col-sm-4 col-md-4 col-lg-4">
+              <div class="form-group col-2 col-sm-2 col-md-2 col-lg-2">
                 <label class="sign-input-label" for="year">Year</label>
                 <input
                   type="number"
                   class="sign-input-box form-control"
                   id="year"
-                  placeholder="Insert year"
+                  placeholder="Year"
+                />
+              </div>
+              <div class="form-group col-4 col-sm-4 col-md-4 col-lg-4">
+                <label class="sign-input-label" for="merchant">Merchant</label>
+                <input
+                  type="text"
+                  class="sign-input-box form-control"
+                  id="merchant"
+                  readonly
                 />
               </div>
             </div>
             <div class="form-group">
               <label class="sign-input-label" for="description">Description</label>
               <textarea class="sign-input-box form-control" id="description" rows="10" placeholder="Insert description"></textarea>
-            </div>
-            <div class="form-group">
-              <label class="sign-input-label" for="link">Download Link</label>
-              <input
-                type="text"
-                class="sign-input-box form-control"
-                id="link"
-                placeholder="Insert link"
-              />
             </div>
             <div class="form-row">
               <div class="form-group col-8 col-sm-8 col-md-8 col-lg-8">
@@ -140,38 +144,22 @@
             </div>
             <div class="form-row">
               <div class="form-group col-8 col-sm-8 col-md-8 col-lg-8">
-                <div class="custom-file">
-                  <input type="file" class="custom-file-input" id="file">
-                  <label class="custom-file-label" for="file">Choose file</label>
+                <label id="current-url" for="url-wrapper">File : </label>
+                <div class="custom-file" id="url-wrapper">
+                  <input type="button" value="Add file" onclick="navigateUploadBookFile()"/>
+                </div>
+                <label id="current-document" for="document-wrapper">Image : </label>
+                <div class="custom-file" id="document-wrapper">
+                  <input type="button" value="Add image" onclick="navigateUploadBookImage()"/>
                 </div>
               </div>
               <div class="form-group col-4 col-sm-4 col-md-4 col-lg-4">
                 <label class="sign-input-label" for="category">Category</label>
                 <div class="form-group" id="category">
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="fiction" value="fiction">
-                    <label class="form-check-label" for="fiction">Fiction</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="nonfiction" value="nonfiction">
-                    <label class="form-check-label" for="nonfiction">Non-fiction</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="drama" value="drama">
-                    <label class="form-check-label" for="drama">Drama</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="horror" value="horror">
-                    <label class="form-check-label" for="horror">Horror</label>
-                  </div>
-                  <div class="form-check form-check-inline">
-                    <input class="form-check-input" type="checkbox" id="romance" value="romance">
-                    <label class="form-check-label" for="romance">Romance</label>
-                  </div>
                 </div>
               </div>
             </div>
-            <button type="submit" class="btn-sign btn btn-primary">Save</button>
+            <button type="button" class="btn-sign btn btn-primary" onclick="saveBook()">Save Changes</button>
           </form>
         </div>
       </div>
@@ -195,5 +183,7 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
+    <script src="/assets/js/merchant/add-book.js" type="text/javascript"></script>
+    <script src="/assets/js/merchant/logout.js" type="text/javascript"></script>
   </body>
 </html>

@@ -156,6 +156,10 @@ app.get('/merchant/order', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/merchant/order.html'));
 });
 
+app.get('/merchant/books/add', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/merchant/add-book.html'))
+});
+
 app.get('/merchant/books/:sku', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/merchant/book-detail.html'))
 });
@@ -164,7 +168,15 @@ app.get('/merchant/books/:sku/edit', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/merchant/edit-book.html'))
 });
 
-app.get('/merchant/catalog', function (req, res) {
+app.get('/merchant/books/add/upload-file', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/merchant/upload-file-book.html'));
+});
+
+app.get('/merchant/books/add/upload-image', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/merchant/upload-image-book.html'));
+});
+
+app.get('/merchant/books', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/merchant/catalog.html'))
 });
 

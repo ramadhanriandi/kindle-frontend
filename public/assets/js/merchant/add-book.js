@@ -3,17 +3,7 @@ window.onload = function () {
         location.href = "/merchant/login";
     }
     else {
-        //check if this is really the book of the merchant
-
-        let bookSku = getBookSku();
-        let merchantId = getMerchantId();
-
-        if (validateBookMerchant(merchantId, bookSku)) {
-            renderBookDetail(bookSku);
-        }
-        else {
-            location.href = "/merchant";
-        }
+        renderBookCategories();
     }
 };
 
@@ -56,12 +46,6 @@ function getMerchantId() {
     return parsedCookie[parsedCookie.length - 1]
 }
 
-function getBookSku() {
-    let url = window.location.href;
-    let parsedUrl = url.split('/');
-    return parsedUrl[parsedUrl.length - 2];
-}
-
 function validateBookMerchant(merchantId, bookSku) {
     const request = new XMLHttpRequest();
     const url = `http://localhost:8000/kindle-backend/api/books/${bookSku}`;
@@ -100,57 +84,19 @@ function renderBookCategories() {
     })
 }
 
-async function renderBookDetail(bookSku) {
-    const hasRenderedCategory = await renderBookCategories();
-
-    if (hasRenderedCategory) {
-        const request = new XMLHttpRequest();
-        const url = `http://localhost:8000/kindle-backend/api/books/${bookSku}`;
-
-        request.open("GET", url, true);
-
-        request.onload = function () {
-            const bookData = JSON.parse(request.response);
-
-            document.getElementById("bookSku").value = bookData["bookSku"];
-            document.getElementById("title").value = bookData["title"];
-            document.getElementById("author").value = bookData["author"];
-            document.getElementById("year").value = bookData["year"];
-            document.getElementById("description").value = bookData["description"];
-            document.getElementById("current-url").innerHTML += bookData["url"].split('/')[2];
-            document.getElementById("url").value = bookData["url"];
-            document.getElementById("price").value = bookData["price"];
-            document.getElementById("variant").value = bookData["variant"];
-            document.getElementById("merchant").value = bookData["merchant"]["fullname"];
-            document.getElementById("merchantId").value = bookData["merchantId"];
-            document.getElementById("current-document").innerHTML += bookData["document"].split('/')[2];
-            document.getElementById("document").value = bookData["document"];
-
-            const parsedCategories = bookData["categories"].split(';');
-
-            for (let i = 0; i < parsedCategories.length; i++) {
-                document.getElementById(`${parsedCategories[i]}`).checked = true;
-            }
-        };
-
-        request.send();
-    }
-}
-
 function navigateUploadBookFile() {
     const bookSku = document.getElementById("bookSku").value;
 
-    location.href = `/admin/books/${bookSku}/edit/upload-file`;
+    location.href = "/merchant/books/add/upload-file";
 }
 
 function navigateUploadBookImage() {
     const bookSku = document.getElementById("bookSku").value;
 
-    location.href = `/admin/books/${bookSku}/edit/upload-image`;
+    location.href = "/merchant/books/add/upload-image";
 }
 
-function updateBook() {
-    const bookSku = getBookSku();
+function saveBook() {
     const title = document.getElementById("title").value;
     const author = document.getElementById("author").value;
     const year = document.getElementById("year").value;
@@ -173,10 +119,10 @@ function updateBook() {
     }
 
     const request = new XMLHttpRequest();
-    const updateUrl = `http://localhost:8000/kindle-backend/api/books/${bookSku}`;
+    const saveUrl = `http://localhost:8000/kindle-backend/api/books`;
 
     if (!(isEmpty(title) || isEmpty(author) || isEmpty(year) || isEmpty(description) || isEmpty(price) || isEmpty(variant))) {
-        request.open("PUT", updateUrl, true);
+        request.open("POST", saveUrl, true);
         request.setRequestHeader("Content-Type", "application/json");
 
         const data = JSON.stringify({
@@ -192,8 +138,6 @@ function updateBook() {
             "merchantId": merchantId
         });
 
-        request.send(data);
-
         request.onload = function () {
             const jsonData = JSON.parse(request.response);
 
@@ -203,5 +147,7 @@ function updateBook() {
                 alert(jsonData['message']);
             }
         };
+
+        request.send(data);
     }
 }

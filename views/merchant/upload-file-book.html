@@ -29,19 +29,22 @@
 
     <title>Blibli - Kindle</title>
   </head>
-
   <body>
     <!-- Navbar Start -->
     <nav class="navbar navbar-fixed-top">
-      <a class="navbar-brand" href="/merchant">bli-kindle</a>
+      <a class="navbar-brand" href="/admin/users">bli-kindle</a>
       <div class="nav-items">
         <div class="nav-item">
-          <a href="/merchant/books"><img src="/assets/img/pamphlet.svg"/></a>
+          <a href="/admin/users"><img src="/assets/img/users.svg"/></a>
         </div>
         <div class="nav-item">
-          <a href="/merchant/order"
-            ><img src="/assets/img/list.svg"
-          /></a>
+          <a href="/admin/merchants"><img src="/assets/img/shop.svg"/></a>
+        </div>
+        <div class="nav-item">
+          <a href="/admin/books"><img src="/assets/img/book.svg"/></a>
+        </div>
+        <div class="nav-item">
+          <a href="/admin/genres"><img src="/assets/img/category.svg"/></a>
         </div>
         <div class="nav-item dropdown">
           <a
@@ -58,11 +61,9 @@
             class="dropdown-menu dropdown-menu-right"
             aria-labelledby="navbarDropdown"
           >
-            <a class="dropdown-item" href="/merchant/order">Incoming Order</a>
+            <a class="dropdown-item" href="/admin/profile">Edit Profile</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" href="/merchant/profile">Edit Profile</a>
-            <div class="dropdown-divider"></div>
-            <a class="dropdown-item" onclick="merchantLogout()">Logout</a>
+            <a class="dropdown-item" onclick="adminLogout()">Logout</a>
           </div>
         </div>
       </div>
@@ -73,42 +74,50 @@
     <div class="container-fluid">
       <div class="row">
         <div class="col-xs-12 col-md-12">
-          <div class="merchant-book-detail-item w-100">
-            <div class="d-flex flex-row">
-              <div id="image" class="d-flex justify-content-start">
+          <div class="wrapper-title">EDIT BOOK FILE</div>
+        </div>
+        <div class="col-xs-12 col-md-12">
+          <div>
+            <input type="hidden" id="bookSku" />
+            <input type="hidden" id="title" />
+            <input type="hidden" id="author" />
+            <input type="hidden" id="year" />
+            <input type="hidden" id="description" />
+            <input type="hidden" id="price" />
+            <input type="hidden" id="merchantId" />
+            <input type="hidden" id="variant" />
+            <input type="hidden" id="document" />
+            <input type="hidden" id="categories" />
+            <div class="form-row">
+              <div class="form-group col-8 col-sm-8 col-md-8 col-lg-8">
+                <label class="sign-input-label" for="link">File</label>
+                <input
+                  type="text"
+                  class="sign-input-box form-control"
+                  id="link"
+                  readonly
+                />
               </div>
-              <div
-                class="d-flex flex-column justify-content-between w-100 px-3"
-              >
-                <input type="hidden" id="bookSku" />
-                <div id="title" class="d-flex flex-nowrap book-detail-title">
-                </div>
-                <div id="merchant" class="d-flex flex-nowrap book-detail-publisher">
-                </div>
-                <div id="author" class="d-flex flex-nowrap book-detail-author">
-                </div>
-                <div id="year" class="d-flex flex-nowrap book-detail-year">
-                </div>
-                <div id="categories" class="d-flex flex-nowrap book-detail-genre">
-                </div>
-                <div id="variant" class="d-flex flex-nowrap book-detail-variant">
-                </div>
-                <div id="price" class="d-flex flex-nowrap merchant-book-detail-price justify-content-end">
-                </div>
-                <div class="d-flex justify-content-end">
-                  <div class="d-flex">
-                    <div class="p-2 rounded-sm edit-book-button" onclick="editBook()">
-                      <span class="fa fa-pencil"></span>&nbsp; Edit Book
+              <div class="form-group col-4 col-sm-4 col-md-4 col-lg-4 d-flex justify-content-end">
+                <button type="button" id="view" class="btn-view btn btn-primary align-self-end">View Book</button>
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group col-12 col-sm-12 col-md-12 col-lg-12">
+                <div class="custom-file">
+                  <form method="POST" action="/upload-file" enctype="multipart/form-data">
+                    <div>
+                      <label>Change file :</label>
+                      <input type="file" id="book_file_field" name="book_f" />
                     </div>
-                  </div>
+                    <br />
+                    <div>
+                      <input type="button" class="btn-sign btn btn-primary" value="Upload" onclick="uploadBookFile()" />
+                    </div>
+                  </form>
                 </div>
               </div>
             </div>
-            <div class="w-100 book-detail-description">
-              <span>Description :</span>
-              <br />
-              <div id="description"></div>
-              </div>
           </div>
         </div>
       </div>
@@ -132,7 +141,7 @@
       integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
       crossorigin="anonymous"
     ></script>
-    <script src="/assets/js/merchant/book-detail.js" type="text/javascript"></script>
+    <script src="/assets/js/merchant/upload-file-book.js" type="text/javascript"></script>
     <script src="/assets/js/merchant/logout.js" type="text/javascript"></script>
   </body>
 </html>
