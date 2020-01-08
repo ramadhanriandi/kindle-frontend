@@ -12,7 +12,7 @@ window.onload = function () {
             renderBookDetail(bookSku);
         }
         else {
-            location.href = "/merchant";
+            //location.href = "/merchant";
         }
     }
 };
@@ -70,6 +70,7 @@ function validateBookMerchant(merchantId, bookSku) {
     request.send();
 
     let result = JSON.parse(request.response);
+    console.log(result["merchantId"], merchantId);
     return result["merchantId"] == merchantId;
 }
 
@@ -140,13 +141,13 @@ async function renderBookDetail(bookSku) {
 function navigateUploadBookFile() {
     const bookSku = document.getElementById("bookSku").value;
 
-    location.href = `/admin/books/${bookSku}/edit/upload-file`;
+    location.href = `/merchant/books/${bookSku}/edit/upload-file`;
 }
 
 function navigateUploadBookImage() {
     const bookSku = document.getElementById("bookSku").value;
 
-    location.href = `/admin/books/${bookSku}/edit/upload-image`;
+    location.href = `/merchant/books/${bookSku}/edit/upload-image`;
 }
 
 function updateBook() {

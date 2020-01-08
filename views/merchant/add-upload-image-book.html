@@ -32,19 +32,15 @@
   <body>
     <!-- Navbar Start -->
     <nav class="navbar navbar-fixed-top">
-      <a class="navbar-brand" href="/admin/users">bli-kindle</a>
+      <a class="navbar-brand" href="/merchant">bli-kindle</a>
       <div class="nav-items">
         <div class="nav-item">
-          <a href="/admin/users"><img src="/assets/img/users.svg"/></a>
+          <a href="/merchant/books"><img src="/assets/img/pamphlet.svg"/></a>
         </div>
         <div class="nav-item">
-          <a href="/admin/merchants"><img src="/assets/img/shop.svg"/></a>
-        </div>
-        <div class="nav-item">
-          <a href="/admin/books"><img src="/assets/img/book.svg"/></a>
-        </div>
-        <div class="nav-item">
-          <a href="/admin/genres"><img src="/assets/img/category.svg"/></a>
+          <a href="/merchant/order"
+            ><img src="/assets/img/list.svg"
+          /></a>
         </div>
         <div class="nav-item dropdown">
           <a
@@ -61,9 +57,11 @@
             class="dropdown-menu dropdown-menu-right"
             aria-labelledby="navbarDropdown"
           >
-            <a class="dropdown-item" href="/admin/profile">Edit Profile</a>
+            <a class="dropdown-item" href="/merchant/order">Incoming Order</a>
             <div class="dropdown-divider"></div>
-            <a class="dropdown-item" onclick="adminLogout()">Logout</a>
+            <a class="dropdown-item" href="/merchant/profile">Edit Profile</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" onclick="merchantLogout()">Logout</a>
           </div>
         </div>
       </div>
@@ -102,7 +100,7 @@
                     </div>
                     <br />
                     <div>
-                      <input type="button" class="btn-sign btn btn-primary" value="Upload" onclick="uploadBookImage()" />
+                      <input type="button" class="btn-sign btn btn-primary" value="Upload" onclick="addUploadBookImage()" />
                     </div>
                   </form>
                 </div>

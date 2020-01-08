@@ -168,12 +168,20 @@ app.get('/merchant/books/:sku/edit', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/merchant/edit-book.html'))
 });
 
-app.get('/merchant/books/add/upload-file', function (req, res) {
-  res.sendFile(path.join(__dirname + '/views/merchant/upload-file-book.html'));
+app.get('/merchant/books/add/:sku/upload-file', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/merchant/add-upload-file-book.html'));
 });
 
-app.get('/merchant/books/add/upload-image', function (req, res) {
-  res.sendFile(path.join(__dirname + '/views/merchant/upload-image-book.html'));
+app.get('/merchant/books/add/:sku/upload-image', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/merchant/add-upload-image-book.html'));
+});
+
+app.get('/merchant/books/:sku/edit/upload-file', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/merchant/edit-upload-file-book.html'));
+});
+
+app.get('/merchant/books/:sku/edit/upload-image', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/merchant/edit-upload-image-book.html'));
 });
 
 app.get('/merchant/books', function (req, res) {

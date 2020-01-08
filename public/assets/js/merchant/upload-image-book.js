@@ -1,19 +1,26 @@
-window.onload = function() {
+window.onload = function () {
   if (!checkCookie("merchant")) {
     location.href = "/merchant/login";
   }
+  else {
+    //check if this is really the book of the merchant
 
-  let url = window.location.href;
-  let parsedUrl = url.split('/');
-  let bookSku = parsedUrl[parsedUrl.length-3];
+    let bookSku = getBookSku();
+    let merchantId = getMerchantId();
 
-  renderBookDetail(bookSku);
+    if (validateBookMerchant(merchantId, bookSku)) {
+      renderBookDetail(bookSku);
+    }
+    else {
+      location.href = "/merchant";
+    }
+  }
 };
 
 function getCookie(variable) {
   const name = variable + "=";
   const cookieData = document.cookie.split(';');
-  for(let i = 0; i < cookieData.length; i++) {
+  for (let i = 0; i < cookieData.length; i++) {
     let cookieString = cookieData[i];
     while (cookieString.charAt(0) === ' ') {
       cookieString = cookieString.substring(1);
@@ -28,11 +35,38 @@ function getCookie(variable) {
 function checkCookie(role) {
   const emailCookie = getCookie("email");
   const parsedCookie = emailCookie.split('|');
-  
+
   if (emailCookie != "" && emailCookie != null && parsedCookie[1] == role) {
     return true;
   }
   return false;
+}
+
+function getMerchantId() {
+  const emailCookie = getCookie("email");
+  const parsedCookie = emailCookie.split('|');
+
+  return parsedCookie[parsedCookie.length - 1]
+}
+
+function getBookSku() {
+  let url = window.location.href;
+  let parsedUrl = url.split('/');
+  if(parsedUrl[parsedUrl.length - 2] == "edit"){
+    return parsedUrl[parsedUrl.length - 3];
+  }
+  return parsedUrl[parsedUrl.length - 2];
+}
+
+function validateBookMerchant(merchantId, bookSku) {
+  const request = new XMLHttpRequest();
+  const url = `http://localhost:8000/kindle-backend/api/books/${bookSku}`;
+
+  request.open("GET", url, false);
+  request.send();
+
+  let result = JSON.parse(request.response);
+  return result["merchantId"] == merchantId;
 }
 
 function renderBookDetail(bookSku) {
@@ -84,7 +118,7 @@ function uploadToDirectory() {
   })
 }
 
-async function uploadBookImage() {
+async function addUploadBookImage() {
   const uploadedImage = await uploadToDirectory();
   
   const bookSku = document.getElementById("bookSku").value; 
@@ -124,7 +158,54 @@ async function uploadBookImage() {
     const jsonData = JSON.parse(request.response);
 
     if (jsonData['code'] === 200) {
-      location.href = `/admin/books/${bookSku}/edit`;
+      location.href = "/merchant/books";
+    } else {
+      alert(jsonData['message']);
+    }
+  };
+} 
+
+async function editUploadBookImage() {
+  const uploadedImage = await uploadToDirectory();
+  
+  const bookSku = document.getElementById("bookSku").value; 
+  const title = document.getElementById("title").value;
+  const author = document.getElementById("author").value;
+  const year = parseInt(document.getElementById("year").value);
+  const description = document.getElementById("description").value;
+  const price = parseInt(document.getElementById("price").value);
+  const variant = document.getElementById("variant").value;
+  const categories = document.getElementById("categories").value;
+  const merchantId = parseInt(document.getElementById("merchantId").value);
+  const url = document.getElementById("url").value;
+  const imagePath = `/uploads/${uploadedImage}`;
+
+  const request = new XMLHttpRequest();
+  const requestUrl = `http://localhost:8000/kindle-backend/api/books/${bookSku}`;
+  
+  request.open("PUT", requestUrl, true);
+  request.setRequestHeader("Content-Type", "application/json");
+
+  const data = JSON.stringify({
+    "title": title, 
+    "author": author, 
+    "year": year, 
+    "description": description, 
+    "price": price,
+    "variant": variant,
+    "merchantId": merchantId,
+    "url": url,
+    "document": imagePath,
+    "categories": categories
+  });
+
+  request.send(data);
+
+  request.onload = function () {
+    const jsonData = JSON.parse(request.response);
+
+    if (jsonData['code'] === 200) {
+      location.href = `/merchant/books/${bookSku}/edit`;
     } else {
       alert(jsonData['message']);
     }

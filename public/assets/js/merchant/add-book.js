@@ -96,7 +96,7 @@ function navigateUploadBookImage() {
     location.href = "/merchant/books/add/upload-image";
 }
 
-function saveBook() {
+function uploadBook() {
     const title = document.getElementById("title").value;
     const author = document.getElementById("author").value;
     const year = document.getElementById("year").value;
@@ -105,7 +105,7 @@ function saveBook() {
     const variant = document.getElementById("variant").value;
     const doc = document.getElementById("document").value;
     const url = document.getElementById("url").value;
-    const merchantId = document.getElementById("merchantId").value;
+    const merchantId = getMerchantId();
 
     let categories = '';
     const checkedCategories = document.getElementsByClassName('form-check-input');
@@ -141,8 +141,8 @@ function saveBook() {
         request.onload = function () {
             const jsonData = JSON.parse(request.response);
 
-            if (jsonData['code'] === 200) {
-                location.href = "/merchant";
+            if (jsonData['bookSku']) {
+                location.href = `/merchant/books/add/${jsonData["bookSku"]}/upload-file`;
             } else {
                 alert(jsonData['message']);
             }
