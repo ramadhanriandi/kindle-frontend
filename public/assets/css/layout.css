@@ -52,17 +52,6 @@ body {
   margin-bottom: 20px;
 }
 
-.merchant-book-detail-item{
-  padding-bottom: 20px;
-  margin-bottom: 20px;
-}
-
-.merchant-order-item{
-  border-bottom: 1px solid black;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
-}
-
 .catalog-detail-item {
   padding-bottom: 20px;
 }
@@ -111,18 +100,6 @@ body {
   font-size: 12px;
   min-width: 82px;
   text-align: center;
-}
-
-.edit-book-button{
-  font-weight: 500;
-  border-radius: 5px;
-  box-sizing: border-box;
-  line-height: 15px;
-  font-size: 12px;
-  min-width: 82px;
-  text-align: center;
-  border: 1px solid #0095DA;
-  color: #0095DA;
 }
 
 .process-button {
@@ -191,42 +168,19 @@ body {
   font-weight: bold;
 }
 
-.book-price, .book-detail-price{
+.book-price, .book-detail-price, .order-price {
   font-weight: 600;
   font-size: 18px;
   line-height: 22px;
   color: #0095DA;
 }
 
-.merchant-book-detail-price{
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 22px;
-  color: #0095DA;
-}
-
-.order-time{
-  font-size: 10px;
-}
-
 .order-user {
   font-weight: bold;
-  font-size: 10px;
+  font-size: 12px;
   line-height: 18px;
-  margin-top: 0px;
-  margin-bottom: 7px;
-}
-
-.order-title{
   margin-top: 5px;
-  font-size: 14px;
-  font-weight: bold;
-}
-
-.order-price{
-  font-weight: 600;
-  font-size: 14px;
-  color: #0095DA;
+  margin-bottom: 7px;
 }
 
 .order-detail-time {
