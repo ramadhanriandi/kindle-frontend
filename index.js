@@ -152,6 +152,46 @@ app.get('/merchant/login', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/merchant/login.html'));
 });
 
+app.get('/merchant/order', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/merchant/order.html'));
+});
+
+app.get('/merchant/books/add', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/merchant/add-book.html'))
+});
+
+app.get('/merchant/books/:sku', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/merchant/book-detail.html'))
+});
+
+app.get('/merchant/books/:sku/edit', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/merchant/edit-book.html'))
+});
+
+app.get('/merchant/books/add/:sku/upload-file', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/merchant/add-upload-file-book.html'));
+});
+
+app.get('/merchant/books/add/:sku/upload-image', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/merchant/add-upload-image-book.html'));
+});
+
+app.get('/merchant/books/:sku/edit/upload-file', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/merchant/edit-upload-file-book.html'));
+});
+
+app.get('/merchant/books/:sku/edit/upload-image', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/merchant/edit-upload-image-book.html'));
+});
+
+app.get('/merchant/books', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/merchant/catalog.html'))
+});
+
+app.get('/merchant/profile', function (req, res) {
+  res.sendFile(path.join(__dirname + '/views/merchant/profile.html'))
+});
+
 // route for admin
 app.get('/admin', function (req, res) {
   res.redirect('/admin/users');
@@ -212,11 +252,7 @@ app.get('/admin/genres/:id/edit', function (req, res) {
 app.get('/admin/books', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/admin/books.html'));
 });
-
-app.get('/admin/books/add', function (req, res) {
-  res.sendFile(path.join(__dirname + '/views/admin/add-book.html'));
-});
-
+                                                                                                                                                                                                                                                                                                  
 app.get('/admin/books/:id', function (req, res) {
   res.sendFile(path.join(__dirname + '/views/admin/detail-book.html'));
 });
