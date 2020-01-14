@@ -39,10 +39,12 @@ function renderUsers() {
 
   request.onload = function () {
     let allUser = '';
-    for (let i = 0; i < JSON.parse(request.response).length; i++) {
-      let userId = JSON.parse(request.response)[i]["customerId"];
-      let username = JSON.parse(request.response)[i]["username"];
-      let status = JSON.parse(request.response)[i]["status"];
+    var customerResult = JSON.parse(request.response);
+
+    for (let i = 0; i < customerResult["data"].length; i++) {
+      let userId = customerResult["data"][i]["id"];
+      let username = customerResult["data"][i]["attributes"]["username"];
+      let status = customerResult["data"][i]["attributes"]["status"];
 
       allUser += `
         <div class="row">
@@ -66,7 +68,7 @@ function renderUsers() {
         <hr class="top-boundary">
         `
     }
-    document.getElementById("users-wrapper").innerHTML = allUser;
+    document.getElementById("users-wrapper").innerHTML += allUser;
   };
 
   request.send();
@@ -85,7 +87,9 @@ function deleteUser(customerId) {
     request.setRequestHeader("Content-Type", "application/json");
     request.send();
     request.onload = function () {
-      if (request.response == "true") {
+      deleteResult = JSON.parse(request.response)
+
+      if (deleteResult["code"] == 200) {
         location.href = "/admin/users";
       } else {
         alert(request.response);
