@@ -31,9 +31,10 @@ function merchantLogin() {
 
     request.onload = function () {
       const jsonData = JSON.parse(request.response);
+      console.log(jsonData);
 
       if (jsonData['code'] === 200) {
-        setCookie(email, "merchant", jsonData['userId'], 1);
+        setCookie(email, "merchant", jsonData["data"][0]["id"], 1);
         location.href = "/merchant";
       } else {
         alert(jsonData['message']);

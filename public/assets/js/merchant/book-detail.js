@@ -45,7 +45,7 @@ window.onload = function() {
     request.onload = function(){
       const bookData = JSON.parse(request.response);
   
-      const parsedCategories = bookData["categories"].split(';');
+      const parsedCategories = bookData["data"][0]["attributes"]["categories"].split(';');
       let categories = '';
       
       for (let i = 0; i < parsedCategories.length; i++) {
@@ -55,15 +55,15 @@ window.onload = function() {
         }
       }
   
-      document.getElementById("bookSku").value = bookData["bookSku"];
-      document.getElementById("image").innerHTML = `<img class="book-detail-image" src="${bookData["document"]}" />`;
-      document.getElementById("title").innerHTML = bookData["title"];
-      document.getElementById("author").innerHTML = bookData["author"];
-      document.getElementById("year").innerHTML = bookData["year"];
-      document.getElementById("variant").innerHTML = bookData["variant"];
-      document.getElementById("price").innerHTML = "IDR " + convertToCurrency(bookData["price"]);
-      document.getElementById("description").innerHTML = bookData["description"];
-      document.getElementById("merchant").innerHTML = bookData["merchant"]["fullname"];
+      document.getElementById("bookSku").value = bookData["data"][0]["attributes"]["bookSku"];
+      document.getElementById("image").innerHTML = `<img class="book-detail-image" src="${bookData["data"][0]["attributes"]["document"]}" />`;
+      document.getElementById("title").innerHTML = bookData["data"][0]["attributes"]["title"];
+      document.getElementById("author").innerHTML = bookData["data"][0]["attributes"]["author"];
+      document.getElementById("year").innerHTML = bookData["data"][0]["attributes"]["year"];
+      document.getElementById("variant").innerHTML = bookData["data"][0]["attributes"]["variant"];
+      document.getElementById("price").innerHTML = "IDR " + convertToCurrency(bookData["data"][0]["attributes"]["price"]);
+      document.getElementById("description").innerHTML = bookData["data"][0]["attributes"]["description"];
+      document.getElementById("merchant").innerHTML = bookData["included"][0]["attributes"]["fullname"];
       document.getElementById("categories").innerHTML = categories;
     }
     request.send();

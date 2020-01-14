@@ -27,9 +27,11 @@ function renderMerchantDetail(){
         request.onload = function(){
             const result = JSON.parse(request.response);
             
-            document.getElementById("merchant-name").innerHTML = result["username"];
-            document.getElementById("merchant-phone").innerHTML = result["phone"];
-            document.getElementById("merchant-description").innerHTML = result["description"];
+            console.log(result)
+
+            document.getElementById("merchant-name").innerHTML = result["data"][0]["attributes"]["fullname"];
+            document.getElementById("merchant-phone").innerHTML = result["data"][0]["attributes"]["phone"];
+            document.getElementById("merchant-description").innerHTML = result["data"][0]["attributes"]["description"];
         
             resolve(true);
         };
@@ -48,11 +50,11 @@ async function renderBooks(){
 
     request.onload = function(){
         
-        catalogData = JSON.parse(request.response);
+        catalogData = JSON.parse(request.response)["data"];
         catalogData.forEach(bookData => {
             let itemTemplate = `
-            <div class="d-flex catalog-item">
-                <img src="${bookData["document"]}">
+            <div class="d-flex catalog-item" onclick="viewBook(${bookData["id"]})">
+                <img src="${bookData["attributes"]["document"]}">
             </div>
             `
             listContainer.innerHTML += itemTemplate;
@@ -62,4 +64,8 @@ async function renderBooks(){
 
     request.send();
     
+}
+
+function viewBook(bookId){
+    location.href = `/merchant/books/${bookId}`
 }
