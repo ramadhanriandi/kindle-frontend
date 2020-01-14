@@ -70,8 +70,7 @@ function validateBookMerchant(merchantId, bookSku) {
     request.send();
 
     let result = JSON.parse(request.response);
-    console.log(result["merchantId"], merchantId);
-    return result["merchantId"] == merchantId;
+    return result["data"][0]["relationships"]["merchant"]["data"][0]["id"] == merchantId;
 }
 
 function renderBookCategories() {
@@ -84,13 +83,14 @@ function renderBookCategories() {
         request.send();
         request.onload = function () {
             const jsonData = JSON.parse(request.response);
+            console.log("Here" , jsonData);
             let bookCategories = '';
 
-            for (let i = 0; i < jsonData.length; i++) {
+            for (let i = 0; i < jsonData["data"].length; i++) {
                 bookCategories += `
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" id="${jsonData[i]['name']}" value="${jsonData[i]['name']}">
-              <label class="form-check-label" for="${jsonData[i]['name']}">${jsonData[i]['name']}</label>
+              <input class="form-check-input" type="checkbox" id="${jsonData["data"][i]["attributes"]["name"]}" value="${jsonData["data"][i]["attributes"]["name"]}">
+              <label class="form-check-label" for="${jsonData["data"][i]["attributes"]["name"]}">${jsonData["data"][i]["attributes"]["name"]}</label>
             </div>
           `
             }
@@ -112,22 +112,22 @@ async function renderBookDetail(bookSku) {
 
         request.onload = function () {
             const bookData = JSON.parse(request.response);
+            
+            document.getElementById("merchantId").value = getMerchantId();
+            document.getElementById("bookSku").value = getBookSku();
+            document.getElementById("title").value = bookData["data"][0]["attributes"]["title"];
+            document.getElementById("author").value = bookData["data"][0]["attributes"]["author"];
+            document.getElementById("year").value = bookData["data"][0]["attributes"]["year"];
+            document.getElementById("description").value = bookData["data"][0]["attributes"]["description"];
+            document.getElementById("current-url").innerHTML += bookData["data"][0]["attributes"]["url"].split('/')[2];
+            document.getElementById("url").value = bookData["data"][0]["attributes"]["url"];
+            document.getElementById("price").value = bookData["data"][0]["attributes"]["price"];
+            document.getElementById("variant").value = bookData["data"][0]["attributes"]["variant"];
+            document.getElementById("merchant").value = bookData["included"][0]["attributes"]   ["fullname"];
+            document.getElementById("current-document").innerHTML += bookData["data"][0]["attributes"]["document"].split('/')[2];
+            document.getElementById("document").value = bookData["data"][0]["attributes"]["document"];
 
-            document.getElementById("bookSku").value = bookData["bookSku"];
-            document.getElementById("title").value = bookData["title"];
-            document.getElementById("author").value = bookData["author"];
-            document.getElementById("year").value = bookData["year"];
-            document.getElementById("description").value = bookData["description"];
-            document.getElementById("current-url").innerHTML += bookData["url"].split('/')[2];
-            document.getElementById("url").value = bookData["url"];
-            document.getElementById("price").value = bookData["price"];
-            document.getElementById("variant").value = bookData["variant"];
-            document.getElementById("merchant").value = bookData["merchant"]["fullname"];
-            document.getElementById("merchantId").value = bookData["merchantId"];
-            document.getElementById("current-document").innerHTML += bookData["document"].split('/')[2];
-            document.getElementById("document").value = bookData["document"];
-
-            const parsedCategories = bookData["categories"].split(';');
+            const parsedCategories = bookData["data"][0]["attributes"]["categories"].split(';');
 
             for (let i = 0; i < parsedCategories.length; i++) {
                 document.getElementById(`${parsedCategories[i]}`).checked = true;
@@ -192,6 +192,8 @@ function updateBook() {
             "categories": categories,
             "merchantId": merchantId
         });
+
+        console.log("This is data", data);
 
         request.send(data);
 

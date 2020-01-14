@@ -66,7 +66,7 @@ function validateBookMerchant(merchantId, bookSku) {
   request.send();
 
   let result = JSON.parse(request.response);
-  return result["merchantId"] == merchantId;
+  return result["data"][0]["relationships"]["merchant"]["data"][0]["id"] == merchantId;
 }
 
 function renderBookDetail(bookSku) {
@@ -77,20 +77,20 @@ function renderBookDetail(bookSku) {
 
   request.onload = function () {
     const bookData = JSON.parse(request.response);
-
-    document.getElementById("bookSku").value = bookData["bookSku"];
-    document.getElementById("title").value = bookData["title"];
-    document.getElementById("author").value = bookData["author"];
-    document.getElementById("year").value = bookData["year"];
-    document.getElementById("description").value = bookData["description"];
-    document.getElementById("price").value = bookData["price"];
-    document.getElementById("merchantId").value = bookData["merchantId"];
-    document.getElementById("variant").value = bookData["variant"];
-    document.getElementById("document").value = bookData["document"];
-    document.getElementById("categories").value = bookData["categories"];
-    document.getElementById("link").value += bookData["url"].split('/')[2];
+    
+    document.getElementById("merchantId").value = getMerchantId();
+    document.getElementById("bookSku").value = getBookSku();
+    document.getElementById("title").value = bookData["data"][0]["attributes"]["title"];
+    document.getElementById("author").value = bookData["data"][0]["attributes"]["author"];
+    document.getElementById("year").value = bookData["data"][0]["attributes"]["year"];
+    document.getElementById("description").value = bookData["data"][0]["attributes"]["description"];
+    document.getElementById("price").value = bookData["data"][0]["attributes"]["price"];
+    document.getElementById("variant").value = bookData["data"][0]["attributes"]["variant"];
+    document.getElementById("document").value = bookData["data"][0]["attributes"]["document"];
+    document.getElementById("categories").value = bookData["data"][0]["attributes"]["categories"];
+    document.getElementById("link").value += bookData["data"][0]["attributes"]["url"].split('/')[2];
     document.getElementById("view").onclick = function () {
-      window.open(bookData["url"], '_blank');
+      window.open(bookData["data"][0]["attributes"]["url"], '_blank');
     }
   };
 

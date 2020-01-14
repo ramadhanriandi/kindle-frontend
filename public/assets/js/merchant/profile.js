@@ -54,11 +54,12 @@ function renderProfile() {
     request.onload = function () {
         const jsonData = JSON.parse(request.response);
 
-        document.getElementById("email").value = jsonData['email'];
-        document.getElementById("username").value = jsonData['username'];
-        document.getElementById("password").value = jsonData['password'];
-        document.getElementById("phone").value = jsonData['phone'];
-        document.getElementById("description").value = jsonData['description'];
+        document.getElementById("email").value = jsonData["data"][0]["attributes"]['email'];
+        document.getElementById("username").value = jsonData["data"][0]["attributes"]['username'];
+        document.getElementById("password").value = jsonData["data"][0]["attributes"]['password'];
+        document.getElementById("phone").value = jsonData["data"][0]["attributes"]['phone'];
+        document.getElementById("description").value = jsonData["data"][0]["attributes"]['description'];
+        document.getElementById("fullname").value = jsonData["data"][0]["attributes"]['fullname'];
     };
 
     request.send();
@@ -70,6 +71,7 @@ function updateMerchant() {
     const password = document.getElementById("password").value;
     const description = document.getElementById("description").value;
     const phone = document.getElementById("phone").value;
+    const fullname = document.getElementById("fullname").value;
 
     const request = new XMLHttpRequest();
     const merchantId = getMerchantId();
@@ -82,6 +84,7 @@ function updateMerchant() {
         const data = JSON.stringify({
             "email": email,
             "username": username,
+            "fullname" : fullname,
             "password": password,
             "description": description,
             "phone": phone,

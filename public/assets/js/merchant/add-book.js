@@ -54,7 +54,7 @@ function validateBookMerchant(merchantId, bookSku) {
     request.send();
 
     let result = JSON.parse(request.response);
-    return result["merchantId"] == merchantId;
+    return result["data"][0]["relationships"]["merchant"]["data"][0]["id"] == merchantId;
 }
 
 function renderBookCategories() {
@@ -69,11 +69,11 @@ function renderBookCategories() {
             const jsonData = JSON.parse(request.response);
             let bookCategories = '';
 
-            for (let i = 0; i < jsonData.length; i++) {
+            for (let i = 0; i < jsonData["data"].length; i++) {
                 bookCategories += `
             <div class="form-check form-check-inline">
-              <input class="form-check-input" type="checkbox" id="${jsonData[i]['name']}" value="${jsonData[i]['name']}">
-              <label class="form-check-label" for="${jsonData[i]['name']}">${jsonData[i]['name']}</label>
+              <input class="form-check-input" type="checkbox" id="${jsonData["data"][i]["attributes"]["name"]}" value="${jsonData["data"][i]["attributes"]["name"]}">
+              <label class="form-check-label" for="${jsonData["data"][i]["attributes"]["name"]}">${jsonData["data"][i]["attributes"]["name"]}</label>
             </div>
           `
             }
@@ -141,8 +141,8 @@ function uploadBook() {
         request.onload = function () {
             const jsonData = JSON.parse(request.response);
 
-            if (jsonData['bookSku']) {
-                location.href = `/merchant/books/add/${jsonData["bookSku"]}/upload-file`;
+            if (jsonData["code"] == 201) {
+                location.href = `/merchant/books/add/${jsonData["data"][0]["id"]}/upload-file`;
             } else {
                 alert(jsonData['message']);
             }
