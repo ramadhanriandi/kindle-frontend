@@ -38,11 +38,13 @@ function renderMerchants() {
   request.open("GET", url, true);
 
   request.onload = function () {
+    var merchantResults = JSON.parse(request.response);
     let allMerchant = '';
-    for (let i = 0; i < JSON.parse(request.response).length; i++) {
-      let userId = JSON.parse(request.response)[i]["merchantId"];
-      let fullname = JSON.parse(request.response)[i]["fullname"];
-      let status = JSON.parse(request.response)[i]["status"];
+    
+    for (let i = 0; i < merchantResults["data"].length; i++) {
+      let userId = merchantResults["data"][i]["id"];
+      let fullname = merchantResults["data"][i]["attributes"]["fullname"];
+      let status = merchantResults["data"][i]["attributes"]["status"];
 
       allMerchant += `
         <div class="row">
@@ -85,7 +87,9 @@ function deleteMerchant(merchantId) {
     request.setRequestHeader("Content-Type", "application/json");
     request.send();
     request.onload = function () {
-      if (request.response == "true") {
+      deleteResult = JSON.parse(request.response);
+
+      if (deleteResult["code"] == 200) {
         location.href = "/admin/merchants";
       } else {
         alert(request.response);
