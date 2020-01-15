@@ -53,7 +53,9 @@ function createGenre() {
     request.send(data);
 
     request.onload = function () {
-      if (request.status == 200 && request.readyState == 4) {
+      var createResult = JSON.parse(request.response);
+      
+      if (createResult["code"] == 201 && request.readyState == 4) {
         location.href = "/admin/genres";
       }
     };
