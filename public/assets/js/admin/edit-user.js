@@ -51,11 +51,11 @@ function renderUserDetail(customerId) {
   request.onload = function () {
     const customerData = JSON.parse(request.response);
 
-    document.getElementById("customerId").value = customerData["customerId"];
-    document.getElementById("username").value = customerData["username"];
-    document.getElementById("email").value = customerData["email"];
-    document.getElementById("password").value = customerData["password"];
-    document.getElementById("status").value = customerData["status"];
+    document.getElementById("customerId").value = customerData["data"][0]["id"] ;
+    document.getElementById("username").value = customerData["data"][0]["attributes"]["username"];
+    document.getElementById("email").value = customerData["data"][0]["attributes"]["email"];
+    document.getElementById("password").value = customerData["data"][0]["attributes"]["password"];
+    document.getElementById("status").value = customerData["data"][0]["attributes"]["status"];
   };
 
   request.send();

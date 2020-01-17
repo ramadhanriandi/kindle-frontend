@@ -38,10 +38,12 @@ function renderBooks() {
   request.open("GET", url, true);
 
   request.onload = function () {
+    var bookResults = JSON.parse(request.response);
     let allBooks = '';
-    for (let i = 0; i < JSON.parse(request.response).length; i++) {
-      let bookSku = JSON.parse(request.response)[i]["bookSku"];
-      let title = JSON.parse(request.response)[i]["title"];
+    
+    for (let i = 0; i < bookResults["data"].length; i++) {
+      let bookSku = bookResults["data"][i]["id"];
+      let title = bookResults["data"][i]["attributes"]["title"];
 
       allBooks += `
         <div class="row">
@@ -77,7 +79,9 @@ function deleteBook(bookSku) {
     request.setRequestHeader("Content-Type", "application/json");
     request.send();
     request.onload = function () {
-      if (request.response == "true") {
+      var deleteResponse = JSON.parse(request.response);
+
+      if (deleteResponse["code"] == 200) {
         location.href = "/admin/books";
       } else {
         alert(request.response);

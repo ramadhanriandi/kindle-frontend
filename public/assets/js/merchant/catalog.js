@@ -56,19 +56,19 @@ function renderCatalog(){
 
     request.onload = function(){
         
-        catalogData = JSON.parse(request.response);
+        catalogData = JSON.parse(request.response)["data"];
         catalogData.forEach(bookData => {
             let itemTemplate = `
                 <div class="row mb-3">
                     <div class="col-7 col-xs-7 col-md-7 col-lg-7 catalog-book-title">
-                        ${bookData["title"]}
+                        ${bookData["attributes"]["title"]}
                     </div>
                     <div class="col-5 col-xs-5 col-md-5 col-lg-5">
                         <div class="d-flex justify-content-around">
-                        <div class="edit-small-button" onclick="editBook(${bookData["bookSku"]})">
+                        <div class="edit-small-button" onclick="editBook(${bookData["id"]})">
                             <span class="fa fa-pencil-square-o"></span>&nbsp; Edit
                         </div>
-                        <div class="delete-small-button" onclick="deleteBook(${bookData["bookSku"]})">
+                        <div class="delete-small-button" onclick="deleteBook(${bookData["id"]})">
                             <span class="fa fa-trash-o"></span>&nbsp; Delete
                         </div>
                         </div>
@@ -100,8 +100,8 @@ function deleteBook(bookSku){
         request.send();
 
         request.onload = function(){
-            console.log(request.response);
-            if(request.response == "true"){
+            result = JSON.parse(request.response);
+            if(result["code"] == 200){
                 location.href = "/merchant/books";
             }   
             else{

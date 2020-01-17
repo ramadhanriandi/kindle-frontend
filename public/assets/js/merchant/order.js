@@ -62,25 +62,36 @@ function seeBookDetail(bookId){
     location.href = `/merchant/books/${bookId}`;
 }
 
+//function to find detail in "included" part of response
+function findInIncluded(includedArray, type, id){
+    for(i = 0; i < includedArray.length; i++){
+        var includedItem = includedArray[i];
+        if ((includedItem["id"] == id) && (includedItem["type"] == type)){
+            return includedItem;
+        }
+    }
+}
+
+
 //create function to create API call and dynamically render orders
 function renderOrders(){
 
     const orderRequest = new XMLHttpRequest();
     const cookieData = document.cookie.split('|');
     const merchantId = cookieData[cookieData.length - 1];
-    const orderURL = `http://localhost:8000/kindle-backend/api/transactionlists?merchantId=${merchantId}`;
+    const orderURL = `http://localhost:8000/kindle-backend/api/merchants/${merchantId}/orders`;
 
     orderRequest.open("GET", orderURL, true);
 
     orderRequest.onload = function(){
         console.log("allOrderJSON");
         var allOrderHTML = '';
-        let allOrderJSON = JSON.parse(orderRequest.response);
-        
+        var allOrderJSON = JSON.parse(orderRequest.response);
+        var includedArray = allOrderJSON["included"]
 
-        for(let i = 0; i < allOrderJSON.length; i++){
-            var bookData = allOrderJSON[i]["bookData"];
-            var transactionData = allOrderJSON[i]["transactionData"];
+        for(let i = 0; i < allOrderJSON["data"].length; i++){
+            let bookData = findInIncluded(includedArray, "book", allOrderJSON["data"][i]["relationships"]["book"]["data"][0]["id"]);
+            let transactionData = findInIncluded(includedArray, "transaction", allOrderJSON["data"][i]["relationships"]["transaction"]["data"][0]["id"]);
 
             allOrderHTML += `
             <div class="merchant-order-item w-100">
@@ -89,22 +100,22 @@ function renderOrders(){
                     class="d-flex flex-column justify-content-between w-100"
                 >
                     <div class="d-flex flex-nowrap order-time">
-                        ${timeConverter(transactionData["date"])}
+                        ${timeConverter(transactionData["attributes"]["date"])}
                     </div>
                     <div class="d-flex flex-nowrap order-user">
-                        ${transactionData["customerDetail"]["username"]}
+                        ${transactionData["attributes"]["customerName"]}
                     </div>
                     <div class="d-flex flex-nowrap order-title">
-                        ${bookData["title"]}
+                        ${bookData["attributes"]["title"]}
                     </div>
                     <div class="d-flex flex-nowrap order-price">
-                        IDR ${bookData["price"]}
+                        IDR ${bookData["attributes"]["price"]}
                     </div>
                 </div>
                 <div
                     class="d-flex flex-column justify-content-end align-items-end"
                 >
-                    <div class="p-2 rounded-sm detail-button" onClick="seeBookDetail(${bookData["bookSku"]})">
+                    <div class="p-2 rounded-sm detail-button" onClick="seeBookDetail(${bookData["id"]})">
                     <span class="fa fa-th-list"></span>&nbsp; Details
                     </div>
                 </div>
