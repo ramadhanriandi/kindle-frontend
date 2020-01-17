@@ -47,31 +47,36 @@ function renderBookDetail(book_sku){
 
   request.open("GET", url, true);
   request.onload = function(){
-    const bookData = JSON.parse(request.response);
+    const jsonData = JSON.parse(request.response);
 
-    const parsedCategories = bookData["categories"].split(';');
-    let categories = '';
-    
-    for (let i = 0; i < parsedCategories.length; i++) {
-      categories += parsedCategories[i];
-      if (i != parsedCategories.length - 1) {
-        categories += ', ';
+    if (jsonData['code'] === 200) {
+      const parsedCategories = jsonData['data'][0]['attributes']["categories"].split(';');
+      let categories = '';
+      
+      for (let i = 0; i < parsedCategories.length; i++) {
+        categories += parsedCategories[i];
+        if (i != parsedCategories.length - 1) {
+          categories += ', ';
+        }
       }
+  
+      document.getElementById("bookSku").value = jsonData['data'][0]['id'];
+      document.getElementById("image").innerHTML = `<img class="book-detail-image" src="${jsonData['data'][0]['attributes']["document"]}" />`;
+      document.getElementById("title").innerHTML = jsonData['data'][0]['attributes']["title"];
+      document.getElementById("author").innerHTML = jsonData['data'][0]['attributes']["author"];
+      document.getElementById("year").innerHTML = jsonData['data'][0]['attributes']["year"];
+      document.getElementById("variant").innerHTML = jsonData['data'][0]['attributes']["variant"];
+      document.getElementById("price").innerHTML = "IDR " + convertToCurrency(jsonData['data'][0]['attributes']["price"]);
+      document.getElementById("description").innerHTML = jsonData['data'][0]['attributes']["description"];
+      document.getElementById("merchant").innerHTML = jsonData["included"][0]["attributes"]["fullname"];
+      document.getElementById("merchant").onclick = function() {
+        location.href=`/merchants/${jsonData['included'][0]['id']}`
+      }
+      document.getElementById("categories").innerHTML = categories;
+    } else {
+      alert(jsonData['errors'][0]['detail']);
     }
 
-    document.getElementById("bookSku").value = bookData["bookSku"];
-    document.getElementById("image").innerHTML = `<img class="book-detail-image" src="${bookData["document"]}" />`;
-    document.getElementById("title").innerHTML = bookData["title"];
-    document.getElementById("author").innerHTML = bookData["author"];
-    document.getElementById("year").innerHTML = bookData["year"];
-    document.getElementById("variant").innerHTML = bookData["variant"];
-    document.getElementById("price").innerHTML = "IDR " + convertToCurrency(bookData["price"]);
-    document.getElementById("description").innerHTML = bookData["description"];
-    document.getElementById("merchant").innerHTML = bookData["merchant"]["fullname"];
-    document.getElementById("merchant").onclick = function() {
-      location.href=`/merchants/${bookData['merchantId']}`
-    }
-    document.getElementById("categories").innerHTML = categories;
   }
   request.send();
 }
@@ -89,11 +94,13 @@ function addToWishlist(bookSku) {
   request.onload = function () {
     const jsonData = JSON.parse(request.response);
 
-    if (jsonData['customerId'] == customerId) {
+    if (jsonData['code'] === 201) {
       document.getElementById("wishlist-button").classList.remove("outline-button");
       document.getElementById("wishlist-button").classList.add("full-button");
       document.getElementById("isOnWishlist").value = 1;
       alert('Success added into wishlist');
+    } else {
+      alert(jsonData['errors'][0]['detail']);
     }
   };
 }
@@ -111,11 +118,13 @@ function removeFromWishlist(bookSku) {
   request.onload = function () {
     const jsonData = JSON.parse(request.response);
     
-    if (jsonData['customerId'] == customerId) {
+    if (jsonData['code'] === 200) {
       document.getElementById("wishlist-button").classList.remove("full-button");
       document.getElementById("wishlist-button").classList.add("outline-button");
       document.getElementById("isOnWishlist").value = 0;
       alert('Success removed from wishlist');
+    } else {
+      alert(jsonData['errors'][0]['detail'])
     }
   };
 }
@@ -144,11 +153,13 @@ function addToCart(bookSku) {
   request.onload = function () {
     const jsonData = JSON.parse(request.response);
 
-    if (jsonData['customerId'] == customerId) {
+    if (jsonData['code'] === 201) {
       document.getElementById("cart-button").classList.remove("outline-button");
       document.getElementById("cart-button").classList.add("full-button");
       document.getElementById("isOnCart").value = 1;
       alert('Success added into cart');
+    } else {
+      alert(jsonData['errors'][0]['detail']);
     }
   };
 }
@@ -166,11 +177,13 @@ function removeFromCart(bookSku) {
   request.onload = function () {
     const jsonData = JSON.parse(request.response);
     
-    if (jsonData['customerId'] == customerId) {
+    if (jsonData['code'] === 200) {
       document.getElementById("cart-button").classList.remove("full-button");
       document.getElementById("cart-button").classList.add("outline-button");
       document.getElementById("isOnCart").value = 0;
       alert('Success removed from cart');
+    } else {
+      alert(jsonData['errors'][0]['detail']);
     }
   };
 }
@@ -197,7 +210,9 @@ function isOnWishlist(bookSku) {
   request.setRequestHeader("Content-Type", "application/json");
   request.send();
   request.onload = function () {
-    if (request.response == "true") {
+    const jsonData = JSON.parse(request.response);
+
+    if (jsonData['code'] === 200) {
       document.getElementById("wishlist-button").classList.add("full-button");
       document.getElementById("isOnWishlist").value = 1;
     } else {
@@ -218,7 +233,9 @@ function isOnCart(bookSku) {
   request.setRequestHeader("Content-Type", "application/json");
   request.send();
   request.onload = function () {
-    if (request.response == "true") {
+    const jsonData = JSON.parse(request.response);
+
+    if (jsonData['code'] === 200) {
       document.getElementById("cart-button").classList.add("full-button");
       document.getElementById("isOnCart").value = 1;
     } else {
@@ -239,7 +256,9 @@ function isOnLibrary(bookSku) {
   request.setRequestHeader("Content-Type", "application/json");
   request.send();
   request.onload = function () {
-    if (request.response == "true") {
+    const jsonData = JSON.parse(request.response);
+
+    if (jsonData['code'] === 200) {
       document.getElementById("cart-button").style.display = "none";
       document.getElementById("wishlist-button").style.display = "none";
     } else {
@@ -256,9 +275,14 @@ function handleView() {
   request.open("GET", url, true);
   request.send();
   request.onload = function(){
-    if (request.readyState == 4 && request.status == 200) {
-      const fileUrl = JSON.parse(request.response)["url"];
+    const jsonData = JSON.parse(request.response);
+
+    if (jsonData['code'] === 200) {
+      const fileUrl = jsonData['data'][0]['attributes']['url'];
+      console.log(jsonData['data'][0]['attributes']);
       window.open(fileUrl, '_blank');
+    } else {
+      alert(jsonData['errors'][0]['detail']);
     }
   }
 }

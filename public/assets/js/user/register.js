@@ -18,7 +18,7 @@ function register() {
   const confirmedPassword = document.getElementById("confirmPassword").value;
 
   const request = new XMLHttpRequest();
-  const url = "http://localhost:8000/kindle-backend/api/customers/register";
+  const url = "http://localhost:8000/kindle-backend/api/customers";
   
   if (!(isEmpty(username) || isEmpty(email) || isEmpty(password))) {
     if (confirmedPassword == password) {
@@ -37,11 +37,11 @@ function register() {
       request.onload = function () {
         const jsonData = JSON.parse(request.response);
     
-        if (jsonData['code'] === 200) {
-          setCookie(email, "customer", jsonData['userId'], 1);
+        if (jsonData['code'] === 201) {
+          setCookie(email, "customer", jsonData['data'][0]['id'], 1);
           location.href = "/";
-        } else if (jsonData['code'] === 401) {
-          alert(jsonData['message']);
+        } else {
+          alert(jsonData['errors'][0]['detail']);
         }
       };
     } else {

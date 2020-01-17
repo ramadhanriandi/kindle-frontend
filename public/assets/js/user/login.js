@@ -33,10 +33,10 @@ function customerLogin() {
       const jsonData = JSON.parse(request.response);
 
       if (jsonData['code'] === 200) {
-        setCookie(email, "customer", jsonData['userId'], 1);
+        setCookie(email, "customer", jsonData['data'][0]['id'], 1);
         location.href = "/";
       } else {
-        alert(jsonData['message']);
+        alert(jsonData['errors'][0]['detail']);
       }
     };
   }

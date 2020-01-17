@@ -43,27 +43,31 @@ function renderPaymentDetail() {
   request.open("GET", url, true);
 
   request.onload = function () {
-    let allBook = '';
-    let total = 0;
-    for (let i = 0; i < JSON.parse(request.response).length; i++) {
-      let bookData = JSON.parse(request.response)[i]["bookData"];
+    const jsonData = JSON.parse(request.response);
 
-      allBook += `
-        <div class="d-flex flex-row justify-content-between payment-item">
-          <div class="payment-title">
-            ${bookData['title']}
+    if (jsonData['code'] === 200) {
+      let allBook = '';
+      let total = 0;
+      for (let i = 0; i < jsonData['data'].length; i++) {
+        allBook += `
+          <div class="d-flex flex-row justify-content-between payment-item">
+            <div class="payment-title">
+              ${jsonData['data'][i]['attributes']['title']}
+            </div>
+            <div class="payment-amount">
+              IDR ${convertToCurrency(jsonData['data'][i]['attributes']['price'])}
+            </div>              
           </div>
-          <div class="payment-amount">
-            IDR ${convertToCurrency(bookData['price'])}
-          </div>              
-        </div>
-        `
+          `
 
-        total += bookData['price'];
+          total += jsonData['data'][i]['attributes']['price'];
+      }
+      document.getElementById("payment-wrapper").innerHTML = allBook;
+      document.getElementById("total").innerHTML = convertToCurrency(total);
+      document.getElementById("transaction-total").value = total;
+    } else {
+      alert(jsonData['errors'][0]['detail']);
     }
-    document.getElementById("payment-wrapper").innerHTML = allBook;
-    document.getElementById("total").innerHTML = convertToCurrency(total);
-    document.getElementById("transaction-total").value = total;
   };
 
   request.send();
@@ -79,17 +83,20 @@ function getCart() {
     const cartUrl = `http://localhost:8000/kindle-backend/api/customers/${customerId}/cart`;
     cartRequest.open("GET", cartUrl, true);
     cartRequest.send();
-    cartRequest.onreadystatechange = function () {
-      if (cartRequest.readyState === 4 && cartRequest.status === 200) {
-        const cartJsonData = JSON.parse(cartRequest.response);
-        for (let i = 0; i < cartJsonData.length; i++) {
+    cartRequest.onload = function () {
+      const jsonData = JSON.parse(cartRequest.response);
+
+      if (jsonData['code'] === 200) {
+        for (let i = 0; i < jsonData['data'].length; i++) {
           let tempTransactionList = {
-            "bookSku": cartJsonData[i]["bookData"]["bookSku"],
-            "merchantId": cartJsonData[i]["bookData"]["merchantId"]
+            "bookSku": jsonData['data'][i]['id'],
+            "merchantId": jsonData['data'][i]['relationships']['merchant']['data'][0]['id']
           }
           transactionListData.push(tempTransactionList);
         }
         resolve(transactionListData);
+      } else {
+        alert(jsonData['errors'][0]['detail']);
       }
     }
   })
@@ -110,11 +117,14 @@ function postTransaction() {
       "customerId": customerId, 
     });
     transactionRequest.send(transactionData);
-    transactionRequest.onreadystatechange = function () {
-      if (transactionRequest.readyState === 4 && transactionRequest.status === 200) {
-        const transactionJsonData = JSON.parse(transactionRequest.response);
-        document.getElementById("transaction-id").value = transactionJsonData["transactionId"];
+    transactionRequest.onload = function () {
+      const jsonData = JSON.parse(transactionRequest.response);
+
+      if (jsonData['code'] === 201) {
+        document.getElementById("transaction-id").value = jsonData['data'][0]["id"];
         resolve(transactionRequest.response); 
+      } else {
+        alert(jsonData['errors'][0]['detail']);
       }
     }  
   })
@@ -139,15 +149,19 @@ async function postTransactionList() {
       let transactionList = JSON.stringify({
         "bookSku": transactionListData[i]["bookSku"],
         "merchantId": transactionListData[i]["merchantId"], 
-        "transactionId": JSON.parse(transactionData)["transactionId"], 
+        "transactionId": JSON.parse(transactionData)['data'][0]["id"], 
       });
       transactionListRequest.send(transactionList);
-      transactionListRequest.onreadystatechange = function () {
-        if (transactionListRequest.readyState === 4 && transactionListRequest.status === 200) {
+      transactionListRequest.onload = function () {
+        const jsonData = JSON.parse(transactionListRequest.response);
+
+        if (jsonData['code'] === 201) {
           numberOfResponse++;
           if (transactionListData.length == numberOfResponse) {
             resolve(numberOfResponse)
           }
+        } else {
+          alert(jsonData['errors'][0]['detail']);
         }
       }
     }
