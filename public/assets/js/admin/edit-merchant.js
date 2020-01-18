@@ -51,14 +51,14 @@ function renderMerchantDetail(merchantId) {
   request.onload = function () {
     const merchantData = JSON.parse(request.response);
 
-    document.getElementById("merchantId").value = merchantData["merchantId"];
-    document.getElementById("username").value = merchantData["username"];
-    document.getElementById("fullname").value = merchantData["fullname"];
-    document.getElementById("email").value = merchantData["email"];
-    document.getElementById("password").value = merchantData["password"];
-    document.getElementById("phone").value = merchantData["phone"];
-    document.getElementById("description").value = merchantData["description"];
-    document.getElementById("status").value = merchantData["status"];
+    document.getElementById("merchantId").value = merchantData["data"][0]["id"];
+    document.getElementById("username").value = merchantData["data"][0]["attributes"]["username"];
+    document.getElementById("fullname").value = merchantData["data"][0]["attributes"]["fullname"];
+    document.getElementById("email").value = merchantData["data"][0]["attributes"]["email"];
+    document.getElementById("password").value = merchantData["data"][0]["attributes"]["password"];
+    document.getElementById("phone").value = merchantData["data"][0]["attributes"]["phone"];
+    document.getElementById("description").value = merchantData["data"][0]["attributes"]["description"];
+    document.getElementById("status").value = merchantData["data"][0]["attributes"]["status"];
   };
 
   request.send();

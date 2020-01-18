@@ -33,7 +33,7 @@ function adminLogin() {
       const jsonData = JSON.parse(request.response);
 
       if (jsonData['code'] === 200) {
-        setCookie(email, "admin", jsonData['userId'], 1);
+        setCookie(email, "admin", jsonData["data"][0]["id"], 1);
         location.href = "/admin";
       } else {
         alert(jsonData['message']);

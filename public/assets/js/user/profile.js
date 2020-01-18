@@ -48,9 +48,13 @@ function renderProfile() {
   request.onload = function () {
     const jsonData = JSON.parse(request.response);
 
-    document.getElementById("email").value = jsonData['email'];
-    document.getElementById("username").value = jsonData['username'];
-    document.getElementById("password").value = jsonData['password'];
+    if (jsonData['code'] === 200) {
+      document.getElementById("email").value = jsonData['data'][0]['attributes']['email'];
+      document.getElementById("username").value = jsonData['data'][0]['attributes']['username'];
+      document.getElementById("password").value = jsonData['data'][0]['attributes']['password'];
+    } else {
+      alert(jsonData['errors'][0]['detail']);
+    }
   };
 
   request.send();
@@ -85,7 +89,7 @@ function updateCustomer() {
       if (jsonData['code'] === 200) {
         location.href = "/";
       } else {
-        alert(jsonData['message']);
+        alert(jsonData['errors'][0]['detail']);
       }
     };
   }

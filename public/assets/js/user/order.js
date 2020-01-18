@@ -60,38 +60,44 @@ function renderOrder() {
   request.open("GET", url, true);
 
   request.onload = function () {
-    let allOrder = '';
-    for (let i = 0; i < JSON.parse(request.response).length; i++) {
-      let transactionId = JSON.parse(request.response)[i]["transactionId"];
-      let date = JSON.parse(request.response)[i]["date"];
-      let total = JSON.parse(request.response)[i]["total"];
-      var parsedDate = new Date(date);
+    const jsonData = JSON.parse(request.response);
 
-      allOrder += `
-        <div class="wishlist-item w-100">
-          <div class="d-flex flex-row">
-            <div
-              class="d-flex flex-column justify-content-between w-100"
-            >
-              <div class="d-flex flex-nowrap order-time">
-                ${timeConverter(parsedDate)} WIB
+    if (jsonData['code'] === 200) {
+      let allOrder = '';
+      for (let i = 0; i < jsonData['data'].length; i++) {
+        let transactionId = jsonData['data'][i]["id"];
+        let date = jsonData['data'][i]['attributes']["date"];
+        let total = jsonData['data'][i]['attributes']["total"];
+        var parsedDate = new Date(date);
+  
+        allOrder += `
+          <div class="wishlist-item w-100">
+            <div class="d-flex flex-row">
+              <div
+                class="d-flex flex-column justify-content-between w-100"
+              >
+                <div class="d-flex flex-nowrap order-time">
+                  ${timeConverter(parsedDate)} WIB
+                </div>
+                <div class="d-flex flex-nowrap order-price">
+                  IDR ${convertToCurrency(total)}
+                </div>
               </div>
-              <div class="d-flex flex-nowrap order-price">
-                IDR ${convertToCurrency(total)}
-              </div>
-            </div>
-            <div
-              class="d-flex flex-column justify-content-end align-items-end"
-            >
-              <div class="p-2 rounded-sm detail-button" onclick='location.href="/orders/${transactionId}"'>
-                <span class="fa fa-th-list"></span>&nbsp; Details
+              <div
+                class="d-flex flex-column justify-content-end align-items-end"
+              >
+                <div class="p-2 rounded-sm detail-button" onclick='location.href="/orders/${transactionId}"'>
+                  <span class="fa fa-th-list"></span>&nbsp; Details
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        `
+          `
+        }
+        document.getElementById("order-wrapper").innerHTML = allOrder;
+    } else {
+      alert(jsonData['errors'][0]['detail']);
     }
-    document.getElementById("order-wrapper").innerHTML = allOrder;
   };
 
   request.send();

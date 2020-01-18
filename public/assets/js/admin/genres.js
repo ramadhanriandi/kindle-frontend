@@ -38,10 +38,12 @@ function renderGenres() {
   request.open("GET", url, true);
 
   request.onload = function () {
+    var categoriesResult = JSON.parse(request.response);
     let allCategories = '';
-    for (let i = 0; i < JSON.parse(request.response).length; i++) {
-      let categoryId = JSON.parse(request.response)[i]["categoryId"];
-      let name = JSON.parse(request.response)[i]["name"];
+
+    for (let i = 0; i < categoriesResult["data"].length; i++) {
+      let categoryId = categoriesResult["data"][i]["id"];
+      let name = categoriesResult["data"][i]["attributes"]["name"];
 
       allCategories += `
         <div class="row">
@@ -81,7 +83,9 @@ function deleteGenre(categoryId) {
     request.setRequestHeader("Content-Type", "application/json");
     request.send();
     request.onload = function () {
-      if (request.response == "true") {
+      var deleteResult = JSON.parse(request.response);
+
+      if (deleteResult["code"] == 200) {
         location.href = "/admin/genres";
       } else {
         alert(request.response);

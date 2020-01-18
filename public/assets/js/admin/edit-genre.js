@@ -51,8 +51,8 @@ function renderGenreDetail(categoryId) {
   request.onload = function () {
     const categoryData = JSON.parse(request.response);
 
-    document.getElementById("categoryId").value = categoryData["categoryId"];
-    document.getElementById("name").value = categoryData["name"];
+    document.getElementById("categoryId").value = categoryData["data"][0]["id"];
+    document.getElementById("name").value = categoryData["data"][0]["attributes"]["name"];
   };
 
   request.send();

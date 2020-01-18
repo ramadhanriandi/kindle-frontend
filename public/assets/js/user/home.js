@@ -40,21 +40,27 @@ function renderAllBook() {
   request.open("GET", url, true);
 
   request.onload = function () {
-    let allBook = '';
-    for (let i = 0; i < JSON.parse(request.response).length; i++) {
-      let sku = JSON.parse(request.response)[i]["bookSku"];
-      let url = JSON.parse(request.response)[i]["document"];
-
-      allBook += `
-        <div
-          class="p-2 col-4 col-xs-4 text-center" 
-          onclick='location.href="/books/${sku}"'
-        >
-          <img src="${url}">
-        </div>
-        `
+    const jsonData = JSON.parse(request.response);
+    
+    if (jsonData['code'] === 200) {
+      let allBook = '';
+      for (let i = 0; i < jsonData['data'].length; i++) {
+        let sku = jsonData['data'][i]['id'];
+        let url = jsonData['data'][i]['attributes']['document'];
+  
+        allBook += `
+          <div
+            class="p-2 col-4 col-xs-4 text-center" 
+            onclick='location.href="/books/${sku}"'
+          >
+            <img src="${url}">
+          </div>
+          `
+      }
+      document.getElementById("book-wrapper-home").innerHTML = allBook;
+    } else {
+      alert(jsonData['errors'][0]['detail']);
     }
-    document.getElementById("book-wrapper-home").innerHTML = allBook;
   };
 
   request.send();
@@ -72,21 +78,27 @@ function renderDownloadedBook() {
   request.open("GET", url, true);
 
   request.onload = function () {
-    let allBook = '';
-    for (let i = 0; i < JSON.parse(request.response).length; i++) {
-      let sku = JSON.parse(request.response)[i]["bookSku"];
-      let url = JSON.parse(request.response)[i]["document"];
+    const jsonData = JSON.parse(request.response);
 
-      allBook += `
-        <div
-          class="p-2 col-4 col-xs-4 text-center" 
-          onclick='location.href="/books/${sku}"'
-        >
-          <img src="${url}">
-        </div>
-        `
+    if (jsonData['code'] === 200) {
+      let allBook = '';
+      for (let i = 0; i < jsonData['data'].length; i++) {
+        let sku = jsonData['data'][i]["id"];
+        let url = jsonData['data'][i]['attributes']["document"];
+  
+        allBook += `
+          <div
+            class="p-2 col-4 col-xs-4 text-center" 
+            onclick='location.href="/books/${sku}"'
+          >
+            <img src="${url}">
+          </div>
+          `
+      }
+      document.getElementById("book-wrapper-home").innerHTML = allBook;
+    } else {
+      alert(jsonData['errors'][0]['detail']);
     }
-    document.getElementById("book-wrapper-home").innerHTML = allBook;
   };
 
   request.send();

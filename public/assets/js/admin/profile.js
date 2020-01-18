@@ -48,9 +48,9 @@ function renderProfile() {
   request.onload = function () {
     const jsonData = JSON.parse(request.response);
 
-    document.getElementById("email").value = jsonData['email'];
-    document.getElementById("username").value = jsonData['username'];
-    document.getElementById("password").value = jsonData['password'];
+    document.getElementById("email").value = jsonData["data"][0]["attributes"]["email"];
+    document.getElementById("username").value = jsonData["data"][0]["attributes"]["username"];
+    document.getElementById("password").value = jsonData["data"][0]["attributes"]["password"];
   };
 
   request.send();
@@ -83,7 +83,7 @@ function updateAdmin() {
       const jsonData = JSON.parse(request.response);
 
       if (jsonData['code'] === 200) {
-        location.href = "/";
+        location.href = "/admin";
       } else {
         alert(jsonData['message']);
       }

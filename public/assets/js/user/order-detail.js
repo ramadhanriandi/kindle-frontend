@@ -63,13 +63,17 @@ function renderOrder() {
   request.open("GET", url, true);
 
   request.onload = function () {
-    const transactionData = JSON.parse(request.response);
-    
-    if (transactionData['customerId'] != customerId) {
-      location.href = "/orders";
+    const jsonData = JSON.parse(request.response);
+
+    if (jsonData['code'] === 200) {
+      if (jsonData['data'][0]['attributes']['customerId'] != customerId) {
+        location.href = "/orders";
+      } else {
+        document.getElementById("order-detail-time").innerHTML = timeConverter(new Date(jsonData['data'][0]['attributes']['date']));
+        document.getElementById("order-detail-total").innerHTML = convertToCurrency(jsonData['data'][0]['attributes']['total']);
+      }
     } else {
-      document.getElementById("order-detail-time").innerHTML = timeConverter(new Date(transactionData['date']));
-      document.getElementById("order-detail-total").innerHTML = convertToCurrency(transactionData['total']);
+      alert(jsonData['errors'][0]['detail']);
     }
   };
 
@@ -85,49 +89,66 @@ function renderOrderDetail() {
   request.open("GET", url, true);
 
   request.onload = function () {
-    const transactionListData = JSON.parse(request.response);
-    
-    let transactionListContent = '';
-    for (let i = 0; i < transactionListData.length; i++) {
-      let bookData = transactionListData[i]["bookData"];
+    const jsonData = JSON.parse(request.response);
 
-      transactionListContent += `
-        <div class="wishlist-item w-100">
-          <div class="d-flex flex-row">
-            <div class="d-flex justify-content-start">
-              <img class="book-image" src="${bookData['document']}" />
-            </div>
-            <div
-              class="d-flex flex-column justify-content-between w-100 px-3"
-            >
-              <div class="d-flex flex-nowrap book-title">
-                ${bookData['title']}
+    if (jsonData['code'] === 200) {
+      let transactionListContent = '';
+      for (let i = 0; i < jsonData['data'].length; i++) {
+        let merchantFullname = '';
+        for (let k = 0; k < jsonData['included'].length; k++) {
+          if ((jsonData['included'][k]['id'] === jsonData['data'][i]['relationships']['merchant']['data'][0]['id'])
+          && (jsonData['included'][k]['type'] === 'merchant')) {
+            merchantFullname = jsonData['included'][k]['attributes']['fullname'];
+            break;
+          }
+        }
+
+        for (let j = 0; j < jsonData['included'].length; j++ ) {
+          if ((jsonData['included'][j]['id'] === jsonData['data'][i]['relationships']['book']['data'][0]['id'] )
+          && (jsonData['included'][j]['type'] === 'book')) {
+            transactionListContent += `
+              <div class="wishlist-item w-100">
+                <div class="d-flex flex-row">
+                  <div class="d-flex justify-content-start">
+                    <img class="book-image" src="${jsonData['included'][j]['attributes']['document']}" />
+                  </div>
+                  <div
+                    class="d-flex flex-column justify-content-between w-100 px-3"
+                  >
+                    <div class="d-flex flex-nowrap book-title">
+                      ${jsonData['included'][j]['attributes']['title']}
+                    </div>
+                    <div class="d-flex flex-nowrap book-publisher">
+                      ${merchantFullname}
+                    </div>
+                    <div class="d-flex flex-nowrap book-author">
+                      ${jsonData['included'][j]['attributes']['author']}
+                    </div>
+                    <div class="d-flex flex-nowrap book-year">
+                      ${jsonData['included'][j]['attributes']['year']}
+                    </div>
+                    <div class="d-flex flex-nowrap book-price">
+                      IDR ${convertToCurrency(jsonData['included'][j]['attributes']['price'])}
+                    </div>
+                  </div>
+                  <div
+                    class="d-flex flex-column justify-content-end align-items-end"
+                  >
+                    <div class="p-2 rounded-sm detail-button" onclick='location.href="/books/${jsonData['included'][j]['id']}"'>
+                      <span class="fa fa-th-list"></span>&nbsp; Details
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div class="d-flex flex-nowrap book-publisher">
-                ${bookData['merchant']['fullname']}
-              </div>
-              <div class="d-flex flex-nowrap book-author">
-                ${bookData['author']}
-              </div>
-              <div class="d-flex flex-nowrap book-year">
-                ${bookData['year']}
-              </div>
-              <div class="d-flex flex-nowrap book-price">
-                IDR ${convertToCurrency(bookData['price'])}
-              </div>
-            </div>
-            <div
-              class="d-flex flex-column justify-content-end align-items-end"
-            >
-              <div class="p-2 rounded-sm detail-button" onclick='location.href="/books/${bookData['bookSku']}"'>
-                <span class="fa fa-th-list"></span>&nbsp; Details
-              </div>
-            </div>
-          </div>
-        </div>
-        `
-    };
-    document.getElementById("order-detail-content").innerHTML = transactionListContent;
+            `
+            break;
+          }
+        }
+      };
+      document.getElementById("order-detail-content").innerHTML = transactionListContent;
+    } else {
+      alert(jsonData['errors'][0]['detail']);
+    }
   };
 
   request.send();

@@ -43,58 +43,70 @@ function renderCart() {
   request.open("GET", url, true);
 
   request.onload = function () {
-    let allBook = '';
-    let total = 0;
-    for (let i = 0; i < JSON.parse(request.response).length; i++) {
-      let bookData = JSON.parse(request.response)[i]["bookData"];
-      let merchant = JSON.parse(request.response)[i]["merchant"];
+    const jsonData = JSON.parse(request.response);
 
-      allBook += `
-        <div class="wishlist-item w-100">
-          <div class="d-flex flex-row">
-            <div class="d-flex justify-content-start">
-              <img class="book-image" src="${bookData['document']}" />
-            </div>
-            <div
-              class="d-flex flex-column justify-content-between w-100 px-3"
-            >
-              <div class="d-flex flex-nowrap book-title">
-                ${bookData['title']}
+    if (jsonData['code'] === 200) {
+      let allBook = '';
+      let total = 0;
+      for (let i = 0; i < jsonData['data'].length; i++) {
+        let merchantFullname = '';
+        for (let k = 0; k < jsonData['included'].length; k++) {
+          if ((jsonData['included'][k]['id'] === jsonData['data'][i]['relationships']['merchant']['data'][0]['id'])
+          && (jsonData['included'][k]['type'] === 'merchant')) {
+            merchantFullname = jsonData['included'][k]['attributes']['fullname'];
+            break;
+          }
+        }
+  
+        allBook += `
+          <div class="wishlist-item w-100">
+            <div class="d-flex flex-row">
+              <div class="d-flex justify-content-start">
+                <img class="book-image" src="${jsonData['data'][i]['attributes']['document']}" />
               </div>
-              <div class="d-flex flex-nowrap book-publisher">
-                ${merchant}
-              </div>
-              <div class="d-flex flex-nowrap book-author">
-                ${bookData['author']}
-              </div>
-              <div class="d-flex flex-nowrap book-year">
-                ${bookData['year']}
-              </div>
-              <div class="d-flex flex-nowrap book-price">
-                IDR ${convertToCurrency(bookData['price'])}
-              </div>
-            </div>
-            <div
-              class="d-flex flex-column justify-content-end align-items-end"
-            >
-              <div 
-                class="p-2 rounded-sm detail-button"
-                onclick='location.href="/books/${bookData['bookSku']}"'
+              <div
+                class="d-flex flex-column justify-content-between w-100 px-3"
               >
-                <span class="fa fa-th-list"></span>&nbsp; Details
+                <div class="d-flex flex-nowrap book-title">
+                  ${jsonData['data'][i]['attributes']['title']}
+                </div>
+                <div class="d-flex flex-nowrap book-publisher">
+                  ${merchantFullname}
+                </div>
+                <div class="d-flex flex-nowrap book-author">
+                  ${jsonData['data'][i]['attributes']['author']}
+                </div>
+                <div class="d-flex flex-nowrap book-year">
+                  ${jsonData['data'][i]['attributes']['year']}
+                </div>
+                <div class="d-flex flex-nowrap book-price">
+                  IDR ${convertToCurrency(jsonData['data'][i]['attributes']['price'])}
+                </div>
               </div>
-              <div class="p-2 rounded-sm delete-button" onclick="removeFromCart(${bookData['bookSku']})">
-                <span class="fa fa-trash-o"></span>&nbsp; Delete
+              <div
+                class="d-flex flex-column justify-content-end align-items-end"
+              >
+                <div 
+                  class="p-2 rounded-sm detail-button"
+                  onclick='location.href="/books/${jsonData['data'][i]['id']}"'
+                >
+                  <span class="fa fa-th-list"></span>&nbsp; Details
+                </div>
+                <div class="p-2 rounded-sm delete-button" onclick="removeFromCart(${jsonData['data'][i]['id']})">
+                  <span class="fa fa-trash-o"></span>&nbsp; Delete
+                </div>
               </div>
             </div>
           </div>
-        </div>
-        `
-
-        total += bookData['price'];
+          `
+  
+          total += jsonData['data'][i]['attributes']['price'];
+      }
+      document.getElementById("cart-wrapper").innerHTML = allBook;
+      document.getElementById("total").innerHTML = convertToCurrency(total);
+    } else {
+      alert(jsonData['errors'][0]['detail']);
     }
-    document.getElementById("cart-wrapper").innerHTML = allBook;
-    document.getElementById("total").innerHTML = convertToCurrency(total);
   };
 
   request.send();
@@ -112,61 +124,12 @@ function removeFromCart(bookSku) {
   request.send();
   request.onload = function () {
     const jsonData = JSON.parse(request.response);
-    let cartContent = "";
-    let total = 0;
-    
-    for (let i = 0; i < jsonData['cart'].length; i++) {
-      let cart = jsonData['cart'][i];
 
-      cartContent += `
-        <div class="wishlist-item w-100">
-        <div class="d-flex flex-row">
-          <div class="d-flex justify-content-start">
-            <img class="book-image" src="${cart['document']}" />
-          </div>
-          <div
-            class="d-flex flex-column justify-content-between w-100 px-3"
-          >
-            <div class="d-flex flex-nowrap book-title">
-              ${cart['title']}
-            </div>
-            <div class="d-flex flex-nowrap book-publisher">
-              ${cart['merchant']['fullname']}
-            </div>
-            <div class="d-flex flex-nowrap book-author">
-              ${cart['author']}
-            </div>
-            <div class="d-flex flex-nowrap book-year">
-              ${cart['year']}
-            </div>
-            <div class="d-flex flex-nowrap book-price">
-              IDR ${convertToCurrency(cart['price'])}
-            </div>
-          </div>
-          <div
-            class="d-flex flex-column justify-content-end align-items-end"
-          >
-            <div 
-              class="p-2 rounded-sm detail-button"
-              onclick='location.href="/books/${cart['bookSku']}"'
-            >
-              <span class="fa fa-th-list"></span>&nbsp; Details
-            </div>
-            <div class="p-2 rounded-sm delete-button" onclick="removeFromCart(${cart['bookSku']})">
-              <span class="fa fa-trash-o"></span>&nbsp; Delete
-            </div>
-          </div>
-        </div>
-      </div>
-      `
-      total += cart['price'];
-    }
-
-    document.getElementById("cart-wrapper").innerHTML = cartContent;
-    document.getElementById("total").innerHTML = convertToCurrency(total);
-
-    if (jsonData['customerId'] == customerId) {
+    if (jsonData['code'] === 200) {
       alert('Success removed from cart');
+      renderCart();
+    } else {
+      alert(jsonData['errors'][0]['detail'])
     }
   };
 }

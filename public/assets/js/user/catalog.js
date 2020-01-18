@@ -35,18 +35,21 @@ function checkCookie(role) {
 }
 
 function renderMerchantInfo(merchant_id){
-  var request = new XMLHttpRequest();
-  const url = "http://localhost:8000/kindle-backend/api/merchants/"+merchant_id
+  const request = new XMLHttpRequest();
+  const url = `http://localhost:8000/kindle-backend/api/merchants/${merchant_id}`;
   request.open("GET", url, true);
 
   request.onload = function(){
-    response = JSON.parse(request.response);
+    const jsonData = JSON.parse(request.response);
 
-    document.getElementById("merchant-name").innerHTML += response["fullname"];
-    document.getElementById("merchant-phone").innerHTML += response["phone"];
-    document.getElementById("merchant-description").innerHTML += response["description"];
+    if (jsonData['code'] === 200) {
+      document.getElementById("merchant-name").innerHTML += jsonData['data'][0]['attributes']["fullname"];
+      document.getElementById("merchant-phone").innerHTML += jsonData['data'][0]['attributes']["phone"];
+      document.getElementById("merchant-description").innerHTML += jsonData['data'][0]['attributes']["description"];
+    } else {
+      alert(jsonData['errors'][0]['detail']);
+    }
   }
-
   request.send();
 }
 
@@ -57,20 +60,25 @@ function renderMerchantCatalog(merchant_id){
   const url = "http://localhost:8000/kindle-backend/api/merchants/"+merchant_id+"/catalog";
   request.open("GET", url, true);
 
-  request.onload = function(){
-    let response = JSON.parse(request.response);
-    for(let i = 0; i < response.length; i++){
-      let sku = response[i]["bookSku"];
-      let imgURL = response[i]["document"];
+  request.onload = function() {
+    const jsonData = JSON.parse(request.response);
 
-      catalogContainer.innerHTML += `
-      <div 
-          class="d-flex catalog-item"
-          onclick='location.href="/books/${sku}"'
-      >
-          <img src="${imgURL}">
-      </div>
-      `
+    if (jsonData['code'] === 200) {
+      for (let i = 0; i < jsonData['data'].length; i++) {
+        let sku = jsonData['data'][i]["id"];
+        let url = jsonData['data'][i]['attributes']["document"];
+  
+        catalogContainer.innerHTML += `
+        <div 
+            class="p-2 col-4 col-xs-4 text-center"
+            onclick='location.href="/books/${sku}"'
+        >
+            <img src="${url}">
+        </div>
+        `
+      }
+    } else {
+      alert(jsonData['errors'][0]['detail']);
     }
   };
 
